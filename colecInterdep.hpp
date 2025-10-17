@@ -68,8 +68,8 @@ struct colecIndep{
         string sup;
         int numDep;
         celdaColec* sig;
-    }
-  
+    };
+
     int tamanio;
     celdaColec* iter, primero;
 
@@ -112,7 +112,8 @@ void aniadirIndependiente(colecIndep<T>& c, string id,T v ){
         return;
     }else{
 
-        celdaColec aux* = new typename colecIndep<T> :: celdaColec;
+        typename colecIndep<T>::celdaColec* aux = new typename colecIndep<T>::celdaColec;
+
         aux->ident = id;
         aux->valor = v;
         aux->sig = c.iter->sig; //Hago que apunte al siguiente elemento
@@ -157,16 +158,18 @@ template <typename T> bool existeSiguiente(colecIndep<T>& c){
     return c.iter != nullptr;
 }
 
-template <typename T> string siguienteIdent(colecIndep<T>& c){
+template <typename T> 
+string siguienteIdent(colecIndep<T>& c){
     if(existeSiguiente(c)){   
-        celdaColec* aux = c.iter->sig;
+        typename colecIndep<T>::celdaColec* aux = c.iter->sig;
         return aux->ident;
     }
 }
 
-template <typename T> T siguienteVal(colecIndep<T>& c){
+template <typename T> 
+T siguienteVal(colecIndep<T>& c){
     if(existeSiguiente(c)){
-        celdaColec* aux = c.iter->sig;
+        typename colecIndep<T>::celdaColec* aux = c.iter->sig;
         return aux->valor;
     }
 }
