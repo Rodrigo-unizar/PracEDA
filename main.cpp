@@ -3,62 +3,68 @@
 
 #include <iostream>
 #include <fstream>
-#include "./colecInterdep.hpp" 
+#include "colecInterdep.hpp" 
+#include "evento.hpp"
 
 int main(){
     ifstream f;
     ofstream g;
+    colecInterdep<evento> c;
+    evento e;
 
-    char instruccion;
+    crear(c);     //antes de hacer cosas con una coleccion primero hay que crearla o que :)
+
+    string instruccion, salto;
     string nombre_e, descripcion_e, dependencia, padre, prioridad;
-    int prio;
     f.open("entrada.txt");  
     g.open("salia.txt");
     while (f >> instruccion){
-        switch( instruccion){
-            case 'A':
-                getline(f, nombre_e);
-                getline(f, descripcion_e);
-                getline(f, prioridad);
-                prio = stoi(prioridad);
-                getline(f, dependencia);
-                getline(f, padre);
+        getline(f, salto);
+       
+        if(instruccion == "A"){
+            getline(f, nombre_e);
+            getline(f, descripcion_e);
+            getline(f, prioridad);
+            getline(f, dependencia);
+            getline(f, padre);
                 
-                if(dependencia == "INDependiente"){
-                    aniadirIndependiente(colecIndep<T>& c, nombre_e, v );//falta añador el evento y la coleccion que para eso hay que crear ambos y es tu chamba
-                }else{
-
-                }
-                g << "introducido [ " << nombre_e << " ]  --- " << descripcion_e << " --- ( " << prio << " )" << endl;
-                g << "[ nombre -de-> " << padre << " ]  --- " << " --- ( "   << " )" << endl; //aqui nos faltan funciones para poder terminarlo 
-
-            case 'C':
-
-            case 'D':
-
-            case 'O':
-
-            case 'E':
-                getline(f, nombre_e);
-
-            case 'I':
-
-            case 'B':
-
-            case 'LD':
-
-            case 'LT':
-                g << "-----LISTADO: " << tamanio(T) <<endl;
-                g << "[ " << nombre_e << " --- numdepend"<< " ]  --- " << descripcion_e << " --- ( " << prio << " )" << endl;
-                g << "-----";
-            default:
-
+           if(dependencia == "INDependiente"){    
+                aniadirIndependiente(c, nombre_e, e);
+                g << "INTRODUCIDO [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+            }else{                              //faltan cosillas de logica por aqui, tipo que si su padre no existe poner NO INTRODUCIDO
+                //if existe(padre) hacemos lo de abajo
+                //aniadirDependiente();             
+                g << "INTRODUCIDO [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+                //else 
+                // g << "NO INTRODUCIDO [ " << nombre_e << " -de-> " << padre << " ] --- " << " --- ( "   << " )" << endl;
+            }
+        } else if (instruccion == "C"){
+            ;
+        } else if (instruccion == "D"){
+            ;
+        } else if (instruccion == "O"){
+            ;
+        } else if (instruccion == "E"){
+            getline(f, nombre_e);
+        } else if (instruccion == "I"){
+            ;
+        } else if (instruccion == "B"){
+            ;
+        } else if (instruccion == "LD"){
+            ;
+        } else if (instruccion == "LT"){
+            g << "-----LISTADO: " << tamanio(c) <<endl;   //de momento no imprime nada, tamaño(c) = 0
+            for(int i = 0; i < tamanio(c); i++){
+                g << "[ " << nombre_e << " --- " << "obtenerNumDependientes(nombre_e, c)" << " ]  --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+            } 
+            g << "-----" << endl;
         }
     }
     f.close();
     g.close();
 }
 
+/*
 void casoA(ifstream& f ){
 
 }
@@ -94,3 +100,4 @@ void casoLD(ifstream& f ){
 void casoLT(ifstream& f ){
     
 }
+*/
