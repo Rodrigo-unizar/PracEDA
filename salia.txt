@@ -1,19 +1,45 @@
 -----LISTADO: 0
 -----
 INTRODUCIDO [ cierre_2025_10_6 ] --- Cierre del edificio --- ( 2 )
-INTRODUCIDO [ ON_luces Z008 -de-> presencia_S008 ] --- Encendidas luces008, deteccion sensor presencia --- ( 2 )
------LISTADO: 0
+NO INTRODUCIDO [ ON_luces Z008 -de-> presencia_S008 ] --- Encendidas luces008, deteccion sensor presencia --- ( 2 )
+-----LISTADO: 1
+-
+[ cierre_2025_10_6 --- 0 ]  --- Cierre del edificio --- ( 2 )
 -----
 INTRODUCIDO [ Validacion_P001_exterior ] --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
 INTRODUCIDO [ apertura_P001 -de-> Validacion_P001_exterior ] --- Abierta puerta P001  --- ( 3 )
 INTRODUCIDO [ presencia_S008 ] --- Deteccion presencia, sensor S008 --- ( 3 )
 INTRODUCIDO [ ON_luces Z008 -de-> presencia_S008 ] --- Encendidas luces008, deteccion sensor presencia --- ( 4 )
-INTRODUCIDO [ OFF_luces Z008 -de-> ON_luces Z008 ] --- Apagadas luces zona 008, por expiracion tiempo --- ( 2 )
------LISTADO: 0
+NO INTRODUCIDO [ OFF_luces Z008 -de-> ON_luces Z008 ] --- Apagadas luces zona 008, por expiracion tiempo --- ( 2 )
+-----LISTADO: 3
+-
+[ Validacion_P001_exterior --- 0 ]  --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
+-
+[ cierre_2025_10_6 --- 0 ]  --- Cierre del edificio --- ( 2 )
+-
+[ presencia_S008 --- 0 ]  --- Deteccion presencia, sensor S008 --- ( 3 )
 -----
------LISTADO: 0
+-----LISTADO: 3
+-
+[ Validacion_P001_exterior --- 0 ]  --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
+-
+[ cierre_2025_10_6 --- 0 ]  --- Cierre del edificio --- ( 2 )
+-
+[ presencia_S008 --- 0 ]  --- Deteccion presencia, sensor S008 --- ( 3 )
 -----
------LISTADO: 0
+-----LISTADO: 3
+-
+[ Validacion_P001_exterior --- 0 ]  --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
+-
+[ cierre_2025_10_6 --- 0 ]  --- Cierre del edificio --- ( 2 )
+-
+[ presencia_S008 --- 0 ]  --- Deteccion presencia, sensor S008 --- ( 3 )
 -----
------LISTADO: 0
+-----LISTADO: 3
+-
+[ Validacion_P001_exterior --- 0 ]  --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
+-
+[ cierre_2025_10_6 --- 0 ]  --- Cierre del edificio --- ( 2 )
+-
+[ presencia_S008 --- 0 ]  --- Deteccion presencia, sensor S008 --- ( 3 )
 -----

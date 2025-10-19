@@ -1,0 +1,26 @@
+LT
+A
+cierre_2025_10_6
+Cierre del edificio
+2
+INDependiente
+-.-.-.-.-
+A
+instruccion2
+Se ha caido el techo
+1
+INDependiente
+-.-.-.-.-
+A
+perico
+No doy una macho
+7
+Dependiente
+cierre_2025_10_6
+A
+CASAS BARATAS
+Cierre del edificio
+2
+INDependiente
+-.-.-.-.-
+LT

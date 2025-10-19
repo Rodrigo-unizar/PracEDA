@@ -61,7 +61,7 @@ template<typename T> bool existeDependiente(string id, colecInterdep<T>& c);
 * Devuelve verdad si y solo si en c hay algún elemento independiente cuyo ident sea igual a id, es
 * decir un elemento (id, v, -, NumDep).
 */
-template<typename T> bool existeIndependiente(string id,colecInterdep<T>& c);
+template<typename T> bool existeIndependiente(string id, colecInterdep<T>& c);
 
 /*
 * Si no existe?(id,c), devuelve una colección igual a la resultante de añadir el elemento
@@ -109,13 +109,13 @@ template<typename T> bool siguienteDependiente(colecInterdep<T>& c);
 * de la colección, que será el elemento no visitado con ident anterior a los de todos los demás aún
 * no visitados, es de la forma (ident, val, identSup, numDep), devuelve su identSup.
 */
-template<typename T> T siguienteSuperior(colecInterdep<T>& c);
+template<typename T> string siguienteSuperior(colecInterdep<T>& c);
 
 /*
 * Si existeSiguiente(c), devuelve el NumDep del siguiente elemento a visitar con el iterador de la colección c, que
 * será el elemento no visitado con ident anterior a los de todos los demás aún no visitados.
 */
-template<typename T> unsigned siguienteNúmDependientes(colecInterdep<T>& c);
+template<typename T> unsigned siguienteNumDependientes(colecInterdep<T>& c);
 
 /*
 * Si existeSiguiente?(c), avanza el iterador de la colección c para que se pueda visitar otro elemento.
@@ -144,8 +144,8 @@ struct colecInterdep{
     friend string siguienteIdent<T>(colecInterdep<T>& c);
     friend T siguienteVal<T>(colecInterdep<T>& c);
     friend bool siguienteDependiente<T>(colecInterdep<T>& c);
-    friend T siguienteSuperior<T>(colecInterdep<T>& c);
-    friend unsigned siguienteNúmDependientes<T>(colecInterdep<T>& c);
+    friend string siguienteSuperior<T>(colecInterdep<T>& c);
+    friend unsigned siguienteNumDependientes<T>(colecInterdep<T>& c);
     friend void avanza<T>(colecInterdep<T>& c);
     
   private: //declaracion de la representacion interna del tipo
@@ -197,23 +197,20 @@ bool esVacia(colecInterdep<T>& c){
 * Devuelve verdad si y solo si en c hay algún elemento con ident igual a id.
 */
 template <typename T> 
-bool existe(string id, colecInterdep<T>& c);
-    /*
-    iniciarIterador(c);
-
-    while(existeSiguiente(c)){
-        if(siguienteIdent(c) > id){
-            return false;
-        }else if(siguienteIdent(c) == id){
-            return true;
-        }else{
-            avanza(c);
+bool existe(string id, colecInterdep<T>& c){
+    if(esVacia(c)){
+        return false;
+    }else {
+        typename colecInterdep<T>::celdaColec* aux = c.primero;
+        while(aux != nullptr){
+            if(aux->ident == id){
+                return true;
+            }
+            aux = aux->sig;
         }
+        return false;
     }
-    return false;
-    */
-
-
+}
 
 /*
 * Devuelve verdad si y solo si en c hay algún elemento dependiente cuyo ident sea igual a id, es
@@ -234,8 +231,49 @@ bool existeIndependiente(string id,colecInterdep<T>& c);
 * independiente (id,v,-,0) a la colección c. En caso contrario, devuelve una colección igual a c.
 */
 template<typename T> 
-void aniadirIndependiente(colecInterdep<T>& c, string id,T v ){
-    /*
+void aniadirIndependiente(colecInterdep<T>& c, string id, T v){
+    if(!existe(id, c)){
+        if(esVacia(c)){    //no hay ninguna
+            c.primero = new typename colecInterdep<T> :: celdaColec;
+
+            c.primero->ident = id;
+            c.primero->valor = v;
+            c.primero->sig = nullptr;
+            c.primero->sup = "-";
+            c.primero->numDep = 0;
+
+            c.tamanio ++;
+        } else {
+            typename colecInterdep<T>::celdaColec* aux1 = c.primero;
+
+            if(id < aux1->ident){
+                //añadir antes del primero
+                c.primero = new typename colecInterdep<T> :: celdaColec;
+                c.primero->ident = id;
+                c.primero->valor = v;
+                c.primero->sig = aux1;
+                c.primero->sup = "-";
+                c.primero->numDep = 0;
+
+            } else {  //añadir despues del primero
+                typename colecInterdep<T>::celdaColec* aux2 = aux1->sig;
+                while(aux2 !=nullptr && id > aux2->ident){ //primero hay que comprobar que aux2 != nullptr para no acceder si lo fuera
+                    aux1 = aux1->sig;
+                    aux2 = aux2->sig;
+                }
+                aux1->sig = new typename colecInterdep<T> :: celdaColec;
+                aux1->sig->ident = id;
+                aux1->sig->valor = v;
+                aux1->sig->sig = aux2;
+                aux1->sig->sup = "-";
+                aux1->sig->numDep = 0;
+            }
+            c.tamanio ++;
+        }
+    }
+}
+
+/*
     if(esVacia(c)){
         c.primero = new typename colecInterdep<T> :: celdaColec;
 
@@ -266,10 +304,9 @@ void aniadirIndependiente(colecInterdep<T>& c, string id,T v ){
 
     return;
     */
-}
 
 
-//Operaciones iterador
+//OPERACIONES ITERADOR
 
 /*
 * Inicializa el iterador para recorrer los elementos de la colección c, de forma que el siguiente
@@ -298,8 +335,8 @@ bool existeSiguiente(colecInterdep<T>& c){
 template<typename T> 
 string siguienteIdent(colecInterdep<T>& c){
     if(existeSiguiente(c)){   
-        typename colecInterdep<T>::celdaColec* aux = c.iter->sig;
-        return aux->ident;
+        //typename colecInterdep<T>::celdaColec* aux = c.iter->sig;
+        return c.iter->ident;
     }
 }
 
@@ -310,8 +347,8 @@ string siguienteIdent(colecInterdep<T>& c){
 template<typename T> 
 T siguienteVal(colecInterdep<T>& c){
     if(existeSiguiente(c)){
-        typename colecInterdep<T>::celdaColec* aux = c.iter->sig;
-        return aux->valor;
+        //typename colecInterdep<T>::celdaColec* aux = c.iter->sig;
+        return c.iter->valor;
     }
 }
 
@@ -320,20 +357,32 @@ T siguienteVal(colecInterdep<T>& c){
 * que será el elemento no visitado con ident anterior a los de todos los demás aún no visitados,
 * es de la forma (ident, val, -, numDep) devuelve falso, pero si es de la forma (ident, val, identSup, numDep) devuelve verdad. 
 */
-template<typename T> bool siguienteDependiente(colecInterdep<T>& c);
+template<typename T> bool siguienteDependiente(colecInterdep<T>& c){
+    if(existeSiguiente(c)){
+        return c.iter->sup == "-";
+    }
+}
 
 /*
 * Si existeSiguiente(c) y siguienteDependiente(c), si el siguiente elemento a visitar con el iterador
 * de la colección, que será el elemento no visitado con ident anterior a los de todos los demás aún
 * no visitados, es de la forma (ident, val, identSup, numDep), devuelve su identSup.
 */
-template<typename T> T siguienteSuperior(colecInterdep<T>& c);
+template<typename T> string siguienteSuperior(colecInterdep<T>& c){
+    if(siguienteDependiente(c)){
+        return c.iter->sup;
+    }
+}
 
 /*
 * Si existeSiguiente(c), devuelve el NumDep del siguiente elemento a visitar con el iterador de la colección c, que
 * será el elemento no visitado con ident anterior a los de todos los demás aún no visitados.
 */
-template<typename T> unsigned siguienteNúmDependientes(colecInterdep<T>& c);
+template<typename T> unsigned siguienteNumDependientes(colecInterdep<T>& c){
+    if(existeSiguiente(c)){
+        return c.iter->numDep;
+    }
+}
 
 /*
 * Si existeSiguiente?(c), avanza el iterador de la colección c para que se pueda visitar otro elemento.

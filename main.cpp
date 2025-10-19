@@ -16,6 +16,7 @@ int main(){
 
     string instruccion, salto;
     string nombre_e, descripcion_e, dependencia, padre, prioridad;
+    unsigned numDep;
     f.open("entrada.txt");  
     g.open("salia.txt");
     while (f >> instruccion){
@@ -27,16 +28,20 @@ int main(){
             getline(f, prioridad);
             getline(f, dependencia);
             getline(f, padre);
+
+            crearEvento(descripcion_e, stoi(prioridad), e);
                 
            if(dependencia == "INDependiente"){    
+                //if(!existeIndependiente(nombre_e, c)) aqui faltan cosas porque no siempre tiene que sacar el mensaje
                 aniadirIndependiente(c, nombre_e, e);
                 g << "INTRODUCIDO [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
-            }else{                              //faltan cosillas de logica por aqui, tipo que si su padre no existe poner NO INTRODUCIDO
-                //if existe(padre) hacemos lo de abajo
-                //aniadirDependiente();             
-                g << "INTRODUCIDO [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
-                //else 
-                // g << "NO INTRODUCIDO [ " << nombre_e << " -de-> " << padre << " ] --- " << " --- ( "   << " )" << endl;
+            }else{                              
+                if(existe(padre, c)){
+                    //aniadirDependiente(c, nombre_e, e, padre);             
+                    g << "INTRODUCIDO [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+                } else {
+                    g << "NO INTRODUCIDO [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+                }  
             }
         } else if (instruccion == "C"){
             ;
@@ -53,10 +58,17 @@ int main(){
         } else if (instruccion == "LD"){
             ;
         } else if (instruccion == "LT"){
-            g << "-----LISTADO: " << tamanio(c) <<endl;   //de momento no imprime nada, tamaño(c) = 0
-            for(int i = 0; i < tamanio(c); i++){
-                g << "[ " << nombre_e << " --- " << "obtenerNumDependientes(nombre_e, c)" << " ]  --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
-            } 
+            g << "-----LISTADO: " << tamanio(c) <<endl;  
+            iniciarIterador(c);
+            while(existeSiguiente(c)){
+                nombre_e = siguienteIdent(c);
+                e = siguienteVal(c);
+                numDep = siguienteNumDependientes(c);
+                siguienteDependiente(c);
+                g << siguienteSuperior(c) << endl;  //de momento como todos son indepe escribe - en todos asi que esta controlado
+                g << "[ " << nombre_e << " --- " << numDep << " ]  --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
+                avanza(c);
+            }    
             g << "-----" << endl;
         }
     }
