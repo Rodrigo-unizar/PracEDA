@@ -174,7 +174,7 @@ template<typename T>
 void crear(colecInterdep<T>& c){
     c.primero = nullptr;
     c.tamanio = 0;
-    //c.iter = nullptr; podriamos ponerlo por seguridad pero lo q veas
+    //c.iter = nullptr; podriamos ponerlo por seguridad pero lo q veas (nonono que la señiora se queja)
 }
 
 /*
@@ -217,14 +217,44 @@ bool existe(string id, colecInterdep<T>& c){
 * decir un elemento (id, v, idSup, NumDep).
 */
 template<typename T> 
-bool existeDependiente(string id, colecInterdep<T>& c);
+bool existeDependiente(string id, colecInterdep<T>& c){
+    typename colecInterdep<T>::celdaColec* aux = c.primero;
+    if(existe(id,c)){
+        while(aux != nullptr && aux->ident != id){
+            aux = aux->sig;
+        }
+        if(aux->sup == "-" && aux != nullptr){
+            return false;
+        }else{
+            return true;
+        }
+    }else{
+        return false;
+    }
+    return false;
+}
 
 /*
 * Devuelve verdad si y solo si en c hay algún elemento independiente cuyo ident sea igual a id, es
 * decir un elemento (id, v, -, NumDep).
 */
 template<typename T>
-bool existeIndependiente(string id,colecInterdep<T>& c);
+bool existeIndependiente(string id,colecInterdep<T>& c){
+    typename colecInterdep<T>::celdaColec* aux = c.primero;
+    if(existe(id,c)){
+        while(aux != nullptr && aux->ident != id){
+            aux = aux->sig;
+        }
+        if(aux->sup == "-" && aux != nullptr){
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+        return false;
+    }
+    return false;
+}
 
 /*
 * Si no existe?(id,c), devuelve una colección igual a la resultante de añadir el elemento
