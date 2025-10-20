@@ -9,7 +9,7 @@
 int main(){
     ifstream f;
     ofstream g;
-    colecInterdep<evento> c;
+    colecInterdep<string, evento> c;
     evento e;
 
     crear(c);     //antes de hacer cosas con una coleccion primero hay que crearla o que :)
@@ -32,9 +32,11 @@ int main(){
             crearEvento(descripcion_e, stoi(prioridad), e);
                 
            if(dependencia == "INDependiente"){    
-                //if(!existeIndependiente(nombre_e, c)) aqui faltan cosas porque no siempre tiene que sacar el mensaje
-                aniadirIndependiente(c, nombre_e, e);
-                g << "INTRODUCIDO [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+                if(!existeIndependiente(nombre_e, c)){
+                    aniadirIndependiente(c, nombre_e, e);
+                    g << "INTRODUCIDO [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+                } 
+                
             }else{                              
                 if(existe(padre, c)){
                     //aniadirDependiente(c, nombre_e, e, padre);             

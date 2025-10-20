@@ -12,6 +12,12 @@ Se ha caido el techo
 INDependiente
 -.-.-.-.-
 A
+cierre_2025_10_6
+Cierre del edificio
+2
+INDependiente
+-.-.-.-.-
+A
 perico
 No doy una macho
 7
