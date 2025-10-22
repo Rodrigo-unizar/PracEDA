@@ -53,6 +53,13 @@ int main(){
             ;
         } else if (instruccion == "E"){
             getline(f, nombre_e);
+            if(existeIndependiente(nombre_e, c)){
+                g << "INDEPendiente: " << nombre_e << endl;
+            } else if(existeDependiente(nombre_e, c)){
+                g << "DEPendiente: (de momento no funciona)" << nombre_e << endl;
+            } else {
+                g << "DESCONOCIDO: " << nombre_e << endl;
+            }
         } else if (instruccion == "I"){
             ;
         } else if (instruccion == "B"){
@@ -66,8 +73,8 @@ int main(){
                 nombre_e = siguienteIdent(c);
                 e = siguienteVal(c);
                 numDep = siguienteNumDependientes(c);
-                siguienteDependiente(c);
-                g << siguienteSuperior(c) << endl;  //de momento como todos son indepe escribe - en todos asi que esta controlado
+                if(siguienteDependiente(c)) {g << "perico" << endl;}
+                g << siguienteSuperior(c);  //de momento como todos son indepe 
                 g << "[ " << nombre_e << " --- " << numDep << " ]  --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
                 avanza(c);
             }    
