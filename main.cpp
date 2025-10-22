@@ -39,7 +39,7 @@ int main(){
                 
             }else{                              
                 if(existe(padre, c)){
-                    //aniadirDependiente(c, nombre_e, e, padre);             
+                    aniadirDependiente(c, nombre_e, e, padre);             
                     g << "INTRODUCIDO [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 } else {
                     g << "NO INTRODUCIDO [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
@@ -56,7 +56,7 @@ int main(){
             if(existeIndependiente(nombre_e, c)){
                 g << "INDEPendiente: " << nombre_e << endl;
             } else if(existeDependiente(nombre_e, c)){
-                g << "DEPendiente: (de momento no funciona)" << nombre_e << endl;
+                g << "DEPendiente: " << nombre_e << endl;
             } else {
                 g << "DESCONOCIDO: " << nombre_e << endl;
             }
@@ -73,8 +73,8 @@ int main(){
                 nombre_e = siguienteIdent(c);
                 e = siguienteVal(c);
                 numDep = siguienteNumDependientes(c);
-                if(siguienteDependiente(c)) {g << "perico" << endl;}
-                g << siguienteSuperior(c);  //de momento como todos son indepe 
+               // if(siguienteDependiente(c)) {g << "perico" << endl;}
+                g << siguienteSuperior(c);  
                 g << "[ " << nombre_e << " --- " << numDep << " ]  --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
                 avanza(c);
             }    

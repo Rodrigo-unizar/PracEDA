@@ -69,6 +69,25 @@ template<typename I, typename V> bool existeIndependiente(I id, colecInterdep<I,
 */
 template<typename I, typename V> void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v);
 
+/*
+* Si no existe?(id,c) y existe?(super,c) devuelve una colección igual a la resultante de:
+* incrementar en 1 el número de elementos dependientes del elemento con identificador super en c, y
+* de añadir el elemento (id,v,super,0) a la colección c. En cualquier otro caso, devuelve una colección igual a c.
+*/
+template<typename I, typename V> void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup);
+
+/*
+template<typename I, typename V> void hacerDependiente(colecInterdep<I,V>& c, I id, V v);
+
+template<typename I, typename V> void hacerIndependiente(colecInterdep<I,V>& c, I id, V v);
+
+template<typename I, typename V> void actualizarVal(colecInterdep<I,V>& c, I id, V v);
+
+template<typename I, typename V> void obtenerVal(colecInterdep<I,V>& c, I id, V v);
+
+template<typename I, typename V> void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v);
+*/
+
 
 //Operaciones iterador
 
@@ -136,6 +155,7 @@ struct colecInterdep{
     friend bool existeDependiente<I,V>(I id, colecInterdep<I,V>& c);
     friend bool existeIndependiente<I,V>(I id,colecInterdep<I,V>& c);
     friend void aniadirIndependiente<I,V>(colecInterdep<I,V>& c, I id, V v);
+    friend void aniadirDependiente<I,V>(colecInterdep<I,V>& c, I id,V v, I sup);
 
     //Operaciones iterador
 
@@ -174,7 +194,7 @@ template<typename I, typename V>
 void crear(colecInterdep<I,V>& c){
     c.primero = nullptr;
     c.tamanio = 0;
-    //c.iter = nullptr; podriamos ponerlo por seguridad pero lo q veas (nonono que la señiora se queja)
+    //c.iter = nullptr; podriamos ponerlo por seguridad pero lo q veas
 }
 
 /*
@@ -298,37 +318,60 @@ void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
 }
 
 /*
-    if(esVacia(c)){
-        c.primero = new typename colecInterdep<I> :: celdaColec;
+* Si no existe?(id,c) y existe?(super,c) devuelve una colección igual a la resultante de:
+* incrementar en 1 el número de elementos dependientes del elemento con identificador super en c, y
+* de añadir el elemento (id,v,super,0) a la colección c. En cualquier otro caso, devuelve una colección igual a c.
+*/
+template<typename I, typename V> 
+void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
+    typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
 
-        c.primero->ident = id;
-        c.primero->valor = v;
-        c.primero->sig = nullptr;
-        c.primero->sup = "-";
-        c.primero->numDep = 0;
+    while(aux1 != nullptr && id > aux1->ident && sup != aux1->ident){
+        aux1 = aux1->sig;
+    }
+    if(aux1->ident == sup){
+        typename colecInterdep<I,V>::celdaColec* aux2 = aux1;
+        while(aux1 != nullptr && id < aux1->ident){
+        aux1 = aux1->sig;
+        }
+        if(aux1->ident != id){
+            aux2->numDep++;
 
-        c.tamanio ++;
-        return;
+            aux2 = aux1->sig;
+
+            aux1->sig = new typename colecInterdep<I,V> :: celdaColec;
+            aux1->sig->ident = id;
+            aux1->sig->valor = v;
+            aux1->sig->sig = aux2;
+            aux1->sig->sup = sup;
+            aux1->sig->numDep = 0;
+
+            c.tamanio++;
+
+        }
+
+    }else if(aux1->ident > id){
+        typename colecInterdep<I,V>::celdaColec* aux2 = aux1;
+        while(aux1 != nullptr && sup != aux1->ident){
+        aux1 = aux1->sig;
+        }
+        if(aux1->ident == sup){
+            aux1->numDep++;
+
+            aux1 = aux2->sig;
+
+            aux2->sig = new typename colecInterdep<I,V> :: celdaColec;
+            aux2->sig->ident = id;
+            aux2->sig->valor = v;
+            aux2->sig->sig = aux1;
+            aux2->sig->sup = sup;
+            aux2->sig->numDep = 0;
+
+            c.tamanio++;
+        }
     }
 
-    if(existe(id, c)){
-        return;
-    }else{
-
-        typename colecInterdep<I>::celdaColec* aux = new typename colecInterdep<I>::celdaColec;
-
-        aux->ident = id;
-        aux->valor = v;
-        aux->sig = c.iter->sig; //Hago que apunte al siguiente elemento
-        aux->sup = "-";
-        aux->numDep = 0;
-
-        c.iter->sig = aux; //Hago que el anterior apunte a el nuevo
-    }
-
-    return;
-    */
-
+}
 
 //OPERACIONES ITERADOR
 
