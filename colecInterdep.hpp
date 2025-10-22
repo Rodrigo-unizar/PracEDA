@@ -299,7 +299,7 @@ void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
 
 /*
     if(esVacia(c)){
-        c.primero = new typename colecInterdep<T> :: celdaColec;
+        c.primero = new typename colecInterdep<I> :: celdaColec;
 
         c.primero->ident = id;
         c.primero->valor = v;
@@ -315,7 +315,7 @@ void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
         return;
     }else{
 
-        typename colecInterdep<T>::celdaColec* aux = new typename colecInterdep<T>::celdaColec;
+        typename colecInterdep<I>::celdaColec* aux = new typename colecInterdep<I>::celdaColec;
 
         aux->ident = id;
         aux->valor = v;
@@ -359,7 +359,7 @@ bool existeSiguiente(colecInterdep<I,V>& c){
 template<typename I, typename V>
 I siguienteIdent(colecInterdep<I,V>& c){
     if(existeSiguiente(c)){   
-        //typename colecInterdep<T>::celdaColec* aux = c.iter->sig;
+        //typename colecInterdep<I>::celdaColec* aux = c.iter->sig;
         return c.iter->ident;
     }
 }
@@ -371,7 +371,7 @@ I siguienteIdent(colecInterdep<I,V>& c){
 template<typename I, typename V>
 V siguienteVal(colecInterdep<I,V>& c){
     if(existeSiguiente(c)){
-        //typename colecInterdep<T>::celdaColec* aux = c.iter->sig;
+        //typename colecInterdep<I>::celdaColec* aux = c.iter->sig;
         return c.iter->valor;
     }
 }
