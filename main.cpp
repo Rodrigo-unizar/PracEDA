@@ -17,7 +17,7 @@ int main(){
     string instruccion, salto;
     string nombre_e, descripcion_e, dependencia, padre, prioridad;
     unsigned numDep;
-    f.open("entrada.txt");  
+    f.open("pruebas.txt");  
     g.open("salia.txt");
     while (f >> instruccion){
         getline(f, salto);
@@ -35,10 +35,12 @@ int main(){
                 if(!existeIndependiente(nombre_e, c)){
                     aniadirIndependiente(c, nombre_e, e);
                     g << "INTRODUCIDO [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
-                } 
+                } else {
+                    g << "NO INTRODUCIDO [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+                }
                 
             }else{                              
-                if(existe(padre, c)){
+                if(existe(padre, c) && !existe(nombre_e, c)){   //aqui hay que comprobar que no este repetido de alguna forma
                     aniadirDependiente(c, nombre_e, e, padre);             
                     g << "INTRODUCIDO [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 } else {
@@ -74,7 +76,7 @@ int main(){
                 e = siguienteVal(c);
                 numDep = siguienteNumDependientes(c);
                // if(siguienteDependiente(c)) {g << "perico" << endl;}
-                g << siguienteSuperior(c);  
+               // g << siguienteSuperior(c);  
                 g << "[ " << nombre_e << " --- " << numDep << " ]  --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
                 avanza(c);
             }    

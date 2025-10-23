@@ -239,17 +239,10 @@ bool existe(I id, colecInterdep<I,V>& c){
 template<typename I, typename V>
 bool existeDependiente(I id, colecInterdep<I,V>& c){
     typename colecInterdep<I,V>::celdaColec* aux = c.primero;
-    if(existe(id,c)){
-        while(aux != nullptr && aux->ident != id){
-            aux = aux->sig;
-        }
-        if(aux != nullptr && aux->sup == "-"){
-            return false;
-        }else{
-            return true;
-        }
+    while(aux != nullptr && aux->ident != id){
+        aux = aux->sig;
     }
-    return false;
+    return (aux != nullptr && aux->sup != "-");
 }
 
 /*
@@ -259,15 +252,11 @@ bool existeDependiente(I id, colecInterdep<I,V>& c){
 template<typename I, typename V>
 bool existeIndependiente(I id, colecInterdep<I,V>& c){
     typename colecInterdep<I,V>::celdaColec* aux = c.primero;
-    if(existe(id,c)){
-        while(aux != nullptr && aux->ident != id){
-            aux = aux->sig;
-        }
-        if(aux != nullptr && aux->sup == "-"){
-            return true;
-        }
+    while(aux != nullptr && aux->ident != id){
+        aux = aux->sig;
     }
-    return false;
+    return (aux != nullptr && aux->sup == "-");
+
 }
 
 /*
@@ -276,43 +265,42 @@ bool existeIndependiente(I id, colecInterdep<I,V>& c){
 */
 template<typename I, typename V> 
 void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
-    if(!existe(id, c)){
-        if(esVacia(c)){    //no hay ninguna
-            c.primero = new typename colecInterdep<I,V> :: celdaColec;
 
-            c.primero->ident = id;
-            c.primero->valor = v;
-            c.primero->sig = nullptr;
-            c.primero->sup = "-";
-            c.primero->numDep = 0;
+    // Puntero al nodo ANTERIOR al punto de inserción
+    typename colecInterdep<I,V>::celdaColec* prev = nullptr; 
+    // Puntero al nodo ACTUAL
+    typename colecInterdep<I,V>::celdaColec* actual = c.primero;
+    // Puntero al nodo que irá DESPUÉS del nuevo nodo
+    typename colecInterdep<I,V>::celdaColec* siguiente = nullptr;
 
-            c.tamanio ++;
-        } else {
-            typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
+    while(actual != nullptr && actual->ident < id){
+        prev = actual;    // 'prev' se actualiza al nodo actual
+        actual = actual->sig; // 'actual' avanza
+    }
 
-            if(id < aux1->ident){
-                //añadir antes del primero
-                c.primero = new typename colecInterdep<I,V> :: celdaColec;
-                c.primero->ident = id;
-                c.primero->valor = v;
-                c.primero->sig = aux1;
-                c.primero->sup = "-";
-                c.primero->numDep = 0;
+    if(actual != nullptr && id < actual->ident){
+       siguiente = actual;                          //guardo el puntero al siguiente que tiene que apuntar el nuevo nodo
+    }
 
-            } else {  //añadir despues del primero
-                typename colecInterdep<I,V>::celdaColec* aux2 = aux1->sig;
-                while(aux2 !=nullptr && id > aux2->ident){ //primero hay que comprobar que aux2 != nullptr para no acceder si lo fuera
-                    aux1 = aux1->sig;
-                    aux2 = aux2->sig;
-                }
-                aux1->sig = new typename colecInterdep<I,V> :: celdaColec;
-                aux1->sig->ident = id;
-                aux1->sig->valor = v;
-                aux1->sig->sig = aux2;
-                aux1->sig->sup = "-";
-                aux1->sig->numDep = 0;
-            }
-            c.tamanio ++;
+    while(actual != nullptr && actual->ident != id){
+        actual = actual->sig;
+    }
+
+    if(actual == nullptr){
+        typename colecInterdep<I,V>::celdaColec* nuevoNodo;
+        nuevoNodo = new typename colecInterdep<I,V>::celdaColec;
+        nuevoNodo->ident = id;
+        nuevoNodo->valor = v;
+        nuevoNodo->sup = "-";
+        nuevoNodo->numDep = 0;
+        c.tamanio++;
+
+        if(prev == nullptr){        //si el nuevo 'id' es menor que c.primero->ident hay que añadirlo el primero de la lsita
+            nuevoNodo->sig = c.primero; 
+            c.primero = nuevoNodo;      
+        } else {                    //si no, se inserta entre el previo y el actual
+            nuevoNodo->sig = siguiente;
+            prev->sig = nuevoNodo;    
         }
     }
 }
@@ -324,53 +312,67 @@ void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
 */
 template<typename I, typename V> 
 void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
-    typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
-
-    while(aux1 != nullptr && id > aux1->ident && sup != aux1->ident){
-        aux1 = aux1->sig;
-    }
-    if(aux1->ident == sup){
-        typename colecInterdep<I,V>::celdaColec* aux2 = aux1;
-        while(aux1 != nullptr && id < aux1->ident){
-        aux1 = aux1->sig;
-        }
-        if(aux1->ident != id){
-            aux2->numDep++;
-
-            aux2 = aux1->sig;
-
-            aux1->sig = new typename colecInterdep<I,V> :: celdaColec;
-            aux1->sig->ident = id;
-            aux1->sig->valor = v;
-            aux1->sig->sig = aux2;
-            aux1->sig->sup = sup;
-            aux1->sig->numDep = 0;
-
-            c.tamanio++;
-
+    
+    // Puntero al nodo ANTERIOR al punto de inserción
+    typename colecInterdep<I,V>::celdaColec* prev = nullptr; 
+    // Puntero al nodo ACTUAL
+    typename colecInterdep<I,V>::celdaColec* actual = c.primero;
+    // Puntero para guardar el nodo 'sup' SI lo encontramos
+    typename colecInterdep<I,V>::celdaColec* nodoSup = nullptr;
+    
+    while(actual != nullptr && actual->ident < id){    //avanzamos 'actual' hasta encontrar el punto de inserción
+        
+        if(actual->ident == sup){     //comprobamos por el camino si alguno de los nodos es 'sup'
+            nodoSup = actual; 
         }
 
-    }else if(aux1->ident > id){
-        typename colecInterdep<I,V>::celdaColec* aux2 = aux1;
-        while(aux1 != nullptr && sup != aux1->ident){
-        aux1 = aux1->sig;
-        }
-        if(aux1->ident == sup){
-            aux1->numDep++;
-
-            aux1 = aux2->sig;
-
-            aux2->sig = new typename colecInterdep<I,V> :: celdaColec;
-            aux2->sig->ident = id;
-            aux2->sig->valor = v;
-            aux2->sig->sig = aux1;
-            aux2->sig->sup = sup;
-            aux2->sig->numDep = 0;
-
-            c.tamanio++;
-        }
+        prev = actual;    // 'prev' se actualiza al nodo actual
+        actual = actual->sig; // 'actual' avanza
     }
 
+    /*
+    * Salimos del bucle. Ahora tenemos dos posibilidades:
+    * 1. actual == nullptr (llegamos al final de la lista)
+    * 2. actual->ident >= id (encontramos el punto de inserción)
+    */
+
+    // AHORA: 'actual' apunta al nodo que debe ir DESPUÉS del nuevo.
+    // 'prev' apunta al nodo que debe ir ANTES.
+    // PERO, 'sup' podría estar MÁS ADELANTE en la lista.
+    // Debemos continuar el recorrido (desde 'actual') hasta el final, 
+    // solo para asegurarnos de encontrar 'sup' si aún no ha aparecido.
+    
+    typename colecInterdep<I,V>::celdaColec* buscadorSup = actual;
+    while(buscadorSup != nullptr && buscadorSup->ident != id){    //hay que encontar primero 'sup' antes de añadir
+        
+        if(buscadorSup->ident == sup){
+            nodoSup = buscadorSup;                                //encontramos 'sup'
+        }
+
+        buscadorSup = buscadorSup->sig;
+    }
+    
+
+    if(nodoSup != nullptr && buscadorSup == nullptr){  //solo añadimos el elemento si existe 'sup' y 'buscadorSup' ha recorrido todos los nodos
+
+        nodoSup->numDep++;          //incrementamos su contador
+        c.tamanio++;
+
+        typename colecInterdep<I,V>::celdaColec* nuevoNodo;
+        nuevoNodo = new typename colecInterdep<I,V>::celdaColec;
+        nuevoNodo->ident = id;
+        nuevoNodo->valor = v;
+        nuevoNodo->sup = sup;
+        nuevoNodo->numDep = 0;
+
+        if(prev == nullptr){        //si el nuevo 'id' es menor que c.primero->ident hay que añadirlo el primero de la lsita
+            nuevoNodo->sig = c.primero; 
+            c.primero = nuevoNodo;      
+        } else {                    //si no, se inserta entre el previo y el actual
+            nuevoNodo->sig = actual;    
+            prev->sig = nuevoNodo;    
+        }
+    }
 }
 
 //OPERACIONES ITERADOR
@@ -402,9 +404,9 @@ bool existeSiguiente(colecInterdep<I,V>& c){
 template<typename I, typename V>
 I siguienteIdent(colecInterdep<I,V>& c){
     if(existeSiguiente(c)){   
-        //typename colecInterdep<I>::celdaColec* aux = c.iter->sig;
         return c.iter->ident;
     }
+    return "";
 }
 
 /*
@@ -414,7 +416,6 @@ I siguienteIdent(colecInterdep<I,V>& c){
 template<typename I, typename V>
 V siguienteVal(colecInterdep<I,V>& c){
     if(existeSiguiente(c)){
-        //typename colecInterdep<I>::celdaColec* aux = c.iter->sig;
         return c.iter->valor;
     }
 }
@@ -464,7 +465,6 @@ void avanza(colecInterdep<I,V>& c){
     if(existeSiguiente(c)){
         c.iter = c.iter->sig;
     }
-    return;
 }
 
 #endif
