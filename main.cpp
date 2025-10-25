@@ -21,7 +21,8 @@ int main(){
     g.open("salia.txt");
     while (f >> instruccion){
         getline(f, salto);
-       
+        hacerDependiente(c, nombre_e, padre);
+        
         if(instruccion == "A"){
             getline(f, nombre_e);
             getline(f, descripcion_e);
@@ -31,7 +32,7 @@ int main(){
 
             crearEvento(descripcion_e, stoi(prioridad), e);
                 
-           if(dependencia == "INDependiente"){    
+            if(dependencia == "INDependiente"){    
                 if(!existeIndependiente(nombre_e, c)){
                     aniadirIndependiente(c, nombre_e, e);
                     g << "INTRODUCIDO [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
@@ -82,7 +83,7 @@ int main(){
             }    
             g << "-----" << endl;
         }
-    }
+    } 
     f.close();
     g.close();
 }
