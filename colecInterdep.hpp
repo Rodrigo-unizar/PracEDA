@@ -80,7 +80,7 @@ template<typename I, typename V> void aniadirDependiente(colecInterdep<I,V>& c, 
 template<typename I, typename V> void hacerDependiente(colecInterdep<I,V>& c, I id, I sup);
 
 
-template<typename I, typename V> void hacerIndependiente(colecInterdep<I,V>& c, I id, I sup);
+template<typename I, typename V> void hacerIndependiente(colecInterdep<I,V>& c, I id);
 /*
 template<typename I, typename V> void actualizarVal(colecInterdep<I,V>& c, I id, V v);
 
@@ -158,7 +158,7 @@ struct colecInterdep{
     friend void aniadirIndependiente<I,V>(colecInterdep<I,V>& c, I id, V v);
     friend void aniadirDependiente<I,V>(colecInterdep<I,V>& c, I id,V v, I sup);
     friend void hacerDependiente<I,V>(colecInterdep<I,V>& c, I id, I sup);
-    friend void hacerIndependiente<I,V>(colecInterdep<I,V>& c, I id, I sup);
+    friend void hacerIndependiente<I,V>(colecInterdep<I,V>& c, I id);
 
     //Operaciones iterador
 
@@ -380,6 +380,9 @@ void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
 
 template<typename I, typename V> 
 void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
+    if(id == sup){
+        return; //son iguales entonces no hace nada
+    }
     typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
     //Buscas o padre o hijo
     if(c.tamanio < 2){
@@ -472,8 +475,29 @@ void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
 
 
 template<typename I, typename V> 
-void hacerIndependiente(colecInterdep<I,V>& c, I id, V v){
-    
+void hacerIndependiente(colecInterdep<I,V>& c, I id){
+    //Buscas o padre o hijo
+    if(!esVacia(c)){
+        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
+        while(aux1 != nullptr && aux1->ident != id){
+            aux1 = aux1->sig;
+        }//localizas al que quieres hacer independiente
+        if(aux1 != nullptr){
+            typename colecInterdep<I,V>::celdaColec* aux2 = aux1;
+            if(aux2->sup == "-"){
+                //ya es independiente ==> no hace nada
+            }else{
+                if(aux2->sup < id){
+                    aux1 = c.primero;
+                }
+                while(aux1 != nullptr && aux1->ident != aux2->sup){
+                    aux1 = aux1->sig;
+                }//llegas al antiguo padre
+                aux1->numDep --;
+                aux2->sup = "-";
+            }
+        }
+    }
 }
 
 //OPERACIONES ITERADOR
