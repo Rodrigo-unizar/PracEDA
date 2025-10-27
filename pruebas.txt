@@ -62,4 +62,6 @@ No quiero que te añadas
 22
 Dependiente
 noexistenadaqui
+E
+presencia_S008
 LT

@@ -12,7 +12,7 @@ int main(){
     colecInterdep<string, evento> c;
     evento e;
 
-    crear(c);     //antes de hacer cosas con una coleccion primero hay que crearla o que :)
+    crear(c);
 
     string instruccion, salto;
     string nombre_e, descripcion_e, dependencia, padre, prioridad;
@@ -21,7 +21,6 @@ int main(){
     g.open("salia.txt");
     while (f >> instruccion){
         getline(f, salto);
-        hacerDependiente(c, nombre_e, padre);
         
         if(instruccion == "A"){
             getline(f, nombre_e);
@@ -35,23 +34,31 @@ int main(){
             if(dependencia == "INDependiente"){    
                 if(!existeIndependiente(nombre_e, c)){
                     aniadirIndependiente(c, nombre_e, e);
-                    g << "INTRODUCIDO [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+                    g << "INTRODUCIDO: [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 } else {
-                    g << "NO INTRODUCIDO [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+                    g << "NO INTRODUCIDO: [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 }
                 
             }else{                              
-                if(existe(padre, c) && !existe(nombre_e, c)){   //aqui hay que comprobar que no este repetido de alguna forma
+                if(existe(padre, c) && !existe(nombre_e, c)){   //esto creo que con 1 llamada vale
                     aniadirDependiente(c, nombre_e, e, padre);             
-                    g << "INTRODUCIDO [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+                    g << "INTRODUCIDO: [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 } else {
-                    g << "NO INTRODUCIDO [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+                    g << "NO INTRODUCIDO: [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 }  
             }
         } else if (instruccion == "C"){
             ;
         } else if (instruccion == "D"){
-            ;
+            getline(f, nombre_e);
+            getline(f, padre);
+
+            if(existe(nombre_e, c) && existe(padre,c)){
+                hacerDependiente(c, nombre_e, padre);
+                g << "INTENTANDO hacer depend.: " << nombre_e << " -de-> " << padre << endl;
+            } else {
+                g << "IMPOSIBLE hacer depend.: " << nombre_e << " -de-> " << padre << endl;
+            }
         } else if (instruccion == "O"){
             ;
         } else if (instruccion == "E"){
@@ -64,7 +71,16 @@ int main(){
                 g << "DESCONOCIDO: " << nombre_e << endl;
             }
         } else if (instruccion == "I"){
-            ;
+            getline(f, nombre_e);
+            if(existe(nombre_e,c)){
+                if(!existeIndependiente(nombre_e, c)){
+                    g << "INDEPENDIZADO: " << nombre_e << endl;
+                } else {
+                    g << "YA ERA INDepend.: " << nombre_e << endl;
+                }
+            } else {
+                g << "NO INDEPENDIZADO: " << nombre_e << endl;
+            }
         } else if (instruccion == "B"){
             ;
         } else if (instruccion == "LD"){
@@ -76,9 +92,11 @@ int main(){
                 nombre_e = siguienteIdent(c);
                 e = siguienteVal(c);
                 numDep = siguienteNumDependientes(c);
-               // if(siguienteDependiente(c)) {g << "perico" << endl;}
-               // g << siguienteSuperior(c);  
-                g << "[ " << nombre_e << " --- " << numDep << " ]  --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
+               if(siguienteDependiente(c)){
+                    g << "[ " << nombre_e <<  " -de-> " << siguienteSuperior(c) << " ;;;  " << siguienteNumDependientes(c) << " ] --- " << descripcion(e) << " --- " << " ( " << suPrioridad(e) << " )" << endl;
+                } else {
+                    g << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
+                }  
                 avanza(c);
             }    
             g << "-----" << endl;
