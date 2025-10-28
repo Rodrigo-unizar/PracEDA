@@ -400,11 +400,11 @@ void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
         aux1 = aux1->sig;
     }
 
-    if(aux1->ident == sup){ //si encuentra al padre nuevo lo guarda en aux2 y busca el "hijo" 
+    if(aux1 != nullptr && aux1->ident == sup){ //si encuentra al padre nuevo lo guarda en aux2 y busca el "hijo" 
         typename colecInterdep<I,V>::celdaColec* aux2 = aux1; //nuevo padre en aux2
 
         while(aux1 != nullptr && id != aux1->ident){
-        aux1 = aux1->sig;
+            aux1 = aux1->sig;
         }
 
         if(aux1 == nullptr){
@@ -422,7 +422,8 @@ void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
                     aux1 = aux2;//iteras desde el nuevo padre
                 }//sino iteras desde el hijo hasta el final
                 //como ya era padre asumiendo que no estan mal las operaciones anteriores ==> existe
-                while(aux1->ident != aux3->sup){
+                
+                while(aux1 != nullptr && aux1->ident != aux3->sup){
                     aux1 = aux1->sig;
                 }
                 aux1->numDep--;//padre antiguo
@@ -432,14 +433,14 @@ void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
             }
         }
 
-    }else if(aux1->ident == id){
+    } else if(aux1 != nullptr && aux1->ident == id){
         if(aux1->sup == "-"){//el hijo es independiente?
-            typename colecInterdep<I,V>::celdaColec* aux2 = aux1;//aux2 hijo
+            typename colecInterdep<I,V>::celdaColec* aux2 = aux1;  //aux2 hijo
             //busca al nuevo padre padres 
             while(aux1 != nullptr && sup != aux1->ident){
-            aux1 = aux1->sig;
+                aux1 = aux1->sig;
             }
-            if(aux1->ident == sup){//ha encontrado al nuevo padre
+            if(aux1 != nullptr && aux1->ident == sup){//ha encontrado al nuevo padre
                 aux2->sup = sup;
                 aux1->numDep++;
             }else{
@@ -454,11 +455,12 @@ void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
             while(aux1 != nullptr && sup != aux1->ident && aux2->sup != aux1->ident){
                 aux1 = aux1->sig;
             }
+
             if(aux1 == nullptr){
                 //aqui no hace nada ya que no existe el nuevo padre por lo que no modifica nada
             }else if(aux1->ident == sup){//ha encontrado al nuevo padre
                 typename colecInterdep<I,V>::celdaColec* aux3 = aux1; //aux3 alamcena al nuevo padre
-                while(aux1->ident != aux2->sup){//busca al padre viejo no hay que poner nullptr ya que tiene que existir(si quieres ponlo tu)
+                while(aux1 != nullptr && aux1->ident != aux2->sup){//busca al padre viejo no hay que poner nullptr ya que tiene que existir(si quieres ponlo tu)
                     aux1 = aux1->sig;
                 }
                 aux1->numDep--;//padre antiguo
@@ -466,7 +468,7 @@ void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
                 aux2->sup = sup;//hijo
             }else if(aux2->sup == aux1->ident){//
                 typename colecInterdep<I,V>::celdaColec* aux3 = aux1; //aux3 alamcena al padre viejo
-                while(aux1 != nullptr && aux1->ident != aux2->sup){//busca al padre nuevo
+                while(aux1 != nullptr && sup != aux1->ident){//busca al padre nuevo
                     aux1 = aux1->sig;
                 }
                 if(aux1 ==nullptr){
@@ -501,7 +503,7 @@ void hacerIndependiente(colecInterdep<I,V>& c, I id){
                 while(aux1 != nullptr && aux1->ident != aux2->sup){
                     aux1 = aux1->sig;
                 }//llegas al antiguo padre
-                aux1->numDep --;
+                aux1->numDep--;
                 aux2->sup = "-";
             }
         }

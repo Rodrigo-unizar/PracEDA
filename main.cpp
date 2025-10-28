@@ -17,7 +17,7 @@ int main(){
     string instruccion, salto;
     string nombre_e, descripcion_e, dependencia, padre, prioridad;
     unsigned numDep;
-    f.open("pruebas.txt");  
+    f.open("entrada.txt");  
     g.open("salia.txt");
     while (f >> instruccion){
         getline(f, salto);
@@ -74,6 +74,7 @@ int main(){
             getline(f, nombre_e);
             if(existe(nombre_e,c)){
                 if(!existeIndependiente(nombre_e, c)){
+                    hacerIndependiente(c, nombre_e);
                     g << "INDEPENDIZADO: " << nombre_e << endl;
                 } else {
                     g << "YA ERA INDepend.: " << nombre_e << endl;
@@ -93,7 +94,7 @@ int main(){
                 e = siguienteVal(c);
                 numDep = siguienteNumDependientes(c);
                if(siguienteDependiente(c)){
-                    g << "[ " << nombre_e <<  " -de-> " << siguienteSuperior(c) << " ;;;  " << siguienteNumDependientes(c) << " ] --- " << descripcion(e) << " --- " << " ( " << suPrioridad(e) << " )" << endl;
+                    g << "[ " << nombre_e <<  " -de-> " << siguienteSuperior(c) << " ;;;  " << numDep << " ] --- " << descripcion(e) << " --- " << " ( " << suPrioridad(e) << " )" << endl;
                 } else {
                     g << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
                 }  

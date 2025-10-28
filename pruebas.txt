@@ -64,4 +64,6 @@ Dependiente
 noexistenadaqui
 E
 presencia_S008
+I
+AASAS
 LT
