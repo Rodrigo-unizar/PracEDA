@@ -93,7 +93,7 @@ int main(){
                 nombre_e = siguienteIdent(c);
                 e = siguienteVal(c);
                 numDep = siguienteNumDependientes(c);
-               if(siguienteDependiente(c)){
+                if(siguienteDependiente(c)){
                     g << "[ " << nombre_e <<  " -de-> " << siguienteSuperior(c) << " ;;;  " << numDep << " ] --- " << descripcion(e) << " --- " << " ( " << suPrioridad(e) << " )" << endl;
                 } else {
                     g << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;

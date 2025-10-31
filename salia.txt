@@ -1,27 +1,54 @@
 -----LISTADO: 0
 -----
 INTRODUCIDO: [ cierre_2025_10_6 ] --- Cierre del edificio --- ( 2 )
-INTRODUCIDO: [ instruccion2 ] --- Se ha caido el techo --- ( 1 )
-INTRODUCIDO: [ zzz ] --- Ultimo de la lista en teoria --- ( 44 )
-NO INTRODUCIDO: [ instruccion2 ] --- tu mama --- ( 88 )
-INTRODUCIDO: [ AASAS -de-> instruccion2 ] --- Rodrigo cabron --- ( 5 )
------LISTADO: 4
-[ AASAS -de-> instruccion2 ;;;  0 ] --- Rodrigo cabron ---  ( 5 )
+INTENTANDO hacer depend.: cierre_2025_10_6 -de-> cierre_2025_10_6
+NO INTRODUCIDO: [ ON_luces Z008 -de-> presencia_S008 ] --- Encendidas luces008, deteccion sensor presencia --- ( 2 )
+-----LISTADO: 1
 [ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
-[ instruccion2 --- 1 ] --- Se ha caido el techo --- ( 1 )
-[ zzz --- 0 ] --- Ultimo de la lista en teoria --- ( 44 )
 -----
-NO INTRODUCIDO: [ cierre_2025_10_6 ] --- Cierre del edificio --- ( 2 )
-DEPendiente: AASAS
-NO INTRODUCIDO: [ perico -de-> perico ] --- No doy una macho --- ( 7 )
-NO INTRODUCIDO: [ instruccion2 -de-> cierre_2025_10_6 ] --- mi bomboclat --- ( 3 )
-INTRODUCIDO: [ COSAS BARATAS ] --- Cierre del edificio --- ( 2 )
-NO INTRODUCIDO: [ Fuego -de-> noexistenadaqui ] --- No quiero que te añadas --- ( 22 )
-DESCONOCIDO: presencia_S008
------LISTADO: 5
-[ AASAS -de-> instruccion2 ;;;  0 ] --- Rodrigo cabron ---  ( 5 )
-[ COSAS BARATAS --- 0 ] --- Cierre del edificio --- ( 2 )
+INTRODUCIDO: [ Validacion_P001_exterior ] --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
+INTRODUCIDO: [ apertura_P001 -de-> Validacion_P001_exterior ] --- Abierta puerta P001  --- ( 3 )
+INTRODUCIDO: [ presencia_S008 ] --- Deteccion presencia, sensor S008 --- ( 3 )
+INTRODUCIDO: [ ON_luces Z008 -de-> presencia_S008 ] --- Encendidas luces008, deteccion sensor presencia --- ( 4 )
+INTRODUCIDO: [ OFF_luces Z008 -de-> ON_luces Z008 ] --- Apagadas luces zona 008, por expiracion tiempo --- ( 2 )
+-----LISTADO: 6
+[ OFF_luces Z008 -de-> ON_luces Z008 ;;;  0 ] --- Apagadas luces zona 008, por expiracion tiempo ---  ( 2 )
+[ ON_luces Z008 -de-> presencia_S008 ;;;  1 ] --- Encendidas luces008, deteccion sensor presencia ---  ( 4 )
+[ Validacion_P001_exterior --- 1 ] --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
+[ apertura_P001 -de-> Validacion_P001_exterior ;;;  0 ] --- Abierta puerta P001  ---  ( 3 )
 [ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
-[ instruccion2 --- 1 ] --- Se ha caido el techo --- ( 1 )
-[ zzz --- 0 ] --- Ultimo de la lista en teoria --- ( 44 )
+[ presencia_S008 --- 1 ] --- Deteccion presencia, sensor S008 --- ( 3 )
+-----
+INDEPendiente: presencia_S008
+DEPendiente: OFF_luces Z008
+DESCONOCIDO: apertura_2025_10_7
+-----LISTADO: 6
+[ OFF_luces Z008 -de-> ON_luces Z008 ;;;  0 ] --- Apagadas luces zona 008, por expiracion tiempo ---  ( 2 )
+[ ON_luces Z008 -de-> presencia_S008 ;;;  1 ] --- Encendidas luces008, deteccion sensor presencia ---  ( 4 )
+[ Validacion_P001_exterior --- 1 ] --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
+[ apertura_P001 -de-> Validacion_P001_exterior ;;;  0 ] --- Abierta puerta P001  ---  ( 3 )
+[ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
+[ presencia_S008 --- 1 ] --- Deteccion presencia, sensor S008 --- ( 3 )
+-----
+INTENTANDO hacer depend.: OFF_luces Z008 -de-> presencia_S008
+YA ERA INDepend.: Validacion_P001_exterior
+NO INDEPENDIZADO: apertura_2025_10_6
+INDEPENDIZADO: apertura_P001
+INTENTANDO hacer depend.: presencia_S008 -de-> apertura_P001
+IMPOSIBLE hacer depend.: cierre_2025_10_6 -de-> apertura_2025_10_6
+-----LISTADO: 6
+[ OFF_luces Z008 -de-> presencia_S008 ;;;  0 ] --- Apagadas luces zona 008, por expiracion tiempo ---  ( 2 )
+[ ON_luces Z008 -de-> presencia_S008 ;;;  0 ] --- Encendidas luces008, deteccion sensor presencia ---  ( 4 )
+[ Validacion_P001_exterior --- 0 ] --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
+[ apertura_P001 --- 1 ] --- Abierta puerta P001  --- ( 3 )
+[ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
+[ presencia_S008 -de-> apertura_P001 ;;;  2 ] --- Deteccion presencia, sensor S008 ---  ( 3 )
+-----
+-----LISTADO: 6
+[ OFF_luces Z008 -de-> presencia_S008 ;;;  0 ] --- Apagadas luces zona 008, por expiracion tiempo ---  ( 2 )
+[ ON_luces Z008 -de-> presencia_S008 ;;;  0 ] --- Encendidas luces008, deteccion sensor presencia ---  ( 4 )
+[ Validacion_P001_exterior --- 0 ] --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
+[ apertura_P001 --- 1 ] --- Abierta puerta P001  --- ( 3 )
+[ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
+[ presencia_S008 -de-> apertura_P001 ;;;  2 ] --- Deteccion presencia, sensor S008 ---  ( 3 )
 -----

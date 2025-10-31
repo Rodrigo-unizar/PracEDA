@@ -174,7 +174,7 @@ struct colecInterdep{
     struct celdaColec{  //{cada elemento de la colección se almacena en una celda}
         I ident;            //ident contiene la cadena correspondiente al nombre del evento 
         V valor;            //valor es de tipo genérico, en este caso lo utilizaremos con el TAD evento
-        I sup;              //sup contiene la cadena correspodiente al nombre del evento superior (del que depende este), si no depende (-) 
+        celdaColec* sup;             //sup contiene la cadena correspodiente al nombre del evento superior (del que depende este), si no depende (-) 
         unsigned numDep;    //numDep contiene el natural correspondiente el numero de eventos dependientes de este
         celdaColec* sig;    //sig es un puntero dirigido a la siguiente celda de la lista enlazada
     };
@@ -244,7 +244,7 @@ bool existeDependiente(I id, colecInterdep<I,V>& c){
         while(aux != nullptr && aux->ident != id){
             aux = aux->sig;
         }
-        if(aux != nullptr && aux->sup == "-"){
+        if(aux != nullptr && aux->sup == nullptr){
             return false;
         }else{
             return true;
@@ -264,7 +264,7 @@ bool existeIndependiente(I id, colecInterdep<I,V>& c){
         while(aux != nullptr && aux->ident != id){
             aux = aux->sig;
         }
-        if(aux != nullptr && aux->sup == "-"){
+        if(aux != nullptr && aux->sup == nullptr){
             return true;
         }
     }
@@ -302,7 +302,7 @@ void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
         nuevoNodo = new typename colecInterdep<I,V>::celdaColec;
         nuevoNodo->ident = id;
         nuevoNodo->valor = v;
-        nuevoNodo->sup = "-";
+        nuevoNodo->sup = nullptr;
         nuevoNodo->numDep = 0;
         c.tamanio++;
 
@@ -373,7 +373,7 @@ void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
         nuevoNodo = new typename colecInterdep<I,V>::celdaColec;
         nuevoNodo->ident = id;
         nuevoNodo->valor = v;
-        nuevoNodo->sup = sup;
+        nuevoNodo->sup = nodoSup;    //el puntero 'sup' apunta al nodo 'sup' encontrado
         nuevoNodo->numDep = 0;
 
         if(prev == nullptr){        //si el nuevo 'id' es menor que c.primero->ident hay que añadirlo el primero de la lsita
@@ -400,83 +400,43 @@ void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
         aux1 = aux1->sig;
     }
 
-    if(aux1 != nullptr && aux1->ident == sup){ //si encuentra al padre nuevo lo guarda en aux2 y busca el "hijo" 
-        typename colecInterdep<I,V>::celdaColec* aux2 = aux1; //nuevo padre en aux2
-
-        while(aux1 != nullptr && id != aux1->ident){
-            aux1 = aux1->sig;
-        }
-
-        if(aux1 == nullptr){
-            //si entra aqui es que no hay hijo por lo que no tine que hacer nada
-        }else{
-            //Antes era independiente
-            if(aux1->sup == "-"){
-                aux1->sup = sup;
-                aux2->numDep++;
-            }else{//antes era dependiente
-                typename colecInterdep<I,V>::celdaColec* aux3 = aux1; //aux3 alamcena el hijo 
-                if(aux3->sup < sup){//si el padre anterior esta antes de encontrar al nuevo padre
-                    aux1 = c.primero; //iteras desde el principio hasta el nuevo padre
-                }else if(aux3->sup < id){ //esta entre el padre nuevo y el hijo 
-                    aux1 = aux2;//iteras desde el nuevo padre
-                }//sino iteras desde el hijo hasta el final
-                //como ya era padre asumiendo que no estan mal las operaciones anteriores ==> existe
-                
-                while(aux1 != nullptr && aux1->ident != aux3->sup){
+    if(aux1 != nullptr){
+        typename colecInterdep<I,V>::celdaColec* aux2 = aux1;
+        if(aux2->ident == id){
+            //es el hijo
+            if(aux2->sup == nullptr){//era independiente
+                //buscas al padre
+                while(aux1 != nullptr && aux1->ident != sup){
                     aux1 = aux1->sig;
+                }//llegas al padre
+                if(aux1 != nullptr){
+                    aux1->numDep++;
+                    aux2->sup = aux1;
                 }
-                aux1->numDep--;//padre antiguo
-                aux2->numDep++;//nuevo padre
-                aux3->sup = sup;//hijo
-
-            }
-        }
-
-    } else if(aux1 != nullptr && aux1->ident == id){
-        if(aux1->sup == "-"){//el hijo es independiente?
-            typename colecInterdep<I,V>::celdaColec* aux2 = aux1;  //aux2 hijo
-            //busca al nuevo padre padres 
-            while(aux1 != nullptr && sup != aux1->ident){
-                aux1 = aux1->sig;
-            }
-            if(aux1 != nullptr && aux1->ident == sup){//ha encontrado al nuevo padre
-                aux2->sup = sup;
-                aux1->numDep++;
             }else{
-                //no hay nuevo padre entonces no hace nada 
+                while(aux1 != nullptr && aux1->ident != sup){
+                    aux1 = aux1->sig;
+                }//llegas al padre
+                if(aux1 != nullptr){
+                    aux1->numDep++;
+                    aux2->sup->numDep--; 
+                    aux2->sup = aux1;
+                }
             }
         }else{
-            typename colecInterdep<I,V>::celdaColec* aux2 = aux1;//aux2 hijo
-            //busca cualquiera de los padres (se podria quitar de aqui el nullptr ya que el padre antigua tiene que existir)
-            if(aux1->sup < sup){//si el padre anterior esta antes se vuelve a empezasr 
-                aux1 = c.primero;
-            }
-            while(aux1 != nullptr && sup != aux1->ident && aux2->sup != aux1->ident){
+            //es el padre
+            //buscas al hijo
+            while(aux1 != nullptr && aux1->ident != id){
                 aux1 = aux1->sig;
-            }
-
-            if(aux1 == nullptr){
-                //aqui no hace nada ya que no existe el nuevo padre por lo que no modifica nada
-            }else if(aux1->ident == sup){//ha encontrado al nuevo padre
-                typename colecInterdep<I,V>::celdaColec* aux3 = aux1; //aux3 alamcena al nuevo padre
-                while(aux1 != nullptr && aux1->ident != aux2->sup){//busca al padre viejo no hay que poner nullptr ya que tiene que existir(si quieres ponlo tu)
-                    aux1 = aux1->sig;
-                }
-                aux1->numDep--;//padre antiguo
-                aux3->numDep++;//nuevo padre
-                aux2->sup = sup;//hijo
-            }else if(aux2->sup == aux1->ident){//
-                typename colecInterdep<I,V>::celdaColec* aux3 = aux1; //aux3 alamcena al padre viejo
-                while(aux1 != nullptr && sup != aux1->ident){//busca al padre nuevo
-                    aux1 = aux1->sig;
-                }
-                if(aux1 ==nullptr){
-                    //aqui no hace nada ya que no existe el nuevo padre por lo que no modifica nada
-                }else{
-                    aux3->numDep--;//padre antiguo
-                    aux1->numDep++;//nuevo padre
-                    aux2->sup = sup;//hijo
+            }//llegas al hijo
+            if(aux1 != nullptr){
+                if(aux1->sup != nullptr){
+                    aux1->sup->numDep--; 
+                    aux2->numDep++;
+                    aux1->sup = aux2;
+                }else{//independiente
+                    aux2->numDep++;
+                    aux1->sup = aux2;
                 }
             }
         }
@@ -492,20 +452,9 @@ void hacerIndependiente(colecInterdep<I,V>& c, I id){
         while(aux1 != nullptr && aux1->ident != id){
             aux1 = aux1->sig;
         }//localizas al que quieres hacer independiente
-        if(aux1 != nullptr){
-            typename colecInterdep<I,V>::celdaColec* aux2 = aux1;
-            if(aux2->sup == "-"){
-                //ya es independiente ==> no hace nada
-            }else{
-                if(aux2->sup < id){
-                    aux1 = c.primero;
-                }
-                while(aux1 != nullptr && aux1->ident != aux2->sup){
-                    aux1 = aux1->sig;
-                }//llegas al antiguo padre
-                aux1->numDep--;
-                aux2->sup = "-";
-            }
+        if(aux1 != nullptr && aux1->sup != nullptr){
+            aux1->sup->numDep--; 
+            aux1->sup = nullptr;
         }
     }
 }
@@ -564,7 +513,7 @@ V siguienteVal(colecInterdep<I,V>& c){
 template<typename I, typename V> 
 bool siguienteDependiente(colecInterdep<I,V>& c){
     if(existeSiguiente(c)){
-        return c.iter->sup != "-";
+        return c.iter->sup != nullptr;
     }
     return false;
 }
@@ -577,7 +526,7 @@ bool siguienteDependiente(colecInterdep<I,V>& c){
 template<typename I, typename V>
 I siguienteSuperior(colecInterdep<I,V>& c){
     if(siguienteDependiente(c)){
-        return c.iter->sup;
+        return c.iter->sup->ident;
     }
     return "";
 }
