@@ -1,0 +1,69 @@
+LT
+A
+cierre_2025_10_6
+Cierre del edificio
+2
+INDependiente
+-.-.-.-.-
+A
+instruccion2
+Se ha caido el techo
+1
+INDependiente
+-.-.-.-.-
+A
+zzz
+Ultimo de la lista en teoria
+44
+INDependiente
+-.-.-.-.-
+A
+instruccion2
+tu mama
+88
+INDependiente
+-.-.-.-.-
+A
+AASAS
+Rodrigo cabron
+5
+Dependiente
+instruccion2
+LT
+A
+cierre_2025_10_6
+Cierre del edificio
+2
+INDependiente
+-.-.-.-.-
+E
+AASAS
+A
+perico
+No doy una macho
+7
+Dependiente
+perico
+A
+instruccion2
+mi bomboclat
+3
+Dependiente
+cierre_2025_10_6
+A
+COSAS BARATAS
+Cierre del edificio
+2
+INDependiente
+-.-.-.-.-
+A
+Fuego
+No quiero que te añadas
+22
+Dependiente
+noexistenadaqui
+E
+presencia_S008
+I
+AASAS
+LT
