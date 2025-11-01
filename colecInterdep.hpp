@@ -81,11 +81,14 @@ template<typename I, typename V> void hacerDependiente(colecInterdep<I,V>& c, I 
 
 
 template<typename I, typename V> void hacerIndependiente(colecInterdep<I,V>& c, I id);
-/*
-template<typename I, typename V> void actualizarVal(colecInterdep<I,V>& c, I id, V v);
 
-template<typename I, typename V> void obtenerVal(colecInterdep<I,V>& c, I id, V v);
-*/
+template<typename I, typename V> bool actualizarVal(colecInterdep<I,V>& c, I id, V v);
+
+template<typename I, typename V> V obtenerVal(I id, colecInterdep<I,V>& c, bool& error);
+
+template<typename I, typename V> I obtenerSupervisor(I id, colecInterdep<I,V>& c, bool& error);
+
+template<typename I, typename V> unsigned obtenerNumDependientes(I id, colecInterdep<I,V>& c, bool& error);
 
 
 //Operaciones iterador
@@ -157,6 +160,10 @@ struct colecInterdep{
     friend void aniadirDependiente<I,V>(colecInterdep<I,V>& c, I id,V v, I sup);
     friend void hacerDependiente<I,V>(colecInterdep<I,V>& c, I id, I sup);
     friend void hacerIndependiente<I,V>(colecInterdep<I,V>& c, I id);
+    friend bool actualizarVal<I,V>(colecInterdep<I,V>& c, I id, V v);
+    friend V obtenerVal<I,V>(I id, colecInterdep<I,V>& c, bool& error);
+    friend I obtenerSupervisor<I,V>(I id, colecInterdep<I,V>& c, bool& error);
+    friend unsigned obtenerNumDependientes<I,V>(I id, colecInterdep<I,V>& c, bool& error);
 
     //Operaciones iterador
 
@@ -456,6 +463,92 @@ void hacerIndependiente(colecInterdep<I,V>& c, I id){
             aux1->sup->numDep--; 
             aux1->sup = nullptr;
         }
+    }
+}
+
+template<typename I, typename V> 
+bool actualizarVal(colecInterdep<I,V>& c, I id, V v){
+    if(esVacia(c)){     //si la colección es vacía no puede existir un nodo con identificador "id"
+        return false;
+    } else {
+        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
+        while(aux1 != nullptr && aux1->ident != id){          //buscamos la celda con indentificador "id"
+            aux1 = aux1->sig;
+        }
+
+        if(aux1 == nullptr){        //si llegamos hasta el final significa que no existe
+            return false;
+        } else if(aux1 != nullptr && aux1->ident == id){    //comprobamos que realmente estamos en el caso que queremos estar
+            aux1->valor = v;     //cambiamos el valor sin tener en cuenta si es dep o indep porque no hace falta
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+template<typename I, typename V> 
+V obtenerVal(I id, colecInterdep<I,V>& c, bool& error){
+    if(esVacia(c)){
+        error = true;
+    } else {
+        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
+        while(aux1 != nullptr && aux1->ident != id){          //buscamos la celda con indentificador "id"
+            aux1 = aux1->sig;
+        }
+
+        if(aux1 == nullptr){        //si llegamos hasta el final significa que no existe (se puede optimizar este bucle con 1 solo if en verdad)
+            error = true;
+        } else if(aux1 != nullptr && aux1->ident == id){    //comprobamos que realmente estamos en el caso que queremos estar
+            error = false;
+            return aux1->valor;     //devolvemos el valor y actualizamos error a falso
+        } else {
+            error = true;
+        }
+    }
+}
+
+template<typename I, typename V> 
+I obtenerSupervisor(I id, colecInterdep<I,V>& c, bool& error){
+    if(esVacia(c)){
+        error = true;
+    } else {
+        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
+        while(aux1 != nullptr && aux1->ident != id){          //buscamos la celda con indentificador "id"
+            aux1 = aux1->sig;
+        }
+
+        if(aux1 == nullptr){       //si llegamos hasta el final significa que no existe (se puede optimizar este bucle con 1 solo if en verdad)
+            error = true;
+        } else if(aux1 != nullptr && aux1->ident == id && aux1->sup != nullptr){ //comprobamos que la celda existe y es dependiente
+            error = false;
+            return aux1->sup->ident;
+        } else {
+            error = true;
+        }
+    }
+    return "";
+}
+
+template<typename I, typename V> 
+unsigned obtenerNumDependientes(I id, colecInterdep<I,V>& c, bool& error){
+    if(esVacia(c)){
+        error = true;
+    } else {
+        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
+        while(aux1 != nullptr && aux1->ident != id){          //buscamos la celda con indentificador "id"
+            aux1 = aux1->sig;
+        }
+
+        if(aux1 == nullptr){       //si llegamos hasta el final significa que no existe (se puede optimizar este bucle con 1 solo if en verdad)
+            error = true;
+        } else if(aux1 != nullptr && aux1->ident == id){ //comprobamos que la celda existe y es dependiente
+            error = false;
+            return aux1->numDep;
+        } else {
+            error = true;
+        }
+
     }
 }
 

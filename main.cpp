@@ -10,13 +10,15 @@ int main(){
     ifstream f;
     ofstream g;
     colecInterdep<string, evento> c;
-    evento e;
+    evento e, eDP;
 
     crear(c);
 
     string instruccion, salto;
-    string nombre_e, descripcion_e, dependencia, padre, prioridad;
-    unsigned numDep;
+    string nombre_e, descripcion_e, dependencia, padre, prioridad, nombre_dep, supDep;
+    unsigned numDep, numDepDP;
+    int i = 1;
+    bool error = false;
     f.open("entrada.txt");  
     g.open("salia.txt");
     while (f >> instruccion){
@@ -48,7 +50,28 @@ int main(){
                 }  
             }
         } else if (instruccion == "C"){
-            ;
+            getline(f, nombre_e);
+            getline(f, descripcion_e);
+            getline(f, prioridad);
+
+            crearEvento(descripcion_e, stoi(prioridad), e);
+
+            if(actualizarVal(c, nombre_e, e)){
+                numDep = obtenerNumDependientes(nombre_e, c, error);
+                if(existeIndependiente(nombre_e, c) && !error){
+                    g << "CAMBIADO: " << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+                } else {
+                    if(!error){
+                        padre = obtenerSupervisor(nombre_e, c, error);
+                        if(!error){
+                            g << "CAMBIADO: [ " << nombre_e << " -de-> " << padre << " ;;; " << numDep << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
+                        }
+                    }
+                }
+            } else {
+                g << "NO CAMBIADO: " << nombre_e << endl;
+            }
+
         } else if (instruccion == "D"){
             getline(f, nombre_e);
             getline(f, padre);
@@ -60,7 +83,20 @@ int main(){
                 g << "IMPOSIBLE hacer depend.: " << nombre_e << " -de-> " << padre << endl;
             }
         } else if (instruccion == "O"){
-            ;
+            getline(f, nombre_e);
+
+            if(existe(nombre_e, c)){            //si existe el "id" en la coleccion no hay que preocuparse por los errores
+                numDep = obtenerNumDependientes(nombre_e, c, error);
+                e = obtenerVal(nombre_e, c, error);
+                if(existeIndependiente(nombre_e, c)){
+                    g << "LOCALIZADO: " << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
+                } else {
+                    descripcion_e = obtenerSupervisor(nombre_e, c, error);
+                    g << "LOCALIZADO: [ " << nombre_e << " -de-> " << padre << " ;;; " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
+                }
+            } else {
+                g << "NO LOCALIZADO: " << nombre_e << endl;
+            }
         } else if (instruccion == "E"){
             getline(f, nombre_e);
             if(existeIndependiente(nombre_e, c)){
@@ -85,8 +121,47 @@ int main(){
         } else if (instruccion == "B"){
             ;
         } else if (instruccion == "LD"){
-            ;
-        } else if (instruccion == "LT"){
+            getline(f, nombre_e);
+            g << "****DEPENDIENTES: " << nombre_e << endl;
+
+            if(existe(nombre_e, c)){
+                numDep = obtenerNumDependientes(nombre_e, c, error);
+                e = obtenerVal(nombre_e, c, error);
+
+                if(existeIndependiente(nombre_e, c) && !error){
+                    g << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " ) ****" << endl;
+                } else {
+                    padre = obtenerSupervisor(nombre_e, c, error);
+                    g << "[ " << nombre_e << " -de-> " << padre << " ;;; " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " ) ****" << endl;
+                }
+
+                iniciarIterador(c);
+                i = 1;                                  //cada vez que llamamos a "LD" tiene que volver al inicio
+                while(existeSiguiente(c)){
+                    nombre_dep = siguienteIdent(c);  
+                    supDep = siguienteSuperior(c);
+                    if(siguienteDependiente(c) &&  supDep == nombre_e){             //si su superior es igual al nombre del evento, es que depende de él
+                        numDepDP = obtenerNumDependientes(nombre_dep, c, error);
+                        eDP = obtenerVal(nombre_dep, c, error);
+
+                        if(existeIndependiente(nombre_dep, c)){
+                            g << "[" << i << " -> " << nombre_dep << " --- " << numDepDP << " ] --- " << descripcion(eDP) << " --- ( " << suPrioridad(eDP) << " ) ;;;;" << endl;
+                            i++;
+                        } else {
+                            g << "[" << i << " -> " << nombre_dep << " -de-> " << supDep << " ;;;  " << numDepDP << " ] --- " << descripcion(eDP) << " --- ( " << suPrioridad(eDP) << " ) ;;;;" << endl;
+                            i++;
+                        }
+                    }
+                    avanza(c);
+                }
+
+                g << "****FINAL dependientes -de-> " << nombre_e << endl;
+
+            } else {
+                g << "****DESCONOCIDO" << endl;
+            }
+
+        } else if(instruccion == "LT"){
             g << "-----LISTADO: " << tamanio(c) <<endl;  
             iniciarIterador(c);
             while(existeSiguiente(c)){
@@ -94,7 +169,7 @@ int main(){
                 e = siguienteVal(c);
                 numDep = siguienteNumDependientes(c);
                 if(siguienteDependiente(c)){
-                    g << "[ " << nombre_e <<  " -de-> " << siguienteSuperior(c) << " ;;;  " << numDep << " ] --- " << descripcion(e) << " --- " << " ( " << suPrioridad(e) << " )" << endl;
+                    g << "[ " << nombre_e <<  " -de-> " << siguienteSuperior(c) << " ;;;  " << numDep << " ] --- " << descripcion(e) << " --- " << "( " << suPrioridad(e) << " )" << endl;
                 } else {
                     g << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
                 }  
