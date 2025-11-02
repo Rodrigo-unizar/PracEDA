@@ -76,20 +76,70 @@ template<typename I, typename V> void aniadirIndependiente(colecInterdep<I,V>& c
 */
 template<typename I, typename V> void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup);
 
-
+/*
+* Si no igual(id, super) y existe?(super, c) y existeDependiente?(id, c), devuelve una colección igual a la resultante de:
+*   - incrementar en 1 el número de elementos dependientes del elemento con identificador super en c,
+*   - decrementar en 1 el número de elementos dependientes del elemento con identificador superAnt en c,
+*   - sustituir el elemento (id, v, superAnt, NumDep) por el elemento (id, v, super, NumDep) en c.
+*
+* Si no igual(id, super) y existe?(super, c) y no existeIndependiente?(id, c),
+* sea su forma (id, v, -, NumDep), devuelve una colección igual a la resultante de:
+*   - incrementar en 1 el número de elementos dependientes del elemento con identificador super en c,
+*   - sustituir en c el elemento (id, v, -, NumDep) por el elemento (id, v, super, NumDep).
+*
+* En cualquier otro caso, devuelve una colección igual a c.
+*/
 template<typename I, typename V> void hacerDependiente(colecInterdep<I,V>& c, I id, I sup);
 
-
+/*
+* Si existe?(id,c) y el elemento con identificador id es dependiente,
+* devuelve una colección igual a la resultante de:
+*   - establecer el identificador del supervisor del elemento id como vacío (‘-’),
+*   - decrementar en 1 el número de dependientes del antiguo supervisor de id.
+* En cualquier otro caso, devuelve una colección igual a c.
+*/
 template<typename I, typename V> void hacerIndependiente(colecInterdep<I,V>& c, I id);
 
+/*
+*Operación parcial
+* Si existe?(id,c), devuelve una colección igual a la resultante de actualizar
+* el valor del elemento con identificador id en c con el valor v.
+* En caso contrario, devuelve una colección igual a c.
+* Devuelve true si la actualización se ha realizado y falso en caso contrario.
+*/
 template<typename I, typename V> bool actualizarVal(colecInterdep<I,V>& c, I id, V v);
 
+/*
+*Operación parcial
+* Si existe?(id,c), devuelve el valor asociado al elemento con identificador id en c,
+* y asigna a error el valor falso.
+* En caso contrario, devuelve un valor indeterminado y asigna a error el valor verdadero.
+*/
 template<typename I, typename V> V obtenerVal(I id, colecInterdep<I,V>& c, bool& error);
 
+/*
+*Operación parcial
+* Si existe?(id,c) y el elemento con identificador id es dependiente,
+* devuelve el identificador de su supervisor y asigna a error el valor falso.
+* En cualquier otro caso (si no existe o es independiente),
+* devuelve un valor indeterminado y asigna a error el valor verdadero.
+*/
 template<typename I, typename V> I obtenerSupervisor(I id, colecInterdep<I,V>& c, bool& error);
 
+/*
+*Operación parcial
+* Si existe?(id,c), devuelve el número de dependientes del elemento con identificador id en c,
+* y asigna a error el valor falso.
+* En caso contrario, devuelve un valor indeterminado y asigna a error el valor verdadero.
+*/
 template<typename I, typename V> unsigned obtenerNumDependientes(I id, colecInterdep<I,V>& c, bool& error);
 
+/*
+* Si existe?(id,c), devuelve una colección igual a la resultante de eliminar el elemento
+* con identificador id de c. Si dicho elemento es supervisor, sus dependientes pasan a ser
+* independientes y se ajustan los contadores correspondientes.
+* En caso contrario, devuelve una colección igual a c.
+*/
 template<typename I, typename V> void borrar(I id, colecInterdep<I,V>& c);
 
 
