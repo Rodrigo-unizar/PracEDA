@@ -90,6 +90,8 @@ template<typename I, typename V> I obtenerSupervisor(I id, colecInterdep<I,V>& c
 
 template<typename I, typename V> unsigned obtenerNumDependientes(I id, colecInterdep<I,V>& c, bool& error);
 
+template<typename I, typename V> void borrar(I id, colecInterdep<I,V>& c);
+
 
 //Operaciones iterador
 
@@ -164,6 +166,7 @@ struct colecInterdep{
     friend V obtenerVal<I,V>(I id, colecInterdep<I,V>& c, bool& error);
     friend I obtenerSupervisor<I,V>(I id, colecInterdep<I,V>& c, bool& error);
     friend unsigned obtenerNumDependientes<I,V>(I id, colecInterdep<I,V>& c, bool& error);
+    friend void borrar<I,V>(I id, colecInterdep<I,V>& c);
 
     //Operaciones iterador
 
@@ -506,6 +509,7 @@ V obtenerVal(I id, colecInterdep<I,V>& c, bool& error){
             error = true;
         }
     }
+    return V();
 }
 
 template<typename I, typename V> 
@@ -527,7 +531,7 @@ I obtenerSupervisor(I id, colecInterdep<I,V>& c, bool& error){
             error = true;
         }
     }
-    return "";
+    return I();
 }
 
 template<typename I, typename V> 
@@ -549,6 +553,39 @@ unsigned obtenerNumDependientes(I id, colecInterdep<I,V>& c, bool& error){
             error = true;
         }
 
+    }
+    return 0;
+}
+
+template<typename I, typename V> 
+void borrar(I id, colecInterdep<I,V>& c){
+    if(!esVacia(c)){
+        typename colecInterdep<I,V>::celdaColec* ante = nullptr; 
+        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
+
+        while(aux1 != nullptr && aux1->ident < id){
+            ante = aux1;    
+            aux1 = aux1->sig; 
+        }
+
+        if(aux1 != nullptr && aux1->ident == id){ //si lo encontramos
+            //es el que queremos borrar
+            if(ante == nullptr){ //es el primero
+                c.primero = aux1->sig;
+            }else{
+                ante->sig =  aux1->sig;
+            }
+            //ahora hay que actualizar los numDep de los que dependian de este
+            typename colecInterdep<I,V>::celdaColec* aux2 = c.primero;
+            while(aux2 != nullptr){
+                if(aux2->sup != nullptr && aux2->sup->ident == id){
+                    aux2->sup = nullptr;
+                }
+                aux2 = aux2->sig;
+            }
+            delete aux1;
+            c.tamanio--;
+        } 
     }
 }
 
@@ -584,6 +621,7 @@ I siguienteIdent(colecInterdep<I,V>& c){
         //typename colecInterdep<I>::celdaColec* aux = c.iter->sig;
         return c.iter->ident;
     }
+    return I();
 }
 
 /*
@@ -596,6 +634,7 @@ V siguienteVal(colecInterdep<I,V>& c){
         //typename colecInterdep<I>::celdaColec* aux = c.iter->sig;
         return c.iter->valor;
     }
+    return V();
 }
 
 /*
@@ -621,7 +660,7 @@ I siguienteSuperior(colecInterdep<I,V>& c){
     if(siguienteDependiente(c)){
         return c.iter->sup->ident;
     }
-    return "";
+    return I();
 }
 
 /*
@@ -633,6 +672,7 @@ unsigned siguienteNumDependientes(colecInterdep<I,V>& c){
     if(existeSiguiente(c)){
         return c.iter->numDep;
     }
+    return 0;
 }
 
 /*

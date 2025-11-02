@@ -119,7 +119,13 @@ int main(){
                 g << "NO INDEPENDIZADO: " << nombre_e << endl;
             }
         } else if (instruccion == "B"){
-            ;
+            getline(f, nombre_e);
+            if(existe(nombre_e,c)){
+                borrar(nombre_e, c);
+                g << "BORRADO: " << nombre_e << endl;
+            } else {
+                g << "NO BORRADO: " << nombre_e << endl;
+            }
         } else if (instruccion == "LD"){
             getline(f, nombre_e);
             g << "****DEPENDIENTES: " << nombre_e << endl;
