@@ -569,25 +569,34 @@ void borrar(I id, colecInterdep<I,V>& c){
         }
 
         if(aux1 != nullptr && aux1->ident == id){ //si lo encontramos
+            
+            if(aux1->sup != nullptr){   //si es dependiente decrementamos en 1 los numDep del superior ANTES DE BORRAR MIRA EL ENUNCIADO
+                aux1->sup->numDep--;
+            }
+            
             //es el que queremos borrar
             if(ante == nullptr){ //es el primero
                 c.primero = aux1->sig;
             }else{
                 ante->sig =  aux1->sig;
             }
+        
             //ahora hay que actualizar los numDep de los que dependian de este
+            /*
             typename colecInterdep<I,V>::celdaColec* aux2 = c.primero;
             while(aux2 != nullptr){
-                if(aux2->sup != nullptr && aux2->sup->ident == id){
+                if(aux2->sup != nullptr && aux2->sup->ident == id){  //si es indep. y su superior es id ¿lo borras?
                     aux2->sup = nullptr;
                 }
                 aux2 = aux2->sig;
             }
+            */
             delete aux1;
             c.tamanio--;
         } 
     }
 }
+
 
 //OPERACIONES ITERADOR
 

@@ -120,9 +120,11 @@ int main(){
             }
         } else if (instruccion == "B"){
             getline(f, nombre_e);
-            if(existe(nombre_e,c)){
-                borrar(nombre_e, c);
-                g << "BORRADO: " << nombre_e << endl;
+            if(existe(nombre_e,c) && obtenerNumDependientes(nombre_e, c, error) == 0){
+                if(!error){
+                    borrar(nombre_e, c);
+                    g << "BORRADO: " << nombre_e << endl;
+                }
             } else {
                 g << "NO BORRADO: " << nombre_e << endl;
             }
@@ -146,7 +148,7 @@ int main(){
                 while(existeSiguiente(c)){
                     nombre_dep = siguienteIdent(c);  
                     supDep = siguienteSuperior(c);
-                    if(siguienteDependiente(c) &&  supDep == nombre_e){             //si su superior es igual al nombre del evento, es que depende de él
+                    if(siguienteDependiente(c) && supDep == nombre_e){             //si su superior es igual al nombre del evento, es que depende de él
                         numDepDP = obtenerNumDependientes(nombre_dep, c, error);
                         eDP = obtenerVal(nombre_dep, c, error);
 

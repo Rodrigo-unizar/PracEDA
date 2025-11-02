@@ -67,3 +67,73 @@ presencia_S008
 I
 AASAS
 LT
+O
+instruccion2
+O
+noexistenadaqui
+D
+instruccion2
+AASAS
+O
+instruccion2
+E
+AASAS
+E
+instruccion2
+LD
+instruccion2
+C
+AASAS
+Cambiamos la descripcion porque me apetece
+55
+B
+instruccion2
+D
+AASAS
+COSAS BARATAS
+O
+cierre_2025_10_6
+D
+cierre_2025_10_6
+COSAS BARATAS
+B
+AASAS
+B
+perico
+A
+0_PrimeroI
+Este tio es independiente 
+444
+INDependiente
+-.-.-.-.-
+A
+1_PrimeroD
+Este tio es el primer dependiente
+1
+DEPendiente
+0_PrimeroI
+A
+2_SegundoD
+Este sera el segundo dependiente
+2
+DEPendiente
+0_PrimeroI
+A
+3_PrimerSegundoD
+Este es el primer dependiente de 2_SegundoD
+23
+DEPendiente
+2_SegundoD
+B
+0_PrimeroI
+B
+2_SegundoD
+LT
+B
+3_PrimerSegundoD
+B
+0_PrimeroI
+B
+2_SegundoD
+LT
+LT
