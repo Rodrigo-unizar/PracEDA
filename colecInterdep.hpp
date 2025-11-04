@@ -152,7 +152,7 @@ template<typename I, typename V> unsigned obtenerNumDependientes(I id, colecInte
 *
 * En cualquier otro caso, devuelve falso y mantiene una coleccion igual a c.
 */
-template<typename I, typename V> bool borrar(I id, colecInterdep<I,V>& c);
+template<typename I, typename V> void borrar(I id, colecInterdep<I,V>& c);
 
 
 //Operaciones iterador
@@ -230,7 +230,7 @@ struct colecInterdep{
     friend V obtenerVal<I,V>(I id, colecInterdep<I,V>& c, bool& error);
     friend I obtenerSupervisor<I,V>(I id, colecInterdep<I,V>& c, bool& error);
     friend unsigned obtenerNumDependientes<I,V>(I id, colecInterdep<I,V>& c, bool& error);
-    friend bool borrar<I,V>(I id, colecInterdep<I,V>& c);
+    friend void borrar<I,V>(I id, colecInterdep<I,V>& c);
 
     //Operaciones iterador
 
@@ -674,7 +674,7 @@ unsigned obtenerNumDependientes(I id, colecInterdep<I,V>& c, bool& error){
 * En caso contrario, devuelve una colección igual a c.
 */
 template<typename I, typename V> 
-bool borrar(I id, colecInterdep<I,V>& c){
+void borrar(I id, colecInterdep<I,V>& c){
     if(!esVacia(c)){
         typename colecInterdep<I,V>::celdaColec* ante = nullptr; 
         typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
@@ -699,10 +699,8 @@ bool borrar(I id, colecInterdep<I,V>& c){
         
             delete aux1;
             c.tamanio--;
-            return true;
         } 
     }
-    return false;
 }
 
 

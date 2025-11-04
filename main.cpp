@@ -19,7 +19,7 @@ int main(){
     unsigned numDep, numDepDP;
     int i = 1;
     bool error = false;
-    f.open("pruebas.txt");  
+    f.open("entrada.txt");  
     g.open("salia.txt");
     while (f >> instruccion){
         getline(f, salto);
@@ -120,9 +120,14 @@ int main(){
             }
         } else if (instruccion == "B"){
             getline(f, nombre_e);
-            if(borrar(nombre_e, c)){    //realmente no hace falta ver si existe ya que lo mira el borrar
-                g << "BORRADO: " << nombre_e << endl;
-            } else {
+            if(existe(nombre_e, c)){
+                borrar(nombre_e, c);
+                if(!existe(nombre_e, c)){  //realmente no hace falta ver si existe ya que lo mira el borrar
+                    g << "BORRADO: " << nombre_e << endl;
+                } else {
+                    g << "NO BORRADO: " << nombre_e << endl;
+                }
+            }else{
                 g << "NO BORRADO: " << nombre_e << endl;
             }
         } else if (instruccion == "LD"){
