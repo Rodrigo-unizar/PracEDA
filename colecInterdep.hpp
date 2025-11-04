@@ -11,25 +11,26 @@ using namespace std;
 // PREDECLARACION DEL TAD GENERICO colecInterdep (inicio INTERFAZ)
 
 
-//Hacer esta primera espec mejor, falta añadir alguna cosa que otra (operaiones del tipo I (== y ><>=<=)) 
-
 /*
-* Los valores del TAD colecInterdep representan colecciones de elementos formados como tuplas
-* de la forma (ident, val, -, NumDepend) o bien (ident, val, identSup, NumDepend). A los elementos
-* con forma (ident, val, -, NumDepend) los llamaremos en general ‘elementos independientes’,
-* mientras que a los elementos con forma (ident, val, identSup, NumDepend), los llamaremos en general ‘elementos dependientes’.
-
-* En la colección no podrá haber dos elementos con el mismo ident. Además, se requiere que 
-* el género ident tenga definidas las operaciones igual y anterior, que definen una relación de orden total.
-* Por ejemplo, permiten organizar los datos de la colección en forma de secuencia ordenada.
-* En las tuplas que representan elementos dependientes, la información identSup será la 
-* identificación del elemento del que es directamente dependiente el elemento con identificación
-* ident. Ningún elemento de la colección podrá ser directamente dependiente de sí mismo, y todo
+* Los valores del TAD genérico colecInterdep representan colecciones de elementos formados como tuplas
+* de la forma (id, v, -, numDep) o bien (id, v, sup, numDep), de tal forma que 
+* no podrá haber 2 elementos con el mismo identificador id. A los elementos con forma (id, v, -, numDep)
+* los llamaremos en general ‘elementos independientes’, mientras que a los elementos con forma (id, v, sup, numDep),
+* los llamaremos en general ‘elementos dependientes’. Todas las operaciones tendrán coste O(N), siendo N el número de elementos. 
+* Equivalentemente, el coste en memoria tambien sera O(N). En las tuplas que representan elementos dependientes,
+* la información sup será la identificación del elemento del que es directamente dependiente el elemento con identificación
+* id. Ningún elemento de la colección podrá ser directamente dependiente de sí mismo, y todo
 * elemento dependiente debe serlo de otro elemento que exista en la colección (que a su vez puede
-* ser un elemento independiente o dependiente).
-* En cada elemento, la información NumDepend de su tupla representará el número total de elementos
-* en la colección que son directamente dependientes del elemento con identificador ident, y que
+* ser un elemento independiente o dependiente). En cada elemento, la información numDep de su tupla representará
+* el número total de elementos en la colección que son directamente dependientes del elemento con identificador id, y que
 * será 0 si ningún elemento de la colección depende de dicho elemento. 
+* 
+* El parámetro formal I es necesario que tenga definidas las operaciones igual y anterior, que definen una relación de orden total.
+* Por ejemplo, permiten organizar los datos de la colección en forma de secuencia ordenada.
+*
+*   bool igual(I e1, I e2) devuelve verdadero si y solo si el elemento e1 es igual al elemento e2.
+*   bool anterior(I e1, I e2) devuelve verdadero si y solo si el elemento e1 es anterior (menor) que el elemento e2.
+*
 */
 template<typename I, typename V> struct colecInterdep;
 
@@ -209,10 +210,10 @@ template<typename I, typename V> unsigned siguienteNumDependientes(colecInterdep
 */
 template<typename I, typename V> void avanza(colecInterdep<I,V>& c);
 
-// FIN predeclaracion del TAD GENERICO agrupacion (Fin INTERFAZ)
+// FIN predeclaracion del TAD GENERICO colecInterdep (Fin INTERFAZ)
 
 
-// DECLARACION DEL TAD GENERICO agrupacion
+// DECLARACION DEL TAD GENERICO colecInterdep
 
 template<typename I, typename V>
 struct colecInterdep{
@@ -232,7 +233,7 @@ struct colecInterdep{
     friend unsigned obtenerNumDependientes<I,V>(I id, colecInterdep<I,V>& c, bool& error);
     friend void borrar<I,V>(I id, colecInterdep<I,V>& c);
 
-    //Operaciones iterador
+    /* Operaciones iterador */
 
     friend void iniciarIterador<I,V>(colecInterdep<I,V>& c);
     friend bool existeSiguiente<I,V>(colecInterdep<I,V>& c);
@@ -244,16 +245,30 @@ struct colecInterdep{
     friend void avanza<I,V>(colecInterdep<I,V>& c);
     
   private: //declaracion de la representacion interna del tipo
+
+  /*
+  * La implementación de este TAD genérico se hace a partir de un diccionario formado por los pares <ident, valor>, siendo ident la clave
+  * única y permanente (no se puede modificar ni duplicar) y siendo valor el valor (contando con funciones para consultarlo y modificarlo).
+  * El diccionario está implementado en memoria dinámica utilizando una lista enlazada simple de celdas del tipo celdaColec. Dicho 
+  * diccionario ocupa en memoria O(n), siendo n el número total de celdas que tiene. Además, el coste de todas las operaciones también
+  * tiene coste O(n), siendo n el número total de celdas. Cada celda del diccionario contendrá una clave de tipo I, un valor de tipo V,
+  * un puntero al elemento del que es dependiente (si no depende de nadie este puntero apuntará a nullptr), un natural correspondiente
+  * al número de elementos dependientes que tiene este elemento y un puntero a la siguiente celda para encadenar la lista (si es el último apunta a nullptr).
+  * 
+  * Además, el diccionario cuenta con un entero llamado tamanio que registra el número de celdas que tiene actualmente el diccionario,
+  * un puntero llamado primero que como su nombre indica apunta al primer elemento de la lista (si n hay ningún elemento apunta a nullptr) y
+  * un puntero llamado iter que se utilizará únicamente para mantener el estado del iterador y *solo* será usado por las operaciones del iterador.
+  */
     
     struct celdaColec{  //{cada elemento de la colección se almacena en una celda}
-        I ident;            //ident contiene la cadena correspondiente al nombre del evento 
+        I ident;            //ident es de tipo genérico y en este caso contiene la cadena correspondiente al nombre del evento 
         V valor;            //valor es de tipo genérico, en este caso lo utilizaremos con el TAD evento
-        celdaColec* sup;             //sup contiene la cadena correspodiente al nombre del evento superior (del que depende este), si no depende (-) 
+        celdaColec* sup;    //sup es un puntero de tipo celdaColec que apunta al evento del que depende, si es independientes apunta a nullptr 
         unsigned numDep;    //numDep contiene el natural correspondiente el numero de eventos dependientes de este
         celdaColec* sig;    //sig es un puntero dirigido a la siguiente celda de la lista enlazada
     };
 
-    int tamanio;            //tamanio contiene el entero correspodiente al número de celdas de la lsita
+    int tamanio;            //tamanio contiene el entero correspodiente al número de celdas de la lista
     celdaColec* primero;    //primero es un puntero a la primera celda de la lista
     celdaColec* iter;       //iter es un puntero encargado de las operaciones del iterador
 
@@ -263,13 +278,13 @@ struct colecInterdep{
 // IMPLEMENTACION DE LAS OPERACIONES DEL TAD GENERICO colecInterdep
 
 /*
-* Crea un colección vacía, sin elementos.
+* Crea un colección vacía, sin elementos. Todos los punteros a nullptr y el tamaño a 0.
 */
 template<typename I, typename V>
 void crear(colecInterdep<I,V>& c){
     c.primero = nullptr;
     c.tamanio = 0;
-    //c.iter = nullptr; podriamos ponerlo por seguridad pero lo q veas
+    c.iter = nullptr; //por seguridad
 }
 
 /*
@@ -289,7 +304,8 @@ bool esVacia(colecInterdep<I,V>& c){
 }
 
 /*
-* Devuelve verdad si y solo si en c hay algún elemento con ident igual a id.
+* Devuelve verdad si y solo si en c hay algún elemento con ident igual a id. Si la coleccion c es vacía es imposible que exista,
+* si no es vacía, avanzamos hasta que encontremos la celda que tenga su identificador igual a id o lleguemos al final.
 */
 template<typename I, typename V>
 bool existe(I id, colecInterdep<I,V>& c){
@@ -314,15 +330,11 @@ bool existe(I id, colecInterdep<I,V>& c){
 template<typename I, typename V>
 bool existeDependiente(I id, colecInterdep<I,V>& c){
     typename colecInterdep<I,V>::celdaColec* aux = c.primero;
-    if(existe(id,c)){
-        while(aux != nullptr && aux->ident != id){
-            aux = aux->sig;
-        }
-        if(aux != nullptr && aux->sup == nullptr){
-            return false;
-        }else{
-            return true;
-        }
+    while(aux != nullptr && aux->ident != id){
+        aux = aux->sig;
+    }
+    if(aux != nullptr && aux->sup != nullptr){      //es dependiente de alguien
+        return true;
     }
     return false;
 }
@@ -334,14 +346,13 @@ bool existeDependiente(I id, colecInterdep<I,V>& c){
 template<typename I, typename V>
 bool existeIndependiente(I id, colecInterdep<I,V>& c){
     typename colecInterdep<I,V>::celdaColec* aux = c.primero;
-    if(existe(id,c)){
-        while(aux != nullptr && aux->ident != id){
-            aux = aux->sig;
-        }
-        if(aux != nullptr && aux->sup == nullptr){
-            return true;
-        }
+    while(aux != nullptr && aux->ident != id){
+        aux = aux->sig;
     }
+    if(aux != nullptr && aux->sup == nullptr){
+        return true;
+    }
+    
     return false;
 }
 
@@ -351,41 +362,38 @@ bool existeIndependiente(I id, colecInterdep<I,V>& c){
 */
 template<typename I, typename V> 
 void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
-    // Puntero al nodo ANTERIOR al punto de inserción
-    typename colecInterdep<I,V>::celdaColec* prev = nullptr; 
-    // Puntero al nodo ACTUAL
-    typename colecInterdep<I,V>::celdaColec* actual = c.primero;
-    // Puntero al nodo que irá DESPUÉS del nuevo nodo
-    typename colecInterdep<I,V>::celdaColec* siguiente = nullptr;
+    typename colecInterdep<I,V>::celdaColec* anterior = nullptr;            //puntero al anterior (de momento nullptr)
+    typename colecInterdep<I,V>::celdaColec* actual = c.primero;            //puntero a la celda actual
+    typename colecInterdep<I,V>::celdaColec* siguiente = nullptr;           //puntero a la siguiente celda del que vamos a añadir
 
-    while(actual != nullptr && actual->ident < id){
-        prev = actual;    // 'prev' se actualiza al nodo actual
-        actual = actual->sig; // 'actual' avanza
+    while(actual != nullptr && actual->ident < id){         //avanzamos a través de la lista hasta encontrar un ident mayor a id
+        anterior = actual;                                  //anterior se actualiza a la celda actual
+        actual = actual->sig;                               //actual avanza
     }
 
-    if(actual != nullptr && id < actual->ident){
-       siguiente = actual;                          //guardo el puntero al siguiente que tiene que apuntar el nuevo nodo
+    if(actual != nullptr && actual->ident > id){            //compruebo que el ident actual efectivamente es mas grande y me lo guardo
+       siguiente = actual;                                  //guardo el puntero al siguiente que tiene que apuntar la nueva celda
     }
 
-    while(actual != nullptr && actual->ident != id){
+    while(actual != nullptr && actual->ident != id){        //llego hasta el final de la lista para comprobar que no hay repetidos
         actual = actual->sig;
     }
 
-    if(actual == nullptr){
-        typename colecInterdep<I,V>::celdaColec* nuevoNodo;
-        nuevoNodo = new typename colecInterdep<I,V>::celdaColec;
-        nuevoNodo->ident = id;
-        nuevoNodo->valor = v;
-        nuevoNodo->sup = nullptr;
-        nuevoNodo->numDep = 0;
+    if(actual == nullptr){                                  //si actual=nullptr es que he llegado al final por lo que no hay repetidos
+        typename colecInterdep<I,V>::celdaColec* nuevaCelda;             
+        nuevaCelda = new typename colecInterdep<I,V>::celdaColec;            //añado la nueva celda
+        nuevaCelda->ident = id;
+        nuevaCelda->valor = v;
+        nuevaCelda->sup = nullptr;
+        nuevaCelda->numDep = 0;
         c.tamanio++;
 
-        if(prev == nullptr){        //si el nuevo 'id' es menor que c.primero->ident hay que añadirlo el primero de la lsita
-            nuevoNodo->sig = c.primero; 
-            c.primero = nuevoNodo;      
+        if(anterior == nullptr){        //si el nuevo id es menor que c.primero->ident hay que añadirlo el primero de la lsita
+            nuevaCelda->sig = c.primero; 
+            c.primero = nuevaCelda;      
         } else {                    //si no, se inserta entre el previo y el actual
-            nuevoNodo->sig = siguiente;
-            prev->sig = nuevoNodo;    
+            nuevaCelda->sig = siguiente;
+            anterior->sig = nuevaCelda;    
         }
     }
 }
@@ -397,65 +405,57 @@ void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
 */
 template<typename I, typename V> 
 void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
+    typename colecInterdep<I,V>::celdaColec* anterior = nullptr;        //puntero al anterior (de momento nullptr)
+    typename colecInterdep<I,V>::celdaColec* actual = c.primero;        //puntero a la celda actual
+    typename colecInterdep<I,V>::celdaColec* nodoSup = nullptr;         //puntero a la celda del elemento que es dependiente
     
-    // Puntero al nodo ANTERIOR al punto de inserción
-    typename colecInterdep<I,V>::celdaColec* prev = nullptr; 
-    // Puntero al nodo ACTUAL
-    typename colecInterdep<I,V>::celdaColec* actual = c.primero;
-    // Puntero para guardar el nodo 'sup' SI lo encontramos
-    typename colecInterdep<I,V>::celdaColec* nodoSup = nullptr;
-    
-    while(actual != nullptr && actual->ident < id){    //avanzamos 'actual' hasta encontrar el punto de inserción
+    while(actual != nullptr && actual->ident < id){                 //avanzamos a través de la lista hasta encontrar un ident mayor a id
         
-        if(actual->ident == sup){     //comprobamos por el camino si alguno de los nodos es 'sup'
-            nodoSup = actual; 
+        if(actual->ident == sup){                   //comprobamos si de casualidad el identificador se corresponde con sup 
+            nodoSup = actual;                       //(habríamos encontrado al padre -> elemento del que depende)
         }
 
-        prev = actual;    // 'prev' se actualiza al nodo actual
-        actual = actual->sig; // 'actual' avanza
+        anterior = actual;                          //anterior se actualiza a la celda actual
+        actual = actual->sig;                       //actual avanza
     }
 
-    /*
-    * Salimos del bucle. Ahora tenemos dos posibilidades:
-    * 1. actual == nullptr (llegamos al final de la lista)
-    * 2. actual->ident >= id (encontramos el punto de inserción)
-    */
 
-    // AHORA: 'actual' apunta al nodo que debe ir DESPUÉS del nuevo.
-    // 'prev' apunta al nodo que debe ir ANTES.
-    // PERO, 'sup' podría estar MÁS ADELANTE en la lista.
-    // Debemos continuar el recorrido (desde 'actual') hasta el final, 
-    // solo para asegurarnos de encontrar 'sup' si aún no ha aparecido.
+    /*
+    * Si salimos del bucle while es porque una de las condiciones no se cumple, es decir:
+    *   - actual ha recorrido todas las celdas y no ha encontrado ningún identificador mayor a id (se añadirá el último si y solo si se ha encontrado el padre)
+    *   - hemos encontrado un identificador mayor a id, por tanto ya tenemos el hueco donde añadirlo si y solo si hemos encontrado / encontramos al padre.
+    */
     
+    //hay que recorrer lo que nos queda para ver que no se repite el id y que encontramos si o si al padre si no lo hemos encontrado antes
     typename colecInterdep<I,V>::celdaColec* buscadorSup = actual;
-    while(buscadorSup != nullptr && buscadorSup->ident != id){    //hay que encontar primero 'sup' antes de añadir
+    while(buscadorSup != nullptr && buscadorSup->ident != id){    //hay que encontar primero sup (el padre) antes de añadir
         
         if(buscadorSup->ident == sup){
-            nodoSup = buscadorSup;                                //encontramos 'sup'
+            nodoSup = buscadorSup;                                //encontramos sup (es decir el padre)
         }
 
         buscadorSup = buscadorSup->sig;
     }
     
-
-    if(nodoSup != nullptr && buscadorSup == nullptr){  //solo añadimos el elemento si existe 'sup' y 'buscadorSup' ha recorrido todos los nodos
+    //si buscadorSup no es nullptr significa que la condicion del while no se ha roto por llegar al final, sino por encontrar un duplicado 
+    if(nodoSup != nullptr && buscadorSup == nullptr){  //solo añadimos el elemento si hemos encontrado a sup y buscadorSup ha recorrido todos los nodos
 
         nodoSup->numDep++;          //incrementamos su contador
         c.tamanio++;
 
-        typename colecInterdep<I,V>::celdaColec* nuevoNodo;
-        nuevoNodo = new typename colecInterdep<I,V>::celdaColec;
-        nuevoNodo->ident = id;
-        nuevoNodo->valor = v;
-        nuevoNodo->sup = nodoSup;    //el puntero 'sup' apunta al nodo 'sup' encontrado
-        nuevoNodo->numDep = 0;
+        typename colecInterdep<I,V>::celdaColec* nuevaCelda;
+        nuevaCelda = new typename colecInterdep<I,V>::celdaColec;
+        nuevaCelda->ident = id;
+        nuevaCelda->valor = v;
+        nuevaCelda->sup = nodoSup;    //el puntero 'sup' apunta al nodo 'sup' encontrado
+        nuevaCelda->numDep = 0;
 
-        if(prev == nullptr){        //si el nuevo 'id' es menor que c.primero->ident hay que añadirlo el primero de la lsita
-            nuevoNodo->sig = c.primero; 
-            c.primero = nuevoNodo;      
+        if(anterior == nullptr){        //si el nuevo 'id' es menor que c.primero->ident hay que añadirlo el primero de la lsita
+            nuevaCelda->sig = c.primero; 
+            c.primero = nuevaCelda;      
         } else {                    //si no, se inserta entre el previo y el actual
-            nuevoNodo->sig = actual;    
-            prev->sig = nuevoNodo;    
+            nuevaCelda->sig = actual;    
+            anterior->sig = nuevaCelda;    
         }
     }
 }

@@ -42,7 +42,7 @@ int main(){
                 }
                 
             }else{                              
-                if(existe(padre, c) && !existe(nombre_e, c)){   //esto creo que con 1 llamada vale
+                if(existe(padre, c)){   //esto creo que con 1 llamada vale
                     aniadirDependiente(c, nombre_e, e, padre);             
                     g << "INTRODUCIDO: [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 } else {
