@@ -1,86 +1,77 @@
 -----LISTADO: 0
 -----
-NO CAMBIADO: apertura_2025_10_6
 INTRODUCIDO: [ cierre_2025_10_6 ] --- Cierre del edificio --- ( 2 )
-INTENTANDO hacer depend.: cierre_2025_10_6 -de-> cierre_2025_10_6
-NO INTRODUCIDO: [ ON_luces Z008 -de-> presencia_S008 ] --- Encendidas luces008, deteccion sensor presencia --- ( 2 )
-****DEPENDIENTES: presencia_S008
-****DESCONOCIDO
------LISTADO: 1
-[ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
------
-INTRODUCIDO: [ Validacion_P001_exterior ] --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
-INTRODUCIDO: [ apertura_P001 -de-> Validacion_P001_exterior ] --- Abierta puerta P001  --- ( 3 )
-INTRODUCIDO: [ presencia_S008 ] --- Deteccion presencia, sensor S008 --- ( 3 )
-INTRODUCIDO: [ ON_luces Z008 -de-> presencia_S008 ] --- Encendidas luces008, deteccion sensor presencia --- ( 4 )
-INTRODUCIDO: [ OFF_luces Z008 -de-> ON_luces Z008 ] --- Apagadas luces zona 008, por expiracion tiempo --- ( 2 )
------LISTADO: 6
-[ OFF_luces Z008 -de-> ON_luces Z008 ;;;  0 ] --- Apagadas luces zona 008, por expiracion tiempo --- ( 2 )
-[ ON_luces Z008 -de-> presencia_S008 ;;;  1 ] --- Encendidas luces008, deteccion sensor presencia --- ( 4 )
-[ Validacion_P001_exterior --- 1 ] --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
-[ apertura_P001 -de-> Validacion_P001_exterior ;;;  0 ] --- Abierta puerta P001  --- ( 3 )
-[ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
-[ presencia_S008 --- 1 ] --- Deteccion presencia, sensor S008 --- ( 3 )
------
-LOCALIZADO: [ presencia_S008 --- 1 ] --- Deteccion presencia, sensor S008 --- ( 3 )
-LOCALIZADO: [ OFF_luces Z008 -de-> ON_luces Z008 ;;; 0 ] --- Apagadas luces zona 008, por expiracion tiempo --- ( 2 )
-NO LOCALIZADO: apertura_2025_10_7
-INDEPendiente: presencia_S008
-DEPendiente: OFF_luces Z008
-DESCONOCIDO: apertura_2025_10_7
-****DEPENDIENTES: Validacion_P001_exterior
-[ Validacion_P001_exterior --- 1 ] --- Validacion acceso en puerta P001, desde exterior --- ( 3 ) ****
-[1 -> apertura_P001 -de-> Validacion_P001_exterior ;;;  0 ] --- Abierta puerta P001  --- ( 3 ) ;;;;
-****FINAL dependientes -de-> Validacion_P001_exterior
-CAMBIADO: [ apertura_P001 -de-> Validacion_P001_exterior ;;; 0 ] --- Abierta puerta P001, previa validacion --- ( 2 )
-LOCALIZADO: [ apertura_P001 -de-> Validacion_P001_exterior ;;; 0 ] --- Abierta puerta P001, previa validacion --- ( 2 )
-CAMBIADO: [ presencia_S008 --- 1 ] --- presencia, sensor S008 --- ( 4 )
-****DEPENDIENTES: presencia_S008
-[ presencia_S008 --- 1 ] --- presencia, sensor S008 --- ( 4 ) ****
-[1 -> ON_luces Z008 -de-> presencia_S008 ;;;  1 ] --- Encendidas luces008, deteccion sensor presencia --- ( 4 ) ;;;;
-****FINAL dependientes -de-> presencia_S008
------LISTADO: 6
-[ OFF_luces Z008 -de-> ON_luces Z008 ;;;  0 ] --- Apagadas luces zona 008, por expiracion tiempo --- ( 2 )
-[ ON_luces Z008 -de-> presencia_S008 ;;;  1 ] --- Encendidas luces008, deteccion sensor presencia --- ( 4 )
-[ Validacion_P001_exterior --- 1 ] --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
-[ apertura_P001 -de-> Validacion_P001_exterior ;;;  0 ] --- Abierta puerta P001, previa validacion --- ( 2 )
-[ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
-[ presencia_S008 --- 1 ] --- presencia, sensor S008 --- ( 4 )
------
-INTENTANDO hacer depend.: OFF_luces Z008 -de-> presencia_S008
-****DEPENDIENTES: presencia_S008
-[ presencia_S008 --- 2 ] --- presencia, sensor S008 --- ( 4 ) ****
-[1 -> OFF_luces Z008 -de-> presencia_S008 ;;;  0 ] --- Apagadas luces zona 008, por expiracion tiempo --- ( 2 ) ;;;;
-[2 -> ON_luces Z008 -de-> presencia_S008 ;;;  0 ] --- Encendidas luces008, deteccion sensor presencia --- ( 4 ) ;;;;
-****FINAL dependientes -de-> presencia_S008
-YA ERA INDepend.: Validacion_P001_exterior
-NO INDEPENDIZADO: apertura_2025_10_6
-INDEPENDIZADO: apertura_P001
-****DEPENDIENTES: Validacion_P001_exterior
-[ Validacion_P001_exterior --- 0 ] --- Validacion acceso en puerta P001, desde exterior --- ( 3 ) ****
-****FINAL dependientes -de-> Validacion_P001_exterior
-CAMBIADO: [ apertura_P001 --- 0 ] --- Abierta puerta P001 sin validacion acceso --- ( 5 )
-INTENTANDO hacer depend.: presencia_S008 -de-> apertura_P001
-IMPOSIBLE hacer depend.: cierre_2025_10_6 -de-> apertura_2025_10_6
------LISTADO: 6
-[ OFF_luces Z008 -de-> presencia_S008 ;;;  0 ] --- Apagadas luces zona 008, por expiracion tiempo --- ( 2 )
-[ ON_luces Z008 -de-> presencia_S008 ;;;  0 ] --- Encendidas luces008, deteccion sensor presencia --- ( 4 )
-[ Validacion_P001_exterior --- 0 ] --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
-[ apertura_P001 --- 1 ] --- Abierta puerta P001 sin validacion acceso --- ( 5 )
-[ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
-[ presencia_S008 -de-> apertura_P001 ;;;  2 ] --- presencia, sensor S008 --- ( 4 )
------
-NO BORRADO: apertura_2025_10_7
-BORRADO: OFF_luces Z008
-BORRADO: presencia_S008
-****DEPENDIENTES: presencia_S008
-****DESCONOCIDO
-****DEPENDIENTES: apertura_P001
-[ apertura_P001 --- 1 ] --- Abierta puerta P001 sin validacion acceso --- ( 5 ) ****
-****FINAL dependientes -de-> apertura_P001
+INTRODUCIDO: [ instruccion2 ] --- Se ha caido el techo --- ( 1 )
+INTRODUCIDO: [ zzz ] --- Ultimo de la lista en teoria --- ( 44 )
+NO INTRODUCIDO: [ instruccion2 ] --- tu mama --- ( 88 )
+INTRODUCIDO: [ AASAS -de-> instruccion2 ] --- Rodrigo cabron --- ( 5 )
 -----LISTADO: 4
-[ ON_luces Z008 --- 0 ] --- Encendidas luces008, deteccion sensor presencia --- ( 4 )
-[ Validacion_P001_exterior --- 0 ] --- Validacion acceso en puerta P001, desde exterior --- ( 3 )
-[ apertura_P001 --- 1 ] --- Abierta puerta P001 sin validacion acceso --- ( 5 )
+[ AASAS -de-> instruccion2 ;;;  0 ] --- Rodrigo cabron --- ( 5 )
 [ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
+[ instruccion2 --- 1 ] --- Se ha caido el techo --- ( 1 )
+[ zzz --- 0 ] --- Ultimo de la lista en teoria --- ( 44 )
+-----
+NO INTRODUCIDO: [ cierre_2025_10_6 ] --- Cierre del edificio --- ( 2 )
+DEPendiente: AASAS
+NO INTRODUCIDO: [ perico -de-> perico ] --- No doy una macho --- ( 7 )
+NO INTRODUCIDO: [ instruccion2 -de-> cierre_2025_10_6 ] --- mi bomboclat --- ( 3 )
+INTRODUCIDO: [ COSAS BARATAS ] --- Cierre del edificio --- ( 2 )
+NO INTRODUCIDO: [ Fuego -de-> noexistenadaqui ] --- No quiero que te añadas --- ( 22 )
+DESCONOCIDO: presencia_S008
+INDEPENDIZADO: AASAS
+-----LISTADO: 5
+[ AASAS --- 0 ] --- Rodrigo cabron --- ( 5 )
+[ COSAS BARATAS --- 0 ] --- Cierre del edificio --- ( 2 )
+[ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
+[ instruccion2 --- 0 ] --- Se ha caido el techo --- ( 1 )
+[ zzz --- 0 ] --- Ultimo de la lista en teoria --- ( 44 )
+-----
+LOCALIZADO: [ instruccion2 --- 0 ] --- Se ha caido el techo --- ( 1 )
+NO LOCALIZADO: noexistenadaqui
+INTENTANDO hacer depend.: instruccion2 -de-> AASAS
+LOCALIZADO: [ instruccion2 -de-> AASAS ;;; 0 ] --- Se ha caido el techo --- ( 1 )
+INDEPendiente: AASAS
+DEPendiente: instruccion2
+****DEPENDIENTES: instruccion2
+[ instruccion2 -de-> AASAS ;;; 0 ] --- Se ha caido el techo --- ( 1 ) ****
+****FINAL dependientes -de-> instruccion2
+CAMBIADO: [ AASAS --- 1 ] --- Cambiamos la descripcion porque me apetece --- ( 55 )
+BORRADO: instruccion2
+INTENTANDO hacer depend.: AASAS -de-> COSAS BARATAS
+LOCALIZADO: [ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
+INTENTANDO hacer depend.: cierre_2025_10_6 -de-> COSAS BARATAS
+BORRADO: AASAS
+NO BORRADO: perico
+INTRODUCIDO: [ 0_PrimeroI ] --- Este tio es independiente  --- ( 444 )
+INTRODUCIDO: [ 1_PrimeroD -de-> 0_PrimeroI ] --- Este tio es el primer dependiente --- ( 1 )
+INTRODUCIDO: [ 2_SegundoD -de-> 0_PrimeroI ] --- Este sera el segundo dependiente --- ( 2 )
+INTRODUCIDO: [ 3_PrimerSegundoD -de-> 2_SegundoD ] --- Este es el primer dependiente de 2_SegundoD --- ( 23 )
+NO BORRADO: 0_PrimeroI
+NO BORRADO: 2_SegundoD
+-----LISTADO: 7
+[ 0_PrimeroI --- 2 ] --- Este tio es independiente  --- ( 444 )
+[ 1_PrimeroD -de-> 0_PrimeroI ;;;  0 ] --- Este tio es el primer dependiente --- ( 1 )
+[ 2_SegundoD -de-> 0_PrimeroI ;;;  1 ] --- Este sera el segundo dependiente --- ( 2 )
+[ 3_PrimerSegundoD -de-> 2_SegundoD ;;;  0 ] --- Este es el primer dependiente de 2_SegundoD --- ( 23 )
+[ COSAS BARATAS --- 1 ] --- Cierre del edificio --- ( 2 )
+[ cierre_2025_10_6 -de-> COSAS BARATAS ;;;  0 ] --- Cierre del edificio --- ( 2 )
+[ zzz --- 0 ] --- Ultimo de la lista en teoria --- ( 44 )
+-----
+BORRADO: 3_PrimerSegundoD
+NO BORRADO: 0_PrimeroI
+BORRADO: 2_SegundoD
+NO BORRADO: perico
+-----LISTADO: 5
+[ 0_PrimeroI --- 1 ] --- Este tio es independiente  --- ( 444 )
+[ 1_PrimeroD -de-> 0_PrimeroI ;;;  0 ] --- Este tio es el primer dependiente --- ( 1 )
+[ COSAS BARATAS --- 1 ] --- Cierre del edificio --- ( 2 )
+[ cierre_2025_10_6 -de-> COSAS BARATAS ;;;  0 ] --- Cierre del edificio --- ( 2 )
+[ zzz --- 0 ] --- Ultimo de la lista en teoria --- ( 44 )
+-----
+-----LISTADO: 5
+[ 0_PrimeroI --- 1 ] --- Este tio es independiente  --- ( 444 )
+[ 1_PrimeroD -de-> 0_PrimeroI ;;;  0 ] --- Este tio es el primer dependiente --- ( 1 )
+[ COSAS BARATAS --- 1 ] --- Cierre del edificio --- ( 2 )
+[ cierre_2025_10_6 -de-> COSAS BARATAS ;;;  0 ] --- Cierre del edificio --- ( 2 )
+[ zzz --- 0 ] --- Ultimo de la lista en teoria --- ( 44 )
 -----
