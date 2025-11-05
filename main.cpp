@@ -168,13 +168,13 @@ int main(){
             iniciarIterador(c);
             while(existeSiguiente(c)){
                 if(siguienteIdent(c, nombre_e) && siguienteVal(c, e) && siguienteNumDependientes(c, numDep)){
-
-                }
-                if(siguienteSuperior(c, supDep)){
-                    g << "[ " << nombre_e <<  " -de-> " << supDep << " ;;;  " << numDep << " ] --- " << descripcion(e) << " --- " << "( " << suPrioridad(e) << " )" << endl;
-                } else {
-                    g << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
-                }  
+                    if(siguienteSuperior(c, supDep)){
+                        g << "[ " << nombre_e <<  " -de-> " << supDep << " ;;;  " << numDep << " ] --- " << descripcion(e) << " --- " << "( " << suPrioridad(e) << " )" << endl;
+                    } else {
+                        g << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
+                } 
+            }
+                 
                 avanza(c);
             }    
             g << "-----" << endl;
