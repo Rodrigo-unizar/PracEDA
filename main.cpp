@@ -1,6 +1,8 @@
 /*Razvan Ghita Calangiu 927460, Rodrigo Herce Alonso 935413
 */
 
+/* NO SE PUEDE LLAMAR A EXISTIR ANTES DE LLAMAR A LA FUNCION*/
+
 #include <iostream>
 #include <fstream>
 #include "colecInterdep.hpp" 
@@ -18,12 +20,14 @@ int main(){
     string nombre_e, descripcion_e, dependencia, padre, prioridad, nombre_dep, supDep;
     unsigned numDep, numDepDP;
     int i = 1;
+    int tam_antes = 0;
+    int tam_dsps = 0;
     f.open("entrada.txt");  
     g.open("salia.txt");
     while (f >> instruccion){
         getline(f, salto);
         
-        if(instruccion == "A"){
+        if(instruccion == "A"){         //coste O(1N)
             getline(f, nombre_e);
             getline(f, descripcion_e);
             getline(f, prioridad);
@@ -31,32 +35,33 @@ int main(){
             getline(f, padre);
 
             crearEvento(descripcion_e, stoi(prioridad), e);
-                
+            tam_antes = tamanio(c);
             if(dependencia == "INDependiente"){    
-                if(!existe(nombre_e, c)){
-                    aniadirIndependiente(c, nombre_e, e);
+                aniadirIndependiente(c, nombre_e, e);
+                tam_dsps = tamanio(c);
+                if(tam_antes != tam_dsps){
                     g << "INTRODUCIDO: [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 } else {
                     g << "NO INTRODUCIDO: [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 }
-                
-            }else{                              
-                if(existe(padre, c) && !existe(nombre_e, c)){   
-                    aniadirDependiente(c, nombre_e, e, padre);             
+            }else{
+                aniadirDependiente(c, nombre_e, e, padre);
+                tam_dsps = tamanio(c);                              
+                if(tam_antes != tam_dsps){              
                     g << "INTRODUCIDO: [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 } else {
                     g << "NO INTRODUCIDO: [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 }  
             }
-        } else if (instruccion == "C"){
+        } else if (instruccion == "C"){   //no se puede hacer menor que 2N
             getline(f, nombre_e);
             getline(f, descripcion_e);
             getline(f, prioridad);
 
             crearEvento(descripcion_e, stoi(prioridad), e);
 
-            if(actualizarVal(c, nombre_e, e) && obtenerNumDependientes(nombre_e, c, numDep)){
-                if(obtenerSupervisor(nombre_e, c, padre)){
+            if(actualizarVal(c, nombre_e, e) && obtenerNumDependientes(nombre_e, c, numDep)){   //obtenerDatos(nombre_e, numDep, padre, c)
+                if(obtenerSupervisor(nombre_e, c, padre)){  //if padre != "vacio"
                     g << "CAMBIADO: [ " << nombre_e << " -de-> " << padre << " ;;; " << numDep << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 } else {
                     g << "CAMBIADO: " << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
@@ -65,21 +70,22 @@ int main(){
                 g << "NO CAMBIADO: " << nombre_e << endl;
             }
 
-        } else if (instruccion == "D"){
+        } else if (instruccion == "D"){     //coste O(2N)
             getline(f, nombre_e);
             getline(f, padre);
 
-            if(existe(nombre_e, c) && existe(padre,c)){
-                hacerDependiente(c, nombre_e, padre);
+            //primero llamar a hacer dependiente, si el padre existe podrá hacerDependiente al elemento, sino no
+            hacerDependiente(c, nombre_e, padre);
+            if(existe(padre, c)){   
                 g << "INTENTANDO hacer depend.: " << nombre_e << " -de-> " << padre << endl;
             } else {
                 g << "IMPOSIBLE hacer depend.: " << nombre_e << " -de-> " << padre << endl;
             }
-        } else if (instruccion == "O"){
+        } else if (instruccion == "O"){     //coste O(1N)
             getline(f, nombre_e);
 
-            if(obtenerNumDependientes(nombre_e, c, numDep) && obtenerVal(nombre_e, c, e)){   
-                if(obtenerSupervisor(nombre_e, c, padre)){
+            if(obtenerNumDependientes(nombre_e, c, numDep) && obtenerVal(nombre_e, c, e)){   //obtenerDatos(nombre_e, numDep, padre, valor)
+                if(obtenerSupervisor(nombre_e, c, padre)){      //if padre != "vacio"
                     g << "LOCALIZADO: [ " << nombre_e << " -de-> " << padre << " ;;; " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
                 } else {
                     g << "LOCALIZADO: " << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
@@ -89,14 +95,14 @@ int main(){
             }
         } else if (instruccion == "E"){
             getline(f, nombre_e);
-            if(existeIndependiente(nombre_e, c)){
-                g << "INDEPendiente: " << nombre_e << endl;
-            } else if(existeDependiente(nombre_e, c)){
-                g << "DEPendiente: " << nombre_e << endl;
-            } else {
-                g << "DESCONOCIDO: " << nombre_e << endl;
+            if(existeIndependiente(nombre_e, c)){                    //if obtenerDatos(.., padre, ...)  
+                g << "INDEPendiente: " << nombre_e << endl;                 // if padre != "vacio"
+            } else if(existeDependiente(nombre_e, c)){                              // es dependiente de "padre"
+                g << "DEPendiente: " << nombre_e << endl;                   // else es independendiente
+            } else {                                                 // else no existe 
+                g << "DESCONOCIDO: " << nombre_e << endl;           //coste 1N 
             }
-        } else if (instruccion == "I"){
+        } else if (instruccion == "I"){  //no se hacerlo menos costoso
             getline(f, nombre_e);
             if(existe(nombre_e,c)){
                 if(!existeIndependiente(nombre_e, c)){
@@ -108,24 +114,23 @@ int main(){
             } else {
                 g << "NO INDEPENDIZADO: " << nombre_e << endl;
             }
-        } else if (instruccion == "B"){
+
+        } else if (instruccion == "B"){     //coste O(N) por la llamada a borrar
             getline(f, nombre_e);
-            if(existe(nombre_e, c)){
-                borrar(nombre_e, c);
-                if(!existe(nombre_e, c)){  
-                    g << "BORRADO: " << nombre_e << endl;
-                } else {
-                    g << "NO BORRADO: " << nombre_e << endl;
-                }
-            }else{
+            tam_antes = tamanio(c);
+            borrar(nombre_e, c);
+            tam_dsps = tamanio(c);
+            if(tam_antes != tam_dsps){  
+                g << "BORRADO: " << nombre_e << endl;
+            } else {
                 g << "NO BORRADO: " << nombre_e << endl;
             }
         } else if (instruccion == "LD"){
             getline(f, nombre_e);
             g << "****DEPENDIENTES: " << nombre_e << endl;
 
-            if(obtenerNumDependientes(nombre_e, c, numDep) && obtenerVal(nombre_e, c, e)){
-                if(obtenerSupervisor(nombre_e, c, padre)){
+            if(obtenerNumDependientes(nombre_e, c, numDep) && obtenerVal(nombre_e, c, e)){      //obtenerDatos(...)
+                if(obtenerSupervisor(nombre_e, c, padre)){  //if padre != "vacio"
                     g << "[ " << nombre_e << " -de-> " << padre << " ;;; " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " ) ****" << endl;
                 } else {
                     g << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " ) ****" << endl;

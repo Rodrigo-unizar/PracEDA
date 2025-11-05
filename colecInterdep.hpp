@@ -98,7 +98,7 @@ template<typename I, typename V> void aniadirDependiente(colecInterdep<I,V>& c, 
 template<typename I, typename V> void hacerDependiente(colecInterdep<I,V>& c, I id, I sup);
 
 /*
-* Si el elemento con identificador id existe en la coleccion c y además dicho elementp es dependiente, de la forma (id, v, sup, numDep).
+* Si el elemento con identificador id existe en la coleccion c y además dicho elemento es dependiente, de la forma (id, v, sup, numDep).
 * devuelve una colección igual a la resultante de:
 *   - establecer el identificador del supervisor (sup) del elemento con identificador id como vacío (‘-’),
 *   - decrementar en 1 el número de dependientes del antiguo supervisor (sup) del elemento con identificador id.
@@ -538,7 +538,7 @@ void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
 }
 
 /*
-* Recorre la lista en busca de id. Si lo encuentra decrementa numDep de sup en nuo y pone sup de id en null, sino 
+* Recorre la lista en busca de id. Si lo encuentra decrementa numDep de sup en uno y pone sup de id en null, sino 
 * lo encuentra devuelve la coleccion original. 
 */
 template<typename I, typename V> 
@@ -548,7 +548,7 @@ void hacerIndependiente(colecInterdep<I,V>& c, I id){
         typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
         while(aux1 != nullptr && aux1->ident != id){
             aux1 = aux1->sig;
-        }//localizas al que quieres hacer independiente
+        }//localizas al que quieres hacer independiente y es dependiente
         if(aux1 != nullptr && aux1->sup != nullptr){
             aux1->sup->numDep--; 
             aux1->sup = nullptr;
