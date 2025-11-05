@@ -28,8 +28,8 @@ using namespace std;
 * El parámetro formal I es necesario que tenga definidas las operaciones igual y anterior, que definen una relación de orden total.
 * Por ejemplo, permiten organizar los datos de la colección en forma de secuencia ordenada.
 *
-*   bool operator==(I e1, I e2) devuelve verdadero si y solo si el elemento e1 es igual al elemento e2.
-*   bool operator<(I e1, I e2) devuelve verdadero si y solo si el elemento e1 es anterior (menor) que el elemento e2.
+*   bool igual(I e1, I e2) devuelve verdadero si y solo si el elemento e1 es igual al elemento e2.
+*   bool anterior(I e1, I e2) devuelve verdadero si y solo si el elemento e1 es anterior (menor) que el elemento e2.
 *
 */
 template<typename I, typename V> struct colecInterdep;
@@ -121,7 +121,7 @@ template<typename I, typename V> bool actualizarVal(colecInterdep<I,V>& c, I id,
 * en la coleccion c y asigna a error el valor falso.
 * En caso contrario, devuelve un valor indeterminado y asigna a error el valor verdadero.
 */
-template<typename I, typename V> V obtenerVal(I id, colecInterdep<I,V>& c, bool& error);
+template<typename I, typename V> bool obtenerVal(I id, colecInterdep<I,V>& c, V& val);
 
 /*
 *Operación parcial -> la operación no está definida si el elemento con identificador id no es dependiente de la forma (id, v, sup, numDep).
@@ -129,7 +129,7 @@ template<typename I, typename V> V obtenerVal(I id, colecInterdep<I,V>& c, bool&
 * devuelve el identificador de su supervisor y asigna a error el valor falso.
 * En cualquier otro caso (si no existe o es independiente), devuelve un valor indeterminado y asigna a error el valor verdadero.
 */
-template<typename I, typename V> I obtenerSupervisor(I id, colecInterdep<I,V>& c, bool& error);
+template<typename I, typename V> bool obtenerSupervisor(I id, colecInterdep<I,V>& c, I& sup);
 
 /*
 *Operación parcial -> la operación no está definida si no el elemento con identificador id no existe en la coleccion c.
@@ -137,7 +137,7 @@ template<typename I, typename V> I obtenerSupervisor(I id, colecInterdep<I,V>& c
 * con identificador id en la coleccion c y asigna a error el valor falso.
 * En caso contrario, devuelve un valor indeterminado y asigna a error el valor verdadero.
 */
-template<typename I, typename V> unsigned obtenerNumDependientes(I id, colecInterdep<I,V>& c, bool& error);
+template<typename I, typename V> bool obtenerNumDependientes(I id, colecInterdep<I,V>& c, unsigned& numDep);
 
 /*
 * Si existe el elemento con identificador id en la colección c y dicho elemento es dependiente de la forma (id, v, sup, numDep),
@@ -175,13 +175,13 @@ template<typename I, typename V> bool existeSiguiente(colecInterdep<I,V>& c);
 * Si aún queda algun elemento por visitar, devuelve el identificador del siguiente elemento a visitar con el iterador de la colección c,
 * que será el elemento no visitado con identificador anterior a los de todos los demás aún no visitados.
 */
-template<typename I, typename V> I siguienteIdent(colecInterdep<I,V>& c);
+template<typename I, typename V> bool siguienteIdent(colecInterdep<I,V>& c, I &id);
 
 /*
 * Si aún queda algun elemento por visitar, devuelve el valor del siguiente elemento a visitar con el iterador de la colección c,
 * que será el elemento no visitado con identificador anterior a los de todos los demás aún no visitados.
 */
-template<typename I, typename V> V siguienteVal(colecInterdep<I,V>& c);
+template<typename I, typename V> bool siguienteVal(colecInterdep<I,V>& c, V &valor);
 
 /*
 * Si aún queda algun elemento por visitar, si el siguiente elemento a visitar con el iterador de la colección,
@@ -196,14 +196,14 @@ template<typename I, typename V> bool siguienteDependiente(colecInterdep<I,V>& c
 * si el siguiente elemento a visitar con el iterador de la colección, que será el elemento no visitado con identificador anterior
 * a los de todos los demás aún no visitados, es dependiente de la forma (id, v, sup, numDep), devuelve el identificador de sup.
 */
-template<typename I, typename V> I siguienteSuperior(colecInterdep<I,V>& c);
+template<typename I, typename V> bool siguienteSuperior(colecInterdep<I,V>& c, I &sup);
 
 /*
 * Si aún queda algun elemento por visitar, devuelve el numero de elementos dependientes del elemento con identificador id (numDep)
 * del siguiente elemento a visitar con el iterador de la colección c, que será el elemento no visitado con
 * identificador anterior a los de todos los demás aún no visitados.
 */
-template<typename I, typename V> unsigned siguienteNumDependientes(colecInterdep<I,V>& c);
+template<typename I, typename V> bool siguienteNumDependientes(colecInterdep<I,V>& c, unsigned &numDep);
 
 /*
 * Si aún queda algun elemento por visitar, avanza el iterador de la colección c para que se pueda visitar otro elemento.
@@ -228,20 +228,20 @@ struct colecInterdep{
     friend void hacerDependiente<I,V>(colecInterdep<I,V>& c, I id, I sup);
     friend void hacerIndependiente<I,V>(colecInterdep<I,V>& c, I id);
     friend bool actualizarVal<I,V>(colecInterdep<I,V>& c, I id, V v);
-    friend V obtenerVal<I,V>(I id, colecInterdep<I,V>& c, bool& error);
-    friend I obtenerSupervisor<I,V>(I id, colecInterdep<I,V>& c, bool& error);
-    friend unsigned obtenerNumDependientes<I,V>(I id, colecInterdep<I,V>& c, bool& error);
+    friend bool obtenerVal<I,V>(I id, colecInterdep<I,V>& c, V& val);
+    friend bool obtenerSupervisor<I,V>(I id, colecInterdep<I,V>& c, I& sup);
+    friend bool obtenerNumDependientes<I,V>(I id, colecInterdep<I,V>& c, unsigned& numDep);
     friend void borrar<I,V>(I id, colecInterdep<I,V>& c);
 
     /* Operaciones iterador */
 
     friend void iniciarIterador<I,V>(colecInterdep<I,V>& c);
     friend bool existeSiguiente<I,V>(colecInterdep<I,V>& c);
-    friend I siguienteIdent<I,V>(colecInterdep<I,V>& c);
-    friend V siguienteVal<I,V>(colecInterdep<I,V>& c);
+    friend bool siguienteIdent<I,V>(colecInterdep<I,V>& c, I &id);
+    friend bool siguienteVal<I,V>(colecInterdep<I,V>& c, V &valor);
     friend bool siguienteDependiente<I,V>(colecInterdep<I,V>& c);
-    friend I siguienteSuperior<I,V>(colecInterdep<I,V>& c);
-    friend unsigned siguienteNumDependientes<I,V>(colecInterdep<I,V>& c);
+    friend bool siguienteSuperior<I,V>(colecInterdep<I,V>& c, I &sup);
+    friend bool siguienteNumDependientes<I,V>(colecInterdep<I,V>& c, unsigned &numDep);
     friend void avanza<I,V>(colecInterdep<I,V>& c);
     
   private: //declaracion de la representacion interna del tipo
@@ -588,9 +588,9 @@ bool actualizarVal(colecInterdep<I,V>& c, I id, V v){
 * pone error a true debido a que no ha podido obtener el valor.
 */
 template<typename I, typename V> 
-V obtenerVal(I id, colecInterdep<I,V>& c, bool& error){
+bool obtenerVal(I id, colecInterdep<I,V>& c, V& val){
     if(esVacia(c)){
-        error = true;
+        return false;
     } else {
         typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
         while(aux1 != nullptr && aux1->ident != id){          //buscamos la celda con indentificador "id"
@@ -598,15 +598,15 @@ V obtenerVal(I id, colecInterdep<I,V>& c, bool& error){
         }
 
         if(aux1 == nullptr){        //si llegamos hasta el final significa que no existe (se puede optimizar este bucle con 1 solo if en verdad)
-            error = true;
+            return false;
         } else if(aux1 != nullptr && aux1->ident == id){    //comprobamos que realmente estamos en el caso que queremos estar
-            error = false;
-            return aux1->valor;     //devolvemos el valor y actualizamos error a falso
+            val = aux1->valor;     //devolvemos el valor y actualizamos error a falso
+            return true;
         } else {
-            error = true;
+            return false;
         }
     }
-    return V();
+    return false;
 }
 
 /*
@@ -614,9 +614,9 @@ V obtenerVal(I id, colecInterdep<I,V>& c, bool& error){
 * es parcial (si la lista es vacia o id no existe no id no puede obtener el id de sup), sino pone error a true.
 */
 template<typename I, typename V> 
-I obtenerSupervisor(I id, colecInterdep<I,V>& c, bool& error){
+bool obtenerSupervisor(I id, colecInterdep<I,V>& c, I& sup){
     if(esVacia(c)){
-        error = true;
+        return false;
     } else {
         typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
         while(aux1 != nullptr && aux1->ident != id){          //buscamos la celda con indentificador "id"
@@ -624,15 +624,15 @@ I obtenerSupervisor(I id, colecInterdep<I,V>& c, bool& error){
         }
 
         if(aux1 == nullptr){       //si llegamos hasta el final significa que no existe (se puede optimizar este bucle con 1 solo if en verdad)
-            error = true;
+            return false;
         } else if(aux1 != nullptr && aux1->ident == id && aux1->sup != nullptr){ //comprobamos que la celda existe y es dependiente
-            error = false;
-            return aux1->sup->ident;
+            sup = aux1->sup->ident;
+            return true;
         } else {
-            error = true;
+            return false;
         }
     }
-    return I();
+    return false;
 }
 
 /*
@@ -640,9 +640,9 @@ I obtenerSupervisor(I id, colecInterdep<I,V>& c, bool& error){
 * es parcial (si la lista es vacia o id no existe no id no puede obtener el id de sup), sino pone error a true.
 */
 template<typename I, typename V> 
-unsigned obtenerNumDependientes(I id, colecInterdep<I,V>& c, bool& error){
+bool obtenerNumDependientes(I id, colecInterdep<I,V>& c, unsigned& numDep){
     if(esVacia(c)){
-        error = true;
+        return false;
     } else {
         typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
         while(aux1 != nullptr && aux1->ident != id){          //buscamos la celda con indentificador "id"
@@ -650,16 +650,16 @@ unsigned obtenerNumDependientes(I id, colecInterdep<I,V>& c, bool& error){
         }
 
         if(aux1 == nullptr){       //si llegamos hasta el final significa que no existe (se puede optimizar este bucle con 1 solo if en verdad)
-            error = true;
+            return false;
         } else if(aux1 != nullptr && aux1->ident == id){ //comprobamos que la celda existe y es dependiente
-            error = false;
-            return aux1->numDep;
+            numDep = aux1->numDep;
+            return true;
         } else {
-            error = true;
+            return false;
         }
 
     }
-    return 0;
+    return false;
 }
 
 /*
@@ -706,7 +706,6 @@ void borrar(I id, colecInterdep<I,V>& c){
 template<typename I, typename V>
 void iniciarIterador(colecInterdep<I,V>& c){
     c.iter = c.primero;
-    return;
 }
 
 /*
@@ -721,22 +720,24 @@ bool existeSiguiente(colecInterdep<I,V>& c){
 * Nos devuelve el identificador del nodo al que apunta el iterador.
 */
 template<typename I, typename V>
-I siguienteIdent(colecInterdep<I,V>& c){
+bool siguienteIdent(colecInterdep<I,V>& c, I &id){
     if(existeSiguiente(c)){   
-        return c.iter->ident;
+        id = c.iter->ident;
+        return true;
     }
-    return I();
+    return false;
 }
 
 /*
 * Nos devuelve el valor del nodo al que apunta el iterador.
 */
 template<typename I, typename V>
-V siguienteVal(colecInterdep<I,V>& c){
+bool siguienteVal(colecInterdep<I,V>& c, V &valor){
     if(existeSiguiente(c)){
-        return c.iter->valor;
+        valor = c.iter->valor;
+        return true;
     }
-    return V();
+    return false;
 }
 
 /*
@@ -754,22 +755,24 @@ bool siguienteDependiente(colecInterdep<I,V>& c){
 * Nos devuelve el id del sup del nodo al que apunta el iterador.
 */
 template<typename I, typename V>
-I siguienteSuperior(colecInterdep<I,V>& c){
+bool siguienteSuperior(colecInterdep<I,V>& c, I &sup){
     if(siguienteDependiente(c)){
-        return c.iter->sup->ident;
+        sup = c.iter->sup->ident;
+        return true;
     }
-    return I();
+    return false;
 }
 
 /*
 * Nos devuelve el numDep de el nodo al que apunta el iterador.
 */
 template<typename I, typename V>
-unsigned siguienteNumDependientes(colecInterdep<I,V>& c){
+bool siguienteNumDependientes(colecInterdep<I,V>& c, unsigned &numDep){
     if(existeSiguiente(c)){
-        return c.iter->numDep;
+        numDep = c.iter->numDep;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 /*
@@ -780,7 +783,6 @@ void avanza(colecInterdep<I,V>& c){
     if(existeSiguiente(c)){
         c.iter = c.iter->sig;
     }
-    return;
 }
 
 #endif
