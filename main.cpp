@@ -18,7 +18,7 @@ int main(){
     string nombre_e, descripcion_e, dependencia, padre, prioridad, nombre_dep, supDep;
     unsigned numDep, numDepDP;
     int i = 1;
-    f.open("entrada.txt");  
+    f.open("pruebas.txt");  
     g.open("salia.txt");
     while (f >> instruccion){
         getline(f, salto);
@@ -182,42 +182,6 @@ int main(){
     } 
     f.close();
     g.close();
-}
 
-/*
-void casoA(ifstream& f ){
-
+    return 0;
 }
-
-void casoC(ifstream& f ){
-    
-}
-
-void casoD(ifstream& f ){
-    
-}
-
-void casoO(ifstream& f ){
-    
-}
-
-void casoE(ifstream& f ){
-    
-}
-
-void casoI(ifstream& f ){
-    
-}
-
-void casoB(ifstream& f ){
-    
-}
-
-void casoLD(ifstream& f ){
-    
-}
-
-void casoLT(ifstream& f ){
-    
-}
-*/

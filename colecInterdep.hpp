@@ -459,10 +459,10 @@ void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
         nuevaCelda = new typename colecInterdep<I,V>::celdaColec;
         nuevaCelda->ident = id;
         nuevaCelda->valor = v;
-        nuevaCelda->sup = nodoSup;    //el puntero 'sup' apunta al nodo 'sup' encontrado
+        nuevaCelda->sup = nodoSup;    //el puntero sup apunta al nodo sup encontrado
         nuevaCelda->numDep = 0;
 
-        if(anterior == nullptr){        //si el nuevo 'id' es menor que c.primero->ident hay que añadirlo el primero de la lsita
+        if(anterior == nullptr){        //si el nuevo id es menor que c.primero->ident hay que añadirlo el primero de la lsita
             nuevaCelda->sig = c.primero; 
             c.primero = nuevaCelda;      
         } else {                    //si no, se inserta entre el previo y el actual
