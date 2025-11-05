@@ -19,7 +19,7 @@ int main(){
     unsigned numDep, numDepDP;
     int i = 1;
     bool error = false;
-    f.open("entrada.txt");  
+    f.open("pruebas.txt");  
     g.open("salia.txt");
     while (f >> instruccion){
         getline(f, salto);
@@ -34,7 +34,7 @@ int main(){
             crearEvento(descripcion_e, stoi(prioridad), e);
                 
             if(dependencia == "INDependiente"){    
-                if(!existeIndependiente(nombre_e, c)){
+                if(!existe(nombre_e, c)){
                     aniadirIndependiente(c, nombre_e, e);
                     g << "INTRODUCIDO: [ " << nombre_e << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 } else {
@@ -42,7 +42,7 @@ int main(){
                 }
                 
             }else{                              
-                if(existe(padre, c)){   //esto creo que con 1 llamada vale
+                if(existe(padre, c) && !existe(nombre_e, c)){   
                     aniadirDependiente(c, nombre_e, e, padre);             
                     g << "INTRODUCIDO: [ " << nombre_e << " -de-> " << padre << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 } else {

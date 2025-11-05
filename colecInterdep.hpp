@@ -28,8 +28,8 @@ using namespace std;
 * El parámetro formal I es necesario que tenga definidas las operaciones igual y anterior, que definen una relación de orden total.
 * Por ejemplo, permiten organizar los datos de la colección en forma de secuencia ordenada.
 *
-*   bool igual(I e1, I e2) devuelve verdadero si y solo si el elemento e1 es igual al elemento e2.
-*   bool anterior(I e1, I e2) devuelve verdadero si y solo si el elemento e1 es anterior (menor) que el elemento e2.
+*   bool operator==(I e1, I e2) devuelve verdadero si y solo si el elemento e1 es igual al elemento e2.
+*   bool operator<(I e1, I e2) devuelve verdadero si y solo si el elemento e1 es anterior (menor) que el elemento e2.
 *
 */
 template<typename I, typename V> struct colecInterdep;
@@ -723,7 +723,6 @@ bool existeSiguiente(colecInterdep<I,V>& c){
 template<typename I, typename V>
 I siguienteIdent(colecInterdep<I,V>& c){
     if(existeSiguiente(c)){   
-        //typename colecInterdep<I>::celdaColec* aux = c.iter->sig;
         return c.iter->ident;
     }
     return I();
@@ -735,7 +734,6 @@ I siguienteIdent(colecInterdep<I,V>& c){
 template<typename I, typename V>
 V siguienteVal(colecInterdep<I,V>& c){
     if(existeSiguiente(c)){
-        //typename colecInterdep<I>::celdaColec* aux = c.iter->sig;
         return c.iter->valor;
     }
     return V();

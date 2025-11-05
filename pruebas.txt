@@ -1,3 +1,5 @@
+B
+holiwis
 LT
 A
 cierre_2025_10_6
@@ -138,4 +140,32 @@ B
 B
 perico
 LT
+A
+javier
+Esta es la descripcion de javier
+22
+INDependiente
+-.-.-.-.-
+A
+javier
+Esta es la descripcion de javier
+22
+DEPendiente
+zzz
+C
+javier
+Rodrigo es un cervecero de manual
+777
+A
+manuel
+ajskdhasjd
+22
+DEPendiente
+javier
+A
+manuel
+jkdhsjkdh
+566
+INDependiente
+-.-.-.-.-
 LT
