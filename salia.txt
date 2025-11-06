@@ -88,10 +88,15 @@ INDEPENDIZADO: 1_PrimeroD
 BORRADO: 0_PrimeroI
 BORRADO: zzz
 IMPOSIBLE hacer depend.: adios -de-> javier
+INTENTANDO hacer depend.: manuel -de-> COSAS BARATAS
+IMPOSIBLE hacer depend.: manuel -de-> AKSJAKSJ
+****DEPENDIENTES: javier
+[ javier --- 0 ] --- Rodrigo es una persona muy maja y agradable --- ( 777 ) ****
+****FINAL dependientes -de-> javier
 -----LISTADO: 5
 [ 1_PrimeroD --- 0 ] --- Este tio es el primer dependiente --- ( 1 )
-[ COSAS BARATAS --- 1 ] --- Cierre del edificio --- ( 2 )
+[ COSAS BARATAS --- 2 ] --- Cierre del edificio --- ( 2 )
 [ cierre_2025_10_6 -de-> COSAS BARATAS ;;;  0 ] --- Cierre del edificio --- ( 2 )
-[ javier --- 1 ] --- Rodrigo es una persona muy maja y agradable --- ( 777 )
-[ manuel -de-> javier ;;;  0 ] --- ajskdhasjd --- ( 22 )
+[ javier --- 0 ] --- Rodrigo es una persona muy maja y agradable --- ( 777 )
+[ manuel -de-> COSAS BARATAS ;;;  0 ] --- ajskdhasjd --- ( 22 )
 -----

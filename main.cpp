@@ -22,6 +22,7 @@ int main(){
     int i = 1;
     int tam_antes = 0;
     int tam_dsps = 0;
+    bool esDep = false;
     f.open("pruebas.txt");  
     g.open("salia.txt");
     while (f >> instruccion){
@@ -60,8 +61,8 @@ int main(){
 
             crearEvento(descripcion_e, stoi(prioridad), e);
 
-            if(actualizarVal(c, nombre_e, e) && obtenerDatos(nombre_e, numDep, padre, e, c)){   //obtenerDatos(nombre_e, numDep, padre, c)
-                if(padre != "-.-.-.-.-"){  //if padre != "vacio"
+            if(actualizarVal(c, nombre_e, e) && obtenerDatos(nombre_e, numDep, padre, e, c, esDep)){   //obtenerDatos(nombre_e, numDep, padre, c)
+                if(esDep){  //if padre != "vacio"
                     g << "CAMBIADO: [ " << nombre_e << " -de-> " << padre << " ;;; " << numDep << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
                 } else {
                     g << "CAMBIADO: " << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion_e << " --- ( " << prioridad << " )" << endl;
@@ -74,18 +75,21 @@ int main(){
             getline(f, nombre_e);
             getline(f, padre);
 
-            //primero llamar a hacer dependiente, si el padre y el nombre existen podrá hacerDependiente al elemento, sino no
             hacerDependiente(c, nombre_e, padre);
-            if(existe(padre, c) && existe(nombre_e, c)){   
-                g << "INTENTANDO hacer depend.: " << nombre_e << " -de-> " << padre << endl;
+            if(existe(padre, c)){ //si esto se ejecuta como verdadero es que existe el padre
+                if(obtenerDatos(nombre_e, numDep, padre, e, c, esDep)){            
+                    g << "INTENTANDO hacer depend.: " << nombre_e << " -de-> " << padre << endl;
+                } else {
+                    g << "IMPOSIBLE hacer depend.: " << nombre_e << " -de-> " << padre << endl;
+                }
             } else {
                 g << "IMPOSIBLE hacer depend.: " << nombre_e << " -de-> " << padre << endl;
             }
         } else if (instruccion == "O"){     //coste O(1N)
             getline(f, nombre_e);
 
-            if(obtenerDatos(nombre_e, numDep, padre, e, c)){   //obtenerDatos(nombre_e, numDep, padre, valor)
-                if(padre != "-.-.-.-.-"){               //if padre != "vacio"
+            if(obtenerDatos(nombre_e, numDep, padre, e, c, esDep)){   //obtenerDatos(nombre_e, numDep, padre, valor)
+                if(esDep){               //if padre != "vacio"
                     g << "LOCALIZADO: [ " << nombre_e << " -de-> " << padre << " ;;; " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
                 } else {
                     g << "LOCALIZADO: " << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
@@ -95,8 +99,8 @@ int main(){
             }
         } else if (instruccion == "E"){         //Coste 1N
             getline(f, nombre_e);
-            if(obtenerDatos(nombre_e, numDep, padre, e, c)){        //if obtenerDatos(.., padre, ...)
-                if(padre != "-.-.-.-.-"){                               // if padre != "vacio"
+            if(obtenerDatos(nombre_e, numDep, padre, e, c, esDep)){        //if obtenerDatos(.., padre, ...)
+                if(esDep){                               // if padre != "vacio"
                     g << "DEPendiente: " << nombre_e << endl;                 // es dependiente de "padre"
                 } else {                    
                     g << "INDEPendiente: " << nombre_e << endl;         // else es independendiente
@@ -105,10 +109,10 @@ int main(){
                 g << "DESCONOCIDO: " << nombre_e << endl;           // else no existe
             }                                                      
             
-        } else if (instruccion == "I"){  //no se hacerlo menos costoso
+        } else if (instruccion == "I"){  //coste O1N
             getline(f, nombre_e);
-            if(existe(nombre_e,c)){
-                if(!existeIndependiente(nombre_e, c)){
+            if(obtenerDatos(nombre_e, numDep, padre, e, c, esDep)){
+                if(esDep){
                     hacerIndependiente(c, nombre_e);
                     g << "INDEPENDIZADO: " << nombre_e << endl;
                 } else {
@@ -118,7 +122,7 @@ int main(){
                 g << "NO INDEPENDIZADO: " << nombre_e << endl;
             }
 
-        } else if (instruccion == "B"){     //coste O(N) por la llamada a borrar
+        } else if (instruccion == "B"){     //coste O(1N) por la llamada a borrar
             getline(f, nombre_e);
             tam_antes = tamanio(c);
             borrar(nombre_e, c);
@@ -132,8 +136,8 @@ int main(){
             getline(f, nombre_e);
             g << "****DEPENDIENTES: " << nombre_e << endl;
 
-            if(obtenerDatos(nombre_e, numDep, padre, e, c)){      //obtenerDatos(...)
-                if(padre != "-.-.-.-.-"){                        //if padre != "vacio"
+            if(obtenerDatos(nombre_e, numDep, padre, e, c, esDep)){      //obtenerDatos(...)
+                if(esDep){                        //if padre != "vacio"
                     g << "[ " << nombre_e << " -de-> " << padre << " ;;; " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " ) ****" << endl;
                 } else {
                     g << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " ) ****" << endl;
@@ -143,9 +147,9 @@ int main(){
                 i = 1;                                  //cada vez que llamamos a "LD" tiene que volver al inicio
                 while(existeSiguiente(c)){
                     if(siguienteDependiente(c) && siguienteIdent(c, nombre_dep) && siguienteSuperior(c, supDep)){
-                        if(supDep == nombre_e && obtenerNumDependientes(nombre_dep, c, numDepDP) && obtenerVal(nombre_dep, c, eDP)){             //si su superior es igual al nombre del evento, es que depende de él
+                        if(supDep == nombre_e && obtenerDatos(nombre_dep, numDepDP, supDep, eDP, c, esDep)){             //si su superior es igual al nombre del evento, es que depende de él
                             
-                            if(existeIndependiente(nombre_dep, c)){ //aqui esta condicion nunca se cumple en verdad
+                            if(!esDep){ //aqui esta condicion nunca se cumple en verdad
                                 g << "[" << i << " -> " << nombre_dep << " --- " << numDepDP << " ] --- " << descripcion(eDP) << " --- ( " << suPrioridad(eDP) << " ) ;;;;" << endl;
                                 i++;
                             } else {

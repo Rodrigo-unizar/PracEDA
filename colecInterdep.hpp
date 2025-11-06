@@ -161,7 +161,7 @@ template<typename I, typename V> void borrar(I id, colecInterdep<I,V>& c);
 * todos los datos relacionados al elemento con identificador id. Si el elemento no existe en la colección, es que no 
 * puede obtener sus datos entonces devuelve falso y no modifica nada. 
 */
-template<typename I, typename V> bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c);
+template<typename I, typename V> bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c, bool &esDep);
 
 
 //Operaciones iterador
@@ -241,7 +241,7 @@ struct colecInterdep{
     friend bool obtenerNumDependientes<I,V>(I id, colecInterdep<I,V>& c, unsigned& numDep);
     friend void borrar<I,V>(I id, colecInterdep<I,V>& c);
     //Operacion auxiliar
-    friend bool obtenerDatos<I,V>(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c);
+    friend bool obtenerDatos<I,V>(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c, bool &esDep);
 
     /* Operaciones iterador */
 
@@ -713,11 +713,12 @@ void borrar(I id, colecInterdep<I,V>& c){
 * Si la lista contiene al menos 1 elemento, recorremos la lista hasta encontrar el elemento con identificador igual a id. Una vez
 * encontrado, modificamos las variables de tal forma que: numDep ahora contiene el numero de elementos dependientes de nuestro elemento
 * con identificador id, v contiene el valor de nuestro elemento con identificador id y sup, si el elemento con ident id es dependiente, contiene
-* el identificador del elemento del que depende (su padre) y si es independiente, contiene la cadena "-.-.-.-.-" para simbolizar que está vacío.
+* el identificador del elemento del que depende (su padre) además de que esDep se vuelve verdadero y si es independiente, 
+* se devuelve en esDep falso y no hace falta modificar nada mas.
 * Devuelve verdadero si y solo si ha podido obtener todos los datos, en caso contrario devuelve falso.
 */
 template<typename I, typename V> 
-bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c){
+bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c, bool &esDep){
     if(esVacia(c)){
         return false;
     } else {
@@ -730,9 +731,10 @@ bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c){
             numDep = aux1->numDep;
             v = aux1->valor;
             if(aux1->sup == nullptr){
-                sup = "-.-.-.-.-";
+                esDep = false;
             } else {
                 sup = aux1->sup->ident;
+                esDep = true;
             }
             return true;
         }
