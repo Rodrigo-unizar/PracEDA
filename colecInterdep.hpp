@@ -155,6 +155,14 @@ template<typename I, typename V> bool obtenerNumDependientes(I id, colecInterdep
 */
 template<typename I, typename V> void borrar(I id, colecInterdep<I,V>& c);
 
+//Auxiliar
+/*
+* Si existe el elemento con identificador id en la coleccion c, devuelve verdadero si y solo si ha podido obtener
+* todos los datos relacionados al elemento con identificador id. Si el elemento no existe en la colección, es que no 
+* puede obtener sus datos entonces devuelve falso y no modifica nada. 
+*/
+template<typename I, typename V> bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c);
+
 
 //Operaciones iterador
 
@@ -232,6 +240,8 @@ struct colecInterdep{
     friend bool obtenerSupervisor<I,V>(I id, colecInterdep<I,V>& c, I& sup);
     friend bool obtenerNumDependientes<I,V>(I id, colecInterdep<I,V>& c, unsigned& numDep);
     friend void borrar<I,V>(I id, colecInterdep<I,V>& c);
+    //Operacion auxiliar
+    friend bool obtenerDatos<I,V>(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c);
 
     /* Operaciones iterador */
 
@@ -697,6 +707,38 @@ void borrar(I id, colecInterdep<I,V>& c){
     }
 }
 
+
+//Auxiliar
+/*
+* Si la lista contiene al menos 1 elemento, recorremos la lista hasta encontrar el elemento con identificador igual a id. Una vez
+* encontrado, modificamos las variables de tal forma que: numDep ahora contiene el numero de elementos dependientes de nuestro elemento
+* con identificador id, v contiene el valor de nuestro elemento con identificador id y sup, si el elemento con ident id es dependiente, contiene
+* el identificador del elemento del que depende (su padre) y si es independiente, contiene la cadena "-.-.-.-.-" para simbolizar que está vacío.
+* Devuelve verdadero si y solo si ha podido obtener todos los datos, en caso contrario devuelve falso.
+*/
+template<typename I, typename V> 
+bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c){
+    if(esVacia(c)){
+        return false;
+    } else {
+        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
+        while(aux1 != nullptr && aux1->ident < id){
+            aux1 = aux1->sig; 
+        }
+
+        if(aux1 != nullptr && aux1->ident == id){
+            numDep = aux1->numDep;
+            v = aux1->valor;
+            if(aux1->sup == nullptr){
+                sup = "-.-.-.-.-";
+            } else {
+                sup = aux1->sup->ident;
+            }
+            return true;
+        }
+    }
+    return false;
+}
 
 //OPERACIONES ITERADOR
 

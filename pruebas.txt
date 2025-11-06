@@ -156,13 +156,13 @@ INDependiente
 -.-.-.-.-
 A
 javier
-Esta es la descripcion de javier
+Esta es la descripcion de alguien que no es javier
 22
 DEPendiente
 zzz
 C
 javier
-Rodrigo es un cervecero de manual
+Rodrigo es una persona muy maja y agradable
 777
 A
 manuel
@@ -183,4 +183,7 @@ B
 0_PrimeroI
 B
 zzz
+D
+adios
+javier
 LT
