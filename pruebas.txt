@@ -37,7 +37,7 @@ A
 AASAS
 Rodrigo cabron
 5
-Dependiente
+DEPendiente
 instruccion2
 LT
 A
@@ -52,13 +52,13 @@ A
 perico
 No doy una macho
 7
-Dependiente
+DEPendiente
 perico
 A
 instruccion2
 mi bomboclat
 3
-Dependiente
+DEPendiente
 cierre_2025_10_6
 A
 COSAS BARATAS
@@ -70,7 +70,7 @@ A
 Fuego
 No quiero que te añadas
 22
-Dependiente
+DEPendiente
 noexistenadaqui
 E
 presencia_S008
