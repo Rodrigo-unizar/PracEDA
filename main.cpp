@@ -23,8 +23,8 @@ int main(){
     int tam_antes = 0;
     int tam_dsps = 0;
     bool esDep = false;
-    f.open("pruebas.txt");  
-    g.open("salia.txt");
+    f.open("entrada_mija.txt");  
+    g.open("salida.txt");
     while (f >> instruccion){
         getline(f, salto);
         
@@ -153,7 +153,7 @@ int main(){
                                 g << "[" << i << " -> " << nombre_dep << " --- " << numDepDP << " ] --- " << descripcion(eDP) << " --- ( " << suPrioridad(eDP) << " ) ;;;;" << endl;
                                 i++;
                             } else {
-                                g << "[" << i << " -> " << nombre_dep << " -de-> " << supDep << " ;;;  " << numDepDP << " ] --- " << descripcion(eDP) << " --- ( " << suPrioridad(eDP) << " ) ;;;;" << endl;
+                                g << "[" << i << " -> " << nombre_dep << " -de-> " << supDep << " ;;; " << numDepDP << " ] --- " << descripcion(eDP) << " --- ( " << suPrioridad(eDP) << " ) ;;;;" << endl;
                                 i++;
                             }
                         }
@@ -173,7 +173,7 @@ int main(){
             while(existeSiguiente(c)){
                 if(siguienteIdent(c, nombre_e) && siguienteVal(c, e) && siguienteNumDependientes(c, numDep)){
                     if(siguienteSuperior(c, supDep)){
-                        g << "[ " << nombre_e <<  " -de-> " << supDep << " ;;;  " << numDep << " ] --- " << descripcion(e) << " --- " << "( " << suPrioridad(e) << " )" << endl;
+                        g << "[ " << nombre_e <<  " -de-> " << supDep << " ;;; " << numDep << " ] --- " << descripcion(e) << " --- " << "( " << suPrioridad(e) << " )" << endl;
                     } else {
                         g << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
                     } 
