@@ -10,7 +10,8 @@ using namespace std;
 // PREDECLARACION DEL TAD contacto (inicio INTERFAZ)
 
 /* Los valores del TAD evento representan tuplas formadas por 2 elementos, tal y como:
-* (descripción, prioridad) siendo la descripción una cadena y la prioridad un número natural.
+* (descripción, prioridad) siendo la descripción una breve explicación del evento
+* y la prioridad un indicativo de la urgencia de dicho evento.
 */
 struct evento;
 
@@ -48,7 +49,9 @@ struct evento{
     friend unsigned suPrioridad(const evento& e);
     friend void cambiarPrioridad(unsigned prio, evento& e);
 
-    private:                //declaracion de la representacion interna del tipo
+    /*Los valores del TAD evento representan tuplas formadas por 2 elementos, tal y como:
+    (descripción, prioridad) donde descripcion es una cadena y prioridad un numero natural.*/
+    private:                
         string desc;        // desc contiene la cadena que corresponde con la descripción del evento
         unsigned prio;      // prio contiene el natural correspondiente a la prioridad del evento
 };

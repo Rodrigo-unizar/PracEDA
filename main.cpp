@@ -1,8 +1,6 @@
 /*Razvan Ghita Calangiu 927460, Rodrigo Herce Alonso 935413
 */
 
-/* NO SE PUEDE LLAMAR A EXISTIR ANTES DE LLAMAR A LA FUNCION*/
-
 #include <iostream>
 #include <fstream>
 #include "colecInterdep.hpp" 
@@ -23,7 +21,7 @@ int main(){
     int tam_antes = 0;
     int tam_dsps = 0;
     bool esDep = false;
-    f.open("pruebas.txt");  
+    f.open("entrada.txt");  
     g.open("salida.txt");
     while (f >> instruccion){
         getline(f, salto);
@@ -147,7 +145,7 @@ int main(){
                 i = 1;                                  //cada vez que llamamos a "LD" tiene que volver al inicio
                 while(existeSiguiente(c)){
                     if(siguienteDependiente(c) && siguienteIdent(c, nombre_dep) && siguienteSuperior(c, supDep)){
-                        if(supDep == nombre_e && obtenerDatos(nombre_dep, numDepDP, supDep, eDP, c, esDep)){             //si su superior es igual al nombre del evento, es que depende de él
+                        if(supDep == nombre_e && obtenerDatos(nombre_dep, numDepDP, supDep, eDP, c, esDep)){  //si su superior es igual al nombre del evento, es que depende de él
                             
                             if(!esDep){ //aqui esta condicion nunca se cumple en verdad
                                 g << "[" << i << " -> " << nombre_dep << " --- " << numDepDP << " ] --- " << descripcion(eDP) << " --- ( " << suPrioridad(eDP) << " ) ;;;;" << endl;

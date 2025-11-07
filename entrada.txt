@@ -1,116 +1,197 @@
+B
+holiwis
 LT
-C 
-apertura_2025_10_6
-apertura del edificio 2025-10-7
-1
+C
+noexistenadaqui
+Que locura chicos
+77
+I
+undo
+D
+martinez
 A
 cierre_2025_10_6
 Cierre del edificio
 2
 INDependiente
 -.-.-.-.-
-D
-cierre_2025_10_6
-cierre_2025_10_6
 A
-ON_luces Z008
-Encendidas luces008, deteccion sensor presencia
-2
-DEPendiente
-presencia_S008
-LD
-presencia_S008
-LT
-A
-Validacion_P001_exterior
-Validacion acceso en puerta P001, desde exterior
-3
+instruccion2
+Se ha caido el techo
+1
 INDependiente
 -.-.-.-.-
 A
-apertura_P001
-Abierta puerta P001
-3
-DEPendiente
-Validacion_P001_exterior
-A
-presencia_S008
-Deteccion presencia, sensor S008
-3
+zzz
+Ultimo de la lista en teoria
+44
 INDependiente
 -.-.-.-.-
 A
-ON_luces Z008
-Encendidas luces008, deteccion sensor presencia
-4
-DEPendiente
-presencia_S008
+instruccion2
+tu mama
+88
+INDependiente
+-.-.-.-.-
 A
-OFF_luces Z008
-Apagadas luces zona 008, por expiracion tiempo
-2
-DEPendiente
-ON_luces Z008
-LT
-O
-presencia_S008
-O
-OFF_luces Z008
-O
-apertura_2025_10_7
-E
-presencia_S008
-E
-OFF_luces Z008
-E
-apertura_2025_10_7
-LD
-Validacion_P001_exterior
-C 
-apertura_P001
-Abierta puerta P001, previa validacion
-2
-O
-apertura_P001
-C 
-presencia_S008
-presencia, sensor S008
-4
-LD
-presencia_S008
-LT
-D
-OFF_luces Z008
-presencia_S008
-LD
-presencia_S008
-I
-Validacion_P001_exterior
-I
-apertura_2025_10_6
-I
-apertura_P001
-LD
-Validacion_P001_exterior
-C 
-apertura_P001
-Abierta puerta P001 sin validacion acceso
+AASAS
+Rodrigo cabron
 5
-D
+DEPendiente
+instruccion2
+LT
+A
+cierre_2025_10_6
+Cierre del edificio
+2
+INDependiente
+-.-.-.-.-
+E
+AASAS
+A
+perico
+No doy una macho
+7
+DEPendiente
+perico
+A
+instruccion2
+mi bomboclat
+3
+DEPendiente
+cierre_2025_10_6
+A
+COSAS BARATAS
+Cierre del edificio
+2
+INDependiente
+-.-.-.-.-
+A
+Fuego
+No quiero que te añadas
+22
+DEPendiente
+noexistenadaqui
+E
 presencia_S008
-apertura_P001
+I
+AASAS
+LT
+O
+instruccion2
+O
+noexistenadaqui
+D
+instruccion2
+AASAS
+O
+instruccion2
+E
+AASAS
+E
+instruccion2
+LD
+instruccion2
+C
+AASAS
+Cambiamos la descripcion porque me apetece
+55
+B
+instruccion2
+D
+AASAS
+COSAS BARATAS
+O
+cierre_2025_10_6
 D
 cierre_2025_10_6
-apertura_2025_10_6
+COSAS BARATAS
+B
+AASAS
+B
+perico
+A
+0_PrimeroI
+Este tio es independiente 
+444
+INDependiente
+-.-.-.-.-
+A
+1_PrimeroD
+Este tio es el primer dependiente
+1
+DEPendiente
+0_PrimeroI
+A
+2_SegundoD
+Este sera el segundo dependiente
+2
+DEPendiente
+0_PrimeroI
+A
+3_PrimerSegundoD
+Este es el primer dependiente de 2_SegundoD
+23
+DEPendiente
+2_SegundoD
+B
+0_PrimeroI
+B
+2_SegundoD
 LT
 B
-apertura_2025_10_7
+3_PrimerSegundoD
 B
-OFF_luces Z008
+0_PrimeroI
 B
-presencia_S008
+2_SegundoD
+B
+perico
+LT
+A
+javier
+Esta es la descripcion de javier
+22
+INDependiente
+-.-.-.-.-
+A
+javier
+Esta es la descripcion de alguien que no es javier
+22
+DEPendiente
+zzz
+C
+javier
+Rodrigo es una persona muy maja y agradable
+777
+A
+manuel
+ajskdhasjd
+22
+DEPendiente
+javier
+A
+manuel
+jkdhsjkdh
+566
+INDependiente
+-.-.-.-.-
+LT
+I
+1_PrimeroD
+B
+0_PrimeroI
+B
+zzz
+D
+adios
+javier
+D
+manuel
+COSAS BARATAS
+D
+manuel
+AKSJAKSJ
 LD
-presencia_S008
-LD
-apertura_P001
+javier
 LT
