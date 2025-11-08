@@ -1,0 +1,111 @@
+-----LISTADO: 0
+-----
+INTRODUCIDO: [ Cristiano_Ronaldo ] --- Real_Madrid --- ( 7 )
+INTRODUCIDO: [ Leo_Messi ] --- FC_Barcelona --- ( 10 )
+INTENTANDO hacer depend.: Cristiano_Ronaldo -de-> Leo_Messi
+INTRODUCIDO: [ Neymar_JR -de-> Leo_Messi ] --- Santos_FC --- ( 11 )
+****DEPENDIENTES: Leo_Messi
+[ Leo_Messi --- 2 ] --- FC_Barcelona --- ( 10 ) ****
+[1 -> Cristiano_Ronaldo -de-> Leo_Messi ;;; 0 ] --- Real_Madrid --- ( 7 ) ;;;;
+[2 -> Neymar_JR -de-> Leo_Messi ;;; 0 ] --- Santos_FC --- ( 11 ) ;;;;
+****FINAL dependientes -de-> Leo_Messi
+****DEPENDIENTES: Cristiano_Ronaldo
+[ Cristiano_Ronaldo -de-> Leo_Messi ;;; 0 ] --- Real_Madrid --- ( 7 ) ****
+****FINAL dependientes -de-> Cristiano_Ronaldo
+INTRODUCIDO: [ Vinicius_Jr ] --- Real_Madrid_Winger --- ( 7 )
+INTENTANDO hacer depend.: Vinicius_Jr -de-> Leo_Messi
+LOCALIZADO: [ Vinicius_Jr -de-> Leo_Messi ;;; 0 ] --- Real_Madrid_Winger --- ( 7 )
+CAMBIADO: [ Vinicius_Jr -de-> Leo_Messi ;;; 0 ] --- Real_Madrid_Winger_Estrella --- ( 7 )
+INDEPENDIZADO: Vinicius_Jr
+BORRADO: Vinicius_Jr
+IMPOSIBLE hacer depend.: Antoine_Griezmann -de-> Leo_Messi
+NO INTRODUCIDO: [ Leo_Messi ] --- Duplicate --- ( 99 )
+****DEPENDIENTES: Antoine_Griezmann
+****DESCONOCIDO
+-----LISTADO: 3
+[ Cristiano_Ronaldo -de-> Leo_Messi ;;; 0 ] --- Real_Madrid --- ( 7 )
+[ Leo_Messi --- 2 ] --- FC_Barcelona --- ( 10 )
+[ Neymar_JR -de-> Leo_Messi ;;; 0 ] --- Santos_FC --- ( 11 )
+-----
+INTRODUCIDO: [ Lamine_Yamal ] --- SE_Futbol --- ( 19 )
+INTRODUCIDO: [ Kylian_Mbappe -de-> Cristiano_Ronaldo ] --- PSG --- ( 9 )
+NO INTRODUCIDO: [ Kylian_Mbappe ] --- Monaco_FC --- ( 3 )
+DEPendiente: Kylian_Mbappe
+INTRODUCIDO: [ Desire_Doue -de-> Neymar_JR ] --- France_Football --- ( 5 )
+****DEPENDIENTES: Desire_Doue
+[ Desire_Doue -de-> Neymar_JR ;;; 0 ] --- France_Football --- ( 5 ) ****
+****FINAL dependientes -de-> Desire_Doue
+****DEPENDIENTES: Neymar_JR
+[ Neymar_JR -de-> Leo_Messi ;;; 1 ] --- Santos_FC --- ( 11 ) ****
+[1 -> Desire_Doue -de-> Neymar_JR ;;; 0 ] --- France_Football --- ( 5 ) ;;;;
+****FINAL dependientes -de-> Neymar_JR
+INTRODUCIDO: [ Erling_Haaland -de-> Lamine_Yamal ] --- Man_City --- ( 20 )
+-----LISTADO: 7
+[ Cristiano_Ronaldo -de-> Leo_Messi ;;; 1 ] --- Real_Madrid --- ( 7 )
+[ Desire_Doue -de-> Neymar_JR ;;; 0 ] --- France_Football --- ( 5 )
+[ Erling_Haaland -de-> Lamine_Yamal ;;; 0 ] --- Man_City --- ( 20 )
+[ Kylian_Mbappe -de-> Cristiano_Ronaldo ;;; 0 ] --- PSG --- ( 9 )
+[ Lamine_Yamal --- 1 ] --- SE_Futbol --- ( 19 )
+[ Leo_Messi --- 2 ] --- FC_Barcelona --- ( 10 )
+[ Neymar_JR -de-> Leo_Messi ;;; 1 ] --- Santos_FC --- ( 11 )
+-----
+LOCALIZADO: [ Lamine_Yamal --- 1 ] --- SE_Futbol --- ( 19 )
+LOCALIZADO: [ Cristiano_Ronaldo -de-> Leo_Messi ;;; 1 ] --- Real_Madrid --- ( 7 )
+NO LOCALIZADO: Nico_Williams
+DESCONOCIDO: Barcola
+INDEPendiente: Lamine_Yamal
+****DEPENDIENTES: Neymar_JR
+[ Neymar_JR -de-> Leo_Messi ;;; 1 ] --- Santos_FC --- ( 11 ) ****
+[1 -> Desire_Doue -de-> Neymar_JR ;;; 0 ] --- France_Football --- ( 5 ) ;;;;
+****FINAL dependientes -de-> Neymar_JR
+CAMBIADO: [ Cristiano_Ronaldo -de-> Leo_Messi ;;; 1 ] --- Al_Nassr --- ( 1 )
+LOCALIZADO: [ Cristiano_Ronaldo -de-> Leo_Messi ;;; 1 ] --- Al_Nassr --- ( 1 )
+CAMBIADO: [ Leo_Messi --- 2 ] --- Inter_Miami --- ( 21 )
+LOCALIZADO: [ Leo_Messi --- 2 ] --- Inter_Miami --- ( 21 )
+****DEPENDIENTES: Lamine_Yamal
+[ Lamine_Yamal --- 1 ] --- SE_Futbol --- ( 19 ) ****
+[1 -> Erling_Haaland -de-> Lamine_Yamal ;;; 0 ] --- Man_City --- ( 20 ) ;;;;
+****FINAL dependientes -de-> Lamine_Yamal
+-----LISTADO: 7
+[ Cristiano_Ronaldo -de-> Leo_Messi ;;; 1 ] --- Al_Nassr --- ( 1 )
+[ Desire_Doue -de-> Neymar_JR ;;; 0 ] --- France_Football --- ( 5 )
+[ Erling_Haaland -de-> Lamine_Yamal ;;; 0 ] --- Man_City --- ( 20 )
+[ Kylian_Mbappe -de-> Cristiano_Ronaldo ;;; 0 ] --- PSG --- ( 9 )
+[ Lamine_Yamal --- 1 ] --- SE_Futbol --- ( 19 )
+[ Leo_Messi --- 2 ] --- Inter_Miami --- ( 21 )
+[ Neymar_JR -de-> Leo_Messi ;;; 1 ] --- Santos_FC --- ( 11 )
+-----
+YA ERA INDepend.: Lamine_Yamal
+INDEPENDIZADO: Desire_Doue
+INTENTANDO hacer depend.: Desire_Doue -de-> Leo_Messi
+****DEPENDIENTES: Leo_Messi
+[ Leo_Messi --- 3 ] --- Inter_Miami --- ( 21 ) ****
+[1 -> Cristiano_Ronaldo -de-> Leo_Messi ;;; 1 ] --- Al_Nassr --- ( 1 ) ;;;;
+[2 -> Desire_Doue -de-> Leo_Messi ;;; 0 ] --- France_Football --- ( 5 ) ;;;;
+[3 -> Neymar_JR -de-> Leo_Messi ;;; 0 ] --- Santos_FC --- ( 11 ) ;;;;
+****FINAL dependientes -de-> Leo_Messi
+INDEPENDIZADO: Erling_Haaland
+CAMBIADO: [ Desire_Doue -de-> Leo_Messi ;;; 0 ] --- Rennes --- ( 19 )
+INTENTANDO hacer depend.: Kylian_Mbappe -de-> Leo_Messi
+-----LISTADO: 7
+[ Cristiano_Ronaldo -de-> Leo_Messi ;;; 0 ] --- Al_Nassr --- ( 1 )
+[ Desire_Doue -de-> Leo_Messi ;;; 0 ] --- Rennes --- ( 19 )
+[ Erling_Haaland --- 0 ] --- Man_City --- ( 20 )
+[ Kylian_Mbappe -de-> Leo_Messi ;;; 0 ] --- PSG --- ( 9 )
+[ Lamine_Yamal --- 0 ] --- SE_Futbol --- ( 19 )
+[ Leo_Messi --- 4 ] --- Inter_Miami --- ( 21 )
+[ Neymar_JR -de-> Leo_Messi ;;; 0 ] --- Santos_FC --- ( 11 )
+-----
+NO BORRADO: apertura_2025_10_7
+BORRADO: Cristiano_Ronaldo
+NO BORRADO: Leo_Messi
+BORRADO: Erling_Haaland
+****DEPENDIENTES: Cristiano_Ronaldo
+****DESCONOCIDO
+-----LISTADO: 5
+[ Desire_Doue -de-> Leo_Messi ;;; 0 ] --- Rennes --- ( 19 )
+[ Kylian_Mbappe -de-> Leo_Messi ;;; 0 ] --- PSG --- ( 9 )
+[ Lamine_Yamal --- 0 ] --- SE_Futbol --- ( 19 )
+[ Leo_Messi --- 3 ] --- Inter_Miami --- ( 21 )
+[ Neymar_JR -de-> Leo_Messi ;;; 0 ] --- Santos_FC --- ( 11 )
+-----

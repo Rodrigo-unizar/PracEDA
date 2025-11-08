@@ -3,17 +3,19 @@ NO BORRADO: holiwis
 -----
 NO CAMBIADO: noexistenadaqui
 NO INDEPENDIZADO: undo
-IMPOSIBLE hacer depend.: martinez -de-> A
+IMPOSIBLE hacer depend.: martinez -de-> pepe
+INTRODUCIDO: [ cierre_2025_10_6 ] --- Cierre del edificio --- ( 2 )
 INTRODUCIDO: [ instruccion2 ] --- Se ha caido el techo --- ( 1 )
 INTRODUCIDO: [ zzz ] --- Ultimo de la lista en teoria --- ( 44 )
 NO INTRODUCIDO: [ instruccion2 ] --- tu mama --- ( 88 )
 INTRODUCIDO: [ AASAS -de-> instruccion2 ] --- Rodrigo cabron --- ( 5 )
------LISTADO: 3
+-----LISTADO: 4
 [ AASAS -de-> instruccion2 ;;; 0 ] --- Rodrigo cabron --- ( 5 )
+[ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
 [ instruccion2 --- 1 ] --- Se ha caido el techo --- ( 1 )
 [ zzz --- 0 ] --- Ultimo de la lista en teoria --- ( 44 )
 -----
-INTRODUCIDO: [ cierre_2025_10_6 ] --- Cierre del edificio --- ( 2 )
+NO INTRODUCIDO: [ cierre_2025_10_6 ] --- Cierre del edificio --- ( 2 )
 DEPendiente: AASAS
 NO INTRODUCIDO: [ perico -de-> perico ] --- No doy una macho --- ( 7 )
 NO INTRODUCIDO: [ instruccion2 -de-> cierre_2025_10_6 ] --- mi bomboclat --- ( 3 )
