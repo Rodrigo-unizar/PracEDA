@@ -164,6 +164,8 @@ template<typename I, typename V> void borrar(I id, colecInterdep<I,V>& c);
 template<typename I, typename V> bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c, bool &esDep);
 
 
+
+
 //Operaciones iterador
 
 /*
@@ -242,7 +244,7 @@ struct colecInterdep{
     friend void borrar<I,V>(I id, colecInterdep<I,V>& c);
     //Operacion auxiliar
     friend bool obtenerDatos<I,V>(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c, bool &esDep);
-
+    //Operaciones privadas
     /* Operaciones iterador */
 
     friend void iniciarIterador<I,V>(colecInterdep<I,V>& c);
@@ -275,12 +277,16 @@ struct colecInterdep{
         V valor;            //valor es de tipo genérico, en este caso lo utilizaremos con el TAD evento
         celdaColec* sup;    //sup es un puntero de tipo celdaColec que apunta al evento del que depende, si es independientes apunta a nullptr 
         unsigned numDep;    //numDep contiene el natural correspondiente el numero de eventos dependientes de este
-        celdaColec* sig;    //sig es un puntero dirigido a la siguiente celda de la lista enlazada
+        celdaColec* izq;
+        celdaColec* der;   //izq y der son punteros de tipo celdaColec que apuntan a los hijos de un nodo
     };
 
-    int tamanio;            //tamanio contiene el entero correspodiente al número de celdas de la lista
-    celdaColec* primero;    //primero es un puntero a la primera celda de la lista
-    celdaColec* iter;       //iter es un puntero encargado de las operaciones del iterador
+    int tamanio;         //tamanio contiene el entero correspodiente al número de celdas del árbol
+    celdaColec* raiz;    //raíz es un puntero a la primera celda del árbol
+    //pila iter;         //iter es una pila que almacena punteros para realizar las operaciones del iterador
+
+    static bool existe2(I id, celdaColec* abb);
+    
 
 };
 
@@ -292,9 +298,9 @@ struct colecInterdep{
 */
 template<typename I, typename V>
 void crear(colecInterdep<I,V>& c){
-    c.primero = nullptr;
+    c.raiz = nullptr;
     c.tamanio = 0;
-    c.iter = nullptr; //por seguridad
+    //c.iter = nullptr; //por seguridad
 }
 
 /*
@@ -314,24 +320,32 @@ bool esVacia(colecInterdep<I,V>& c){
 }
 
 /*
+*/
+template<typename I, typename V>
+bool colecInterdep<I,V>::existe2(I id, typename colecInterdep<I,V>::celdaColec* abb){
+    if(abb == nullptr){
+        return false;
+    } else {
+        if(id < abb->ident){
+            return existe2(id, abb->izq);
+        } else if(id > abb->ident){
+            return existe2(id, abb->der);
+        } else {
+            return true;
+        }
+    }
+}
+
+/*
 * Devuelve verdad si y solo si en c hay algún elemento con ident igual a id. Si la coleccion c es vacía es imposible que exista,
 * si no es vacía, avanzamos hasta que encontremos la celda que tenga su identificador igual a id o lleguemos al final.
 */
 template<typename I, typename V>
 bool existe(I id, colecInterdep<I,V>& c){
-    if(esVacia(c)){
-        return false;
-    }else {
-        typename colecInterdep<I,V>::celdaColec* aux = c.primero;
-        while(aux != nullptr){
-            if(aux->ident == id){
-                return true;
-            }
-            aux = aux->sig;
-        }
-        return false;
-    }
+    return colecInterdep<I,V>::existe2(id, c.raiz);
 }
+
+
 
 /*
 * Devuelve verdad si y solo si en c hay algún elemento dependiente cuyo ident sea igual a id. Si la colleción es vacia
