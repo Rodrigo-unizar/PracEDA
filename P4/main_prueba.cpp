@@ -20,7 +20,24 @@ int main(){
     bool esDep = false;
     f.open("entrada.txt");  
     g.open("salida.txt");
+
     nombre_e = "perico";
+    descripcion_e = "esto es la desc tranquila";
+    unsigned pri = 3;
+    crearEvento(descripcion_e, pri, e);
+    nombre_dep = "Manolo";
+
     if(existe(nombre_e, c)){g << "Hola" << endl;} 
-    else{g << "Funciona ";}
+    else{g << "Funciona " << endl;}
+    if(!existeDependiente(nombre_e, c)){g << "ASDASD" << endl;}
+    if(!existeIndependiente(nombre_e, c)){g << "PERICOOOO" << endl;}
+    tam_antes = tamanio(c);
+    aniadirIndependiente(c, nombre_e, e);
+    if(existeIndependiente(nombre_e, c)){g << "Tus huevos pal lao primo" << endl;} 
+    else{g << "mal" << endl;}
+    aniadirDependiente(c, nombre_dep, e, nombre_e);
+    aniadirDependiente(c, nombre_dep, e, nombre_e);
+    if(existeDependiente(nombre_dep, c)){g << "Se ha añadido correcto un dependiente" << endl;} else {g << "Me voy al baño" << endl;}
+    tam_dsps = tamanio(c);
+    g << tam_antes << tam_dsps << endl; 
 }
