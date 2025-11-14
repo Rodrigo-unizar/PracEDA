@@ -163,7 +163,22 @@ template<typename I, typename V> void borrar(I id, colecInterdep<I,V>& c);
 */
 template<typename I, typename V> bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c, bool &esDep);
 
+//Operaciones privadas
 
+/*
+*/
+template<typename I, typename V> bool existe2(I id, typename colecInterdep<I,V>::celdaColec* abb);
+
+/*
+*/
+template<typename I, typename V> typename colecInterdep<I,V>::celdaColec* buscar(I id, typename colecInterdep<I,V>::celdaColec* abb);
+
+/*
+*/
+template<typename I, typename V> void introducirIndep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c);
+/*
+*/
+template<typename I, typename V> void introducirDep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup);
 
 
 //Operaciones iterador
@@ -285,11 +300,10 @@ struct colecInterdep{
     celdaColec* raiz;               //raíz es un puntero a la primera celda del árbol
     Pila<celdaColec*> iter;         //iter es una pila que almacena punteros para realizar las operaciones del iterador
 
-    static bool existe2(I id, celdaColec* abb);
-    static celdaColec* buscar(I id, celdaColec* abb);
-    static void introducirIndep(celdaColec*& abb, I id, V v, colecInterdep<I,V>& c);
-    static void introducirDep(celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, celdaColec* sup);
-    
+    friend bool existe2<I,V>(I id, typename colecInterdep<I,V>::celdaColec* abb);
+    friend typename colecInterdep<I,V>::celdaColec* buscar<I,V>(I id, typename colecInterdep<I,V>::celdaColec* abb);
+    friend void introducirIndep<I,V>(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c);
+    friend void introducirDep<I,V>(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup);
 
 };
 
@@ -297,14 +311,14 @@ struct colecInterdep{
 /*
 */
 template<typename I, typename V>
-typename colecInterdep<I,V>::celdaColec* colecInterdep<I,V>::buscar(I id, typename colecInterdep<I,V>::celdaColec* abb){
+typename colecInterdep<I,V>::celdaColec* buscar(I id, typename colecInterdep<I,V>::celdaColec* abb){
     if(abb == nullptr){
         return nullptr;
     } else {
         if(id < abb->ident){
-            return buscar(id, abb->izq);
+            return buscar<I,V>(id, abb->izq);
         } else if(id > abb->ident){
-            return buscar(id, abb->der);
+            return buscar<I,V>(id, abb->der);
         } else {
             return abb;
         }
@@ -320,7 +334,7 @@ template<typename I, typename V>
 void crear(colecInterdep<I,V>& c){
     c.raiz = nullptr;
     c.tamanio = 0;
-    //c.iter = nullptr; //por seguridad
+    crearVacia(c.iter); //por seguridad
 }
 
 /*
@@ -342,14 +356,14 @@ bool esVacia(colecInterdep<I,V>& c){
 /*
 */
 template<typename I, typename V>
-bool colecInterdep<I,V>::existe2(I id, typename colecInterdep<I,V>::celdaColec* abb){
+bool existe2(I id, typename colecInterdep<I,V>::celdaColec* abb){
     if(abb == nullptr){
         return false;
     } else {
         if(id < abb->ident){
-            return existe2(id, abb->izq);
+            return existe2<I,V>(id, abb->izq);
         } else if(id > abb->ident){
-            return existe2(id, abb->der);
+            return existe2<I,V>(id, abb->der);
         } else {
             return true;
         }
@@ -362,7 +376,7 @@ bool colecInterdep<I,V>::existe2(I id, typename colecInterdep<I,V>::celdaColec* 
 */
 template<typename I, typename V>
 bool existe(I id, colecInterdep<I,V>& c){
-    return colecInterdep<I,V>::existe2(id, c.raiz);
+    return existe2<I,V>(id, c.raiz);
 }
 
 
@@ -375,7 +389,7 @@ bool existe(I id, colecInterdep<I,V>& c){
 */
 template<typename I, typename V>
 bool existeDependiente(I id, colecInterdep<I,V>& c){
-    typename colecInterdep<I,V>::celdaColec* pDep = colecInterdep<I,V>::buscar(id, c.raiz);
+    typename colecInterdep<I,V>::celdaColec* pDep = buscar<I,V>(id, c.raiz);
     if(pDep == nullptr){
         return false;
     } else if(pDep->sup == nullptr){
@@ -393,7 +407,7 @@ bool existeDependiente(I id, colecInterdep<I,V>& c){
 */
 template<typename I, typename V>
 bool existeIndependiente(I id, colecInterdep<I,V>& c){
-    typename colecInterdep<I,V>::celdaColec* pIDep = colecInterdep<I,V>::buscar(id, c.raiz);
+    typename colecInterdep<I,V>::celdaColec* pIDep = buscar<I,V>(id, c.raiz);
     if(pIDep == nullptr){
         return false;
     } else if(pIDep->sup == nullptr){
@@ -406,7 +420,7 @@ bool existeIndependiente(I id, colecInterdep<I,V>& c){
 /*
 */
 template<typename I, typename V>
-void colecInterdep<I,V>::introducirIndep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c){
+void introducirIndep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c){
     if(abb == nullptr){
         abb = new typename colecInterdep<I,V>::celdaColec;
         abb->der = nullptr;
@@ -417,9 +431,9 @@ void colecInterdep<I,V>::introducirIndep(typename colecInterdep<I,V>::celdaColec
         abb->sup = nullptr;
         c.tamanio++;
     } else if(id < abb->ident){
-        introducirIndep(abb->izq, id, v, c);
+        introducirIndep<I,V>(abb->izq, id, v, c);
     } else if(id > abb->ident){
-        introducirIndep(abb->der, id, v, c);
+        introducirIndep<I,V>(abb->der, id, v, c);
     } 
     //else no hace nada porque no puede haber claves repetidas
 }
@@ -433,14 +447,14 @@ void colecInterdep<I,V>::introducirIndep(typename colecInterdep<I,V>::celdaColec
 template<typename I, typename V> 
 void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
 
-    colecInterdep<I,V>::introducirIndep(c.raiz, id, v, c);
+    introducirIndep<I,V>(c.raiz, id, v, c);
     
 }
 
 /*
 */
 template<typename I, typename V>
-void colecInterdep<I,V>::introducirDep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup){
+void introducirDep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup){
     if(abb == nullptr){
         abb = new typename colecInterdep<I,V>::celdaColec;
         abb->der = nullptr;
@@ -451,9 +465,9 @@ void colecInterdep<I,V>::introducirDep(typename colecInterdep<I,V>::celdaColec*&
         abb->sup = sup;
         c.tamanio++;
     } else if(id < abb->ident){
-        introducirDep(abb->izq, id, v, c, sup);
+        introducirDep<I,V>(abb->izq, id, v, c, sup);
     } else if(id > abb->ident){
-        introducirDep(abb->der, id, v, c, sup);
+        introducirDep<I,V>(abb->der, id, v, c, sup);
     } 
     //else no hace nada porque no puede haber claves repetidas
 }
@@ -466,8 +480,8 @@ void colecInterdep<I,V>::introducirDep(typename colecInterdep<I,V>::celdaColec*&
 */
 template<typename I, typename V> 
 void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
-    typename colecInterdep<I,V>::celdaColec* superior = colecInterdep<I,V>::buscar(sup, c.raiz);
-    if(superior != nullptr){colecInterdep<I,V>::introducirDep(c.raiz, id, v, c, superior);}
+    typename colecInterdep<I,V>::celdaColec* superior = buscar<I,V>(sup, c.raiz);
+    if(superior != nullptr){introducirDep<I,V>(c.raiz, id, v, c, superior);}
 }
 
 /*
