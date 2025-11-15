@@ -33,11 +33,31 @@ int main(){
     if(!existeIndependiente(nombre_e, c)){g << "PERICOOOO" << endl;}
     tam_antes = tamanio(c);
     aniadirIndependiente(c, nombre_e, e);
+    aniadirIndependiente(c, nombre_e, e);
     if(existeIndependiente(nombre_e, c)){g << "Tus huevos pal lao primo" << endl;} 
     else{g << "mal" << endl;}
     aniadirDependiente(c, nombre_dep, e, nombre_e);
-    aniadirDependiente(c, nombre_dep, e, nombre_e);
+    aniadirDependiente(c, nombre_e, e, nombre_e);
     if(existeDependiente(nombre_dep, c)){g << "Se ha añadido correcto un dependiente" << endl;} else {g << "Me voy al baño" << endl;}
     tam_dsps = tamanio(c);
     g << tam_antes << tam_dsps << endl; 
+    hacerDependiente(c, nombre_e, nombre_dep);
+    hacerIndependiente(c, nombre_dep);
+
+    g << endl << endl << endl;
+
+    g << "-----LISTADO: " << tamanio(c) <<endl;  
+            iniciarIterador(c);
+            while(existeSiguiente(c)){
+                if(siguienteIdent(c, nombre_e) && siguienteVal(c, e) && siguienteNumDependientes(c, numDep)){
+                    if(siguienteSuperior(c, supDep)){
+                        g << "[ " << nombre_e <<  " -de-> " << supDep << " ;;; " << numDep << " ] --- " << descripcion(e) << " --- " << "( " << suPrioridad(e) << " )" << endl;
+                    } else {
+                        g << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;
+                    } 
+            }
+            avanza(c);
+
+            }    
+            g << "-----" << endl;
 }

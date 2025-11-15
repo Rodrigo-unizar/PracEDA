@@ -463,6 +463,7 @@ void introducirDep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, col
         abb->valor = v;
         abb->numDep = 0;
         abb->sup = sup;
+        abb->sup->numDep++;
         c.tamanio++;
     } else if(id < abb->ident){
         introducirDep<I,V>(abb->izq, id, v, c, sup);
@@ -494,58 +495,12 @@ void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
 */
 template<typename I, typename V> 
 void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
-    if(id == sup){
-        return; //son iguales entonces no hace nada
-    }
-    typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
-    //Buscas o padre o hijo
-    if(c.tamanio < 2){
-        return; //no puede hacer nada
-    }
-    while(aux1 != nullptr && id != aux1->ident && sup != aux1->ident){
-        aux1 = aux1->sig;
-    }
+    typename colecInterdep<I,V>::celdaColec* superior = buscar<I,V>(sup, c.raiz);
+    typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
 
-    if(aux1 != nullptr){
-        typename colecInterdep<I,V>::celdaColec* aux2 = aux1;
-        if(aux2->ident == id){
-            //es el hijo
-            if(aux2->sup == nullptr){//era independiente
-                //buscas al padre
-                while(aux1 != nullptr && aux1->ident != sup){
-                    aux1 = aux1->sig;
-                }//llegas al padre
-                if(aux1 != nullptr){
-                    aux1->numDep++;
-                    aux2->sup = aux1;
-                }
-            }else{
-                while(aux1 != nullptr && aux1->ident != sup){
-                    aux1 = aux1->sig;
-                }//llegas al padre
-                if(aux1 != nullptr){
-                    aux1->numDep++;
-                    aux2->sup->numDep--; 
-                    aux2->sup = aux1;
-                }
-            }
-        }else{
-            //es el padre
-            //buscas al hijo
-            while(aux1 != nullptr && aux1->ident != id){
-                aux1 = aux1->sig;
-            }//llegas al hijo
-            if(aux1 != nullptr){
-                if(aux1->sup != nullptr){
-                    aux1->sup->numDep--; 
-                    aux2->numDep++;
-                    aux1->sup = aux2;
-                }else{//independiente
-                    aux2->numDep++;
-                    aux1->sup = aux2;
-                }
-            }
-        }
+    if(nodo->sup == nullptr){   //significa que era independiente antes por tanto si que podemos hacerlo dependiente
+        nodo->sup = superior;
+        superior->numDep++;
     }
 }
 
@@ -555,16 +510,11 @@ void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
 */
 template<typename I, typename V> 
 void hacerIndependiente(colecInterdep<I,V>& c, I id){
-    //Buscas al hijo
-    if(!esVacia(c)){
-        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
-        while(aux1 != nullptr && aux1->ident != id){
-            aux1 = aux1->sig;
-        }//localizas al que quieres hacer independiente y es dependiente
-        if(aux1 != nullptr && aux1->sup != nullptr){
-            aux1->sup->numDep--; 
-            aux1->sup = nullptr;
-        }
+    typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
+
+    if(nodo->sup != nullptr){   //significa que era dependiente por tanto lo hacemos independiente
+        nodo->sup->numDep--;
+        nodo->sup = nullptr;
     }
 }
 
@@ -575,23 +525,7 @@ void hacerIndependiente(colecInterdep<I,V>& c, I id){
 */
 template<typename I, typename V> 
 bool actualizarVal(colecInterdep<I,V>& c, I id, V v){
-    if(esVacia(c)){     //si la colección es vacía no puede existir un nodo con identificador "id"
-        return false;
-    } else {
-        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
-        while(aux1 != nullptr && aux1->ident != id){          //buscamos la celda con indentificador "id"
-            aux1 = aux1->sig;
-        }
-
-        if(aux1 == nullptr){        //si llegamos hasta el final significa que no existe
-            return false;
-        } else if(aux1 != nullptr && aux1->ident == id){    //comprobamos que realmente estamos en el caso que queremos estar
-            aux1->valor = v;     //cambiamos el valor sin tener en cuenta si es dep o indep porque no hace falta
-            return true;
-        } else {
-            return false;
-        }
-    }
+    ;
 }
 
 /*
@@ -756,7 +690,13 @@ bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c, b
 */
 template<typename I, typename V>
 void iniciarIterador(colecInterdep<I,V>& c){
-    c.iter = c.primero;
+    liberar(c.iter);
+    typename colecInterdep<I,V>::celdaColec* nodo = c.raiz;
+    while(nodo != nullptr){
+        apilar(c.iter, nodo);
+        nodo = nodo->izq;
+    }
+
 }
 
 /*
@@ -764,7 +704,7 @@ void iniciarIterador(colecInterdep<I,V>& c){
 */
 template<typename I, typename V>
 bool existeSiguiente(colecInterdep<I,V>& c){
-    return c.iter != nullptr;
+    return !(esVacia(c.iter));
 }
 
 /*
@@ -772,8 +712,13 @@ bool existeSiguiente(colecInterdep<I,V>& c){
 */
 template<typename I, typename V>
 bool siguienteIdent(colecInterdep<I,V>& c, I &id){
+    bool error = false;
     if(existeSiguiente(c)){   
-        id = c.iter->ident;
+        typename colecInterdep<I,V>::celdaColec* nodo;
+        cima(c.iter, nodo, error);
+        if(!error){             //por seguridad porque si existeSiguiente(c) seguro que habrá cima
+            id = nodo->ident;
+        }
         return true;
     }
     return false;
@@ -784,8 +729,13 @@ bool siguienteIdent(colecInterdep<I,V>& c, I &id){
 */
 template<typename I, typename V>
 bool siguienteVal(colecInterdep<I,V>& c, V &valor){
-    if(existeSiguiente(c)){
-        valor = c.iter->valor;
+    bool error = false;
+    if(existeSiguiente(c)){   
+        typename colecInterdep<I,V>::celdaColec* nodo;
+        cima(c.iter, nodo, error);
+        if(!error){             //por seguridad porque si existeSiguiente(c) seguro que habrá cima
+            valor = nodo->valor;
+        }
         return true;
     }
     return false;
@@ -796,8 +746,13 @@ bool siguienteVal(colecInterdep<I,V>& c, V &valor){
 */
 template<typename I, typename V> 
 bool siguienteDependiente(colecInterdep<I,V>& c){
-    if(existeSiguiente(c)){
-        return c.iter->sup != nullptr;
+    bool error = false;
+    if(existeSiguiente(c)){   
+        typename colecInterdep<I,V>::celdaColec* nodo;
+        cima(c.iter, nodo, error);
+        if(!error && nodo->sup != nullptr){             //por seguridad porque si existeSiguiente(c) seguro que habrá cima
+            return true;    
+        }
     }
     return false;
 }
@@ -807,9 +762,14 @@ bool siguienteDependiente(colecInterdep<I,V>& c){
 */
 template<typename I, typename V>
 bool siguienteSuperior(colecInterdep<I,V>& c, I &sup){
-    if(siguienteDependiente(c)){
-        sup = c.iter->sup->ident;
-        return true;
+    bool error = false;
+    if(existeSiguiente(c)){   
+        typename colecInterdep<I,V>::celdaColec* nodo;
+        cima(c.iter, nodo, error);
+        if(!error && nodo->sup != nullptr){             //por seguridad porque si existeSiguiente(c) seguro que habrá cima
+            sup = nodo->sup->ident;
+            return true;    
+        }
     }
     return false;
 }
@@ -820,9 +780,14 @@ bool siguienteSuperior(colecInterdep<I,V>& c, I &sup){
 */
 template<typename I, typename V>
 bool siguienteNumDependientes(colecInterdep<I,V>& c, unsigned &numDep){
-    if(existeSiguiente(c)){
-        numDep = c.iter->numDep;
-        return true;
+    bool error = false;
+    if(existeSiguiente(c)){   
+        typename colecInterdep<I,V>::celdaColec* nodo;
+        cima(c.iter, nodo, error);
+        if(!error){             //por seguridad porque si existeSiguiente(c) seguro que habrá cima
+            numDep = nodo->numDep;
+            return true;    
+        }
     }
     return false;
 }
@@ -832,8 +797,22 @@ bool siguienteNumDependientes(colecInterdep<I,V>& c, unsigned &numDep){
 */
 template<typename I, typename V>
 void avanza(colecInterdep<I,V>& c){
-    if(existeSiguiente(c)){
-        c.iter = c.iter->sig;
+
+    if(existeSiguiente(c)){    
+        typename colecInterdep<I,V>::celdaColec* nodo;
+        bool error = false;
+
+        cima(c.iter, nodo, error);
+        if(!error){
+            desapilar(c.iter);
+            nodo = nodo->der;
+
+            while(nodo != nullptr){
+                apilar(c.iter, nodo);
+                nodo = nodo->izq;
+            }
+        }
+        
     }
 }
 
