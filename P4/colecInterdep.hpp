@@ -559,22 +559,10 @@ bool obtenerVal(I id, colecInterdep<I,V>& c, V& val){
 */
 template<typename I, typename V> 
 bool obtenerSupervisor(I id, colecInterdep<I,V>& c, I& sup){
-    if(esVacia(c)){
-        return false;
-    } else {
-        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
-        while(aux1 != nullptr && aux1->ident != id){          //buscamos la celda con indentificador "id"
-            aux1 = aux1->sig;
-        }
-
-        if(aux1 == nullptr){       //si llegamos hasta el final significa que no existe (se puede optimizar este bucle con 1 solo if en verdad)
-            return false;
-        } else if(aux1 != nullptr && aux1->ident == id && aux1->sup != nullptr){ //comprobamos que la celda existe y es dependiente
-            sup = aux1->sup->ident;
-            return true;
-        } else {
-            return false;
-        }
+    typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
+    if(nodo != nullptr){
+        sup = nodo->sup->ident;
+        return true;
     }
     return false;
 }
@@ -587,23 +575,10 @@ bool obtenerSupervisor(I id, colecInterdep<I,V>& c, I& sup){
 */
 template<typename I, typename V> 
 bool obtenerNumDependientes(I id, colecInterdep<I,V>& c, unsigned& numDep){
-    if(esVacia(c)){
-        return false;
-    } else {
-        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
-        while(aux1 != nullptr && aux1->ident != id){          //buscamos la celda con indentificador "id"
-            aux1 = aux1->sig;
-        }
-
-        if(aux1 == nullptr){       //si llegamos hasta el final significa que no existe (se puede optimizar este bucle con 1 solo if en verdad)
-            return false;
-        } else if(aux1 != nullptr && aux1->ident == id){ //comprobamos que la celda existe y es dependiente
-            numDep = aux1->numDep;
-            return true;
-        } else {
-            return false;
-        }
-
+    typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
+    if(nodo != nullptr){
+        numDep = nodo->numDep;
+        return true;
     }
     return false;
 }
@@ -655,25 +630,17 @@ void borrar(I id, colecInterdep<I,V>& c){
 */
 template<typename I, typename V> 
 bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c, bool &esDep){
-    if(esVacia(c)){
-        return false;
-    } else {
-        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
-        while(aux1 != nullptr && aux1->ident < id){
-            aux1 = aux1->sig; 
+    typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
+    if(nodo != nullptr){
+        sup = nodo->sup->ident;
+        v = nodo->valor;
+        numDep = nodo->numDep;
+        if(nodo->sup != nullptr){
+            esDep = true;
+        } else {
+            esDep = false;
         }
-
-        if(aux1 != nullptr && aux1->ident == id){
-            numDep = aux1->numDep;
-            v = aux1->valor;
-            if(aux1->sup == nullptr){
-                esDep = false;
-            } else {
-                sup = aux1->sup->ident;
-                esDep = true;
-            }
-            return true;
-        }
+        return true;
     }
     return false;
 }

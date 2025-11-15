@@ -65,4 +65,6 @@ int main(){
     crearEvento("hola que tal caballero", 5, e);
     if(actualizarVal(c, nombre_dep, e)){g << descripcion(e) << suPrioridad(e) << endl;}
     if(obtenerVal(nombre_dep, c, e)){g << descripcion(e) << suPrioridad(e) << endl;}
+    if(obtenerSupervisor(nombre_e, c, nombre_dep)){g << "Gui, putero"  << endl;}
+    if(obtenerNumDependientes(nombre_dep, c, numDep)){g << "Bomboclat" << endl;}
 }
