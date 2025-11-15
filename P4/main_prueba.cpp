@@ -43,7 +43,7 @@ int main(){
     g << tam_antes << tam_dsps << endl; 
     hacerDependiente(c, nombre_e, nombre_dep);
     hacerIndependiente(c, nombre_dep);
-
+    if(obtenerVal(nombre_dep, c, e)){g << descripcion(e) << suPrioridad(e) << endl;}
     g << endl << endl << endl;
 
     g << "-----LISTADO: " << tamanio(c) <<endl;  
@@ -60,4 +60,9 @@ int main(){
 
             }    
             g << "-----" << endl;
+
+    
+    crearEvento("hola que tal caballero", 5, e);
+    if(actualizarVal(c, nombre_dep, e)){g << descripcion(e) << suPrioridad(e) << endl;}
+    if(obtenerVal(nombre_dep, c, e)){g << descripcion(e) << suPrioridad(e) << endl;}
 }

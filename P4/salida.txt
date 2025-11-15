@@ -4,6 +4,7 @@ PERICOOOO
 Tus huevos pal lao primo
 Se ha añadido correcto un dependiente
 02
+esto es la desc tranquila3
 
 
 
@@ -11,3 +12,5 @@ Se ha añadido correcto un dependiente
 [ Manolo --- 1 ] --- esto es la desc tranquila --- ( 3 )
 [ perico -de-> Manolo ;;; 0 ] --- esto es la desc tranquila --- ( 3 )
 -----
+hola que tal caballero5
+hola que tal caballero5

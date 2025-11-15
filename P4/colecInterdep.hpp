@@ -496,12 +496,15 @@ void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
 template<typename I, typename V> 
 void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
     typename colecInterdep<I,V>::celdaColec* superior = buscar<I,V>(sup, c.raiz);
-    typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
-
-    if(nodo->sup == nullptr){   //significa que era independiente antes por tanto si que podemos hacerlo dependiente
-        nodo->sup = superior;
-        superior->numDep++;
-    }
+    if(superior != nullptr){
+        typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz); 
+        if(nodo != nullptr){
+            if(nodo->sup == nullptr){   //significa que era independiente antes por tanto si que podemos hacerlo dependiente
+                nodo->sup = superior;
+                superior->numDep++;
+            }
+        }
+    }    
 }
 
 /*
@@ -511,8 +514,7 @@ void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
 template<typename I, typename V> 
 void hacerIndependiente(colecInterdep<I,V>& c, I id){
     typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
-
-    if(nodo->sup != nullptr){   //significa que era dependiente por tanto lo hacemos independiente
+    if(nodo != nullptr && nodo->sup != nullptr){        //significa que era dependiente por tanto lo hacemos independiente
         nodo->sup->numDep--;
         nodo->sup = nullptr;
     }
@@ -525,7 +527,12 @@ void hacerIndependiente(colecInterdep<I,V>& c, I id){
 */
 template<typename I, typename V> 
 bool actualizarVal(colecInterdep<I,V>& c, I id, V v){
-    ;
+    typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
+    if(nodo != nullptr){
+        nodo->valor = v;
+        return true;
+    }
+    return false;
 }
 
 /*
@@ -536,22 +543,10 @@ bool actualizarVal(colecInterdep<I,V>& c, I id, V v){
 */
 template<typename I, typename V> 
 bool obtenerVal(I id, colecInterdep<I,V>& c, V& val){
-    if(esVacia(c)){
-        return false;
-    } else {
-        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
-        while(aux1 != nullptr && aux1->ident != id){          //buscamos la celda con indentificador "id"
-            aux1 = aux1->sig;
-        }
-
-        if(aux1 == nullptr){        //si llegamos hasta el final significa que no existe (se puede optimizar este bucle con 1 solo if en verdad)
-            return false;
-        } else if(aux1 != nullptr && aux1->ident == id){    //comprobamos que realmente estamos en el caso que queremos estar
-            val = aux1->valor;     //devolvemos el valor y actualizamos error a falso
-            return true;
-        } else {
-            return false;
-        }
+    typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
+    if(nodo != nullptr){
+        val = nodo->valor;
+        return true;
     }
     return false;
 }
