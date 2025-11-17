@@ -495,16 +495,20 @@ void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
 */
 template<typename I, typename V> 
 void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
-    typename colecInterdep<I,V>::celdaColec* superior = buscar<I,V>(sup, c.raiz);
-    if(superior != nullptr){
-        typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz); 
-        if(nodo != nullptr){
-            if(nodo->sup == nullptr){   //significa que era independiente antes por tanto si que podemos hacerlo dependiente
+    if(id != sup){
+        typename colecInterdep<I,V>::celdaColec* superior = buscar<I,V>(sup, c.raiz);
+        if(superior != nullptr){
+            typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz); 
+            if(nodo != nullptr){
+                if(nodo->sup != nullptr){   //si era dependiente hay que restarle los numDep al supervisor antiguo
+                    nodo->sup->numDep--;
+                }
                 nodo->sup = superior;
                 superior->numDep++;
             }
-        }
-    }    
+        } 
+    }
+       
 }
 
 /*
@@ -560,7 +564,7 @@ bool obtenerVal(I id, colecInterdep<I,V>& c, V& val){
 template<typename I, typename V> 
 bool obtenerSupervisor(I id, colecInterdep<I,V>& c, I& sup){
     typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
-    if(nodo != nullptr){
+    if(nodo != nullptr && nodo->sup != nullptr){
         sup = nodo->sup->ident;
         return true;
     }
@@ -590,32 +594,7 @@ bool obtenerNumDependientes(I id, colecInterdep<I,V>& c, unsigned& numDep){
 */
 template<typename I, typename V> 
 void borrar(I id, colecInterdep<I,V>& c){
-    if(!esVacia(c)){
-        typename colecInterdep<I,V>::celdaColec* ante = nullptr; 
-        typename colecInterdep<I,V>::celdaColec* aux1 = c.primero;
-
-        while(aux1 != nullptr && aux1->ident < id){
-            ante = aux1;    
-            aux1 = aux1->sig; 
-        }
-
-        if(aux1 != nullptr && aux1->ident == id && aux1->numDep == 0){ //si lo encontramos
-            
-            if(aux1->sup != nullptr){   //si es dependiente decrementamos en 1 los numDep del superior ANTES DE BORRAR MIRA EL ENUNCIADO
-                aux1->sup->numDep--;
-            }
-            
-            //es el que queremos borrar
-            if(ante == nullptr){ //es el primero
-                c.primero = aux1->sig;
-            }else{
-                ante->sig =  aux1->sig;
-            }
-        
-            delete aux1;
-            c.tamanio--;
-        } 
-    }
+    ;
 }
 
 
@@ -632,12 +611,12 @@ template<typename I, typename V>
 bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c, bool &esDep){
     typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
     if(nodo != nullptr){
-        sup = nodo->sup->ident;
         v = nodo->valor;
         numDep = nodo->numDep;
-        if(nodo->sup != nullptr){
+        if(nodo->sup != nullptr){       //significa que es dependiente
             esDep = true;
-        } else {
+            sup = nodo->sup->ident;
+        } else {                        //significa que es independiente
             esDep = false;
         }
         return true;

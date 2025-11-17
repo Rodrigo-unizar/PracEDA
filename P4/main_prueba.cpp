@@ -1,3 +1,5 @@
+/* Este fichero ya no hace falta como tal, era unicamente para probar las funciones antes de lanzarnos a probarlas en el main.
+
 #include <iostream>
 #include <fstream>
 #include "colecInterdep.hpp" 
@@ -68,3 +70,4 @@ int main(){
     if(obtenerSupervisor(nombre_e, c, nombre_dep)){g << "Gui, putero"  << endl;}
     if(obtenerNumDependientes(nombre_dep, c, numDep)){g << "Bomboclat" << endl;}
 }
+*/
