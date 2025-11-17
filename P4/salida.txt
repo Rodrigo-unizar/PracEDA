@@ -40,11 +40,11 @@ DEPendiente: instruccion2
 [ instruccion2 -de-> AASAS ;;; 0 ] --- Se ha caido el techo --- ( 1 ) ****
 ****FINAL dependientes -de-> instruccion2
 CAMBIADO: [ AASAS --- 1 ] --- Cambiamos la descripcion porque me apetece --- ( 55 )
-NO BORRADO: instruccion2
+BORRADO: instruccion2
 INTENTANDO hacer depend.: AASAS -de-> COSAS BARATAS
 LOCALIZADO: [ cierre_2025_10_6 --- 0 ] --- Cierre del edificio --- ( 2 )
 INTENTANDO hacer depend.: cierre_2025_10_6 -de-> COSAS BARATAS
-NO BORRADO: AASAS
+BORRADO: AASAS
 NO BORRADO: perico
 INTRODUCIDO: [ 0_PrimeroI ] --- Este tio es independiente  --- ( 444 )
 INTRODUCIDO: [ 1_PrimeroD -de-> 0_PrimeroI ] --- Este tio es el primer dependiente --- ( 1 )
@@ -52,30 +52,24 @@ INTRODUCIDO: [ 2_SegundoD -de-> 0_PrimeroI ] --- Este sera el segundo dependient
 INTRODUCIDO: [ 3_PrimerSegundoD -de-> 2_SegundoD ] --- Este es el primer dependiente de 2_SegundoD --- ( 23 )
 NO BORRADO: 0_PrimeroI
 NO BORRADO: 2_SegundoD
------LISTADO: 9
+-----LISTADO: 7
 [ 0_PrimeroI --- 2 ] --- Este tio es independiente  --- ( 444 )
 [ 1_PrimeroD -de-> 0_PrimeroI ;;; 0 ] --- Este tio es el primer dependiente --- ( 1 )
 [ 2_SegundoD -de-> 0_PrimeroI ;;; 1 ] --- Este sera el segundo dependiente --- ( 2 )
 [ 3_PrimerSegundoD -de-> 2_SegundoD ;;; 0 ] --- Este es el primer dependiente de 2_SegundoD --- ( 23 )
-[ AASAS -de-> COSAS BARATAS ;;; 1 ] --- Cambiamos la descripcion porque me apetece --- ( 55 )
-[ COSAS BARATAS --- 2 ] --- Cierre del edificio --- ( 2 )
+[ COSAS BARATAS --- 1 ] --- Cierre del edificio --- ( 2 )
 [ cierre_2025_10_6 -de-> COSAS BARATAS ;;; 0 ] --- Cierre del edificio --- ( 2 )
-[ instruccion2 -de-> AASAS ;;; 0 ] --- Se ha caido el techo --- ( 1 )
 [ zzz --- 0 ] --- Ultimo de la lista en teoria --- ( 44 )
 -----
-NO BORRADO: 3_PrimerSegundoD
+BORRADO: 3_PrimerSegundoD
 NO BORRADO: 0_PrimeroI
-NO BORRADO: 2_SegundoD
+BORRADO: 2_SegundoD
 NO BORRADO: perico
------LISTADO: 9
-[ 0_PrimeroI --- 2 ] --- Este tio es independiente  --- ( 444 )
+-----LISTADO: 5
+[ 0_PrimeroI --- 1 ] --- Este tio es independiente  --- ( 444 )
 [ 1_PrimeroD -de-> 0_PrimeroI ;;; 0 ] --- Este tio es el primer dependiente --- ( 1 )
-[ 2_SegundoD -de-> 0_PrimeroI ;;; 1 ] --- Este sera el segundo dependiente --- ( 2 )
-[ 3_PrimerSegundoD -de-> 2_SegundoD ;;; 0 ] --- Este es el primer dependiente de 2_SegundoD --- ( 23 )
-[ AASAS -de-> COSAS BARATAS ;;; 1 ] --- Cambiamos la descripcion porque me apetece --- ( 55 )
-[ COSAS BARATAS --- 2 ] --- Cierre del edificio --- ( 2 )
+[ COSAS BARATAS --- 1 ] --- Cierre del edificio --- ( 2 )
 [ cierre_2025_10_6 -de-> COSAS BARATAS ;;; 0 ] --- Cierre del edificio --- ( 2 )
-[ instruccion2 -de-> AASAS ;;; 0 ] --- Se ha caido el techo --- ( 1 )
 [ zzz --- 0 ] --- Ultimo de la lista en teoria --- ( 44 )
 -----
 INTRODUCIDO: [ javier ] --- Esta es la descripcion de javier --- ( 22 )
@@ -83,38 +77,28 @@ NO INTRODUCIDO: [ javier -de-> zzz ] --- Esta es la descripcion de alguien que n
 CAMBIADO: [ javier --- 0 ] --- Rodrigo es una persona muy maja y agradable --- ( 777 )
 INTRODUCIDO: [ manuel -de-> javier ] --- ajskdhasjd --- ( 22 )
 NO INTRODUCIDO: [ manuel ] --- jkdhsjkdh --- ( 566 )
------LISTADO: 11
-[ 0_PrimeroI --- 2 ] --- Este tio es independiente  --- ( 444 )
+-----LISTADO: 7
+[ 0_PrimeroI --- 1 ] --- Este tio es independiente  --- ( 444 )
 [ 1_PrimeroD -de-> 0_PrimeroI ;;; 0 ] --- Este tio es el primer dependiente --- ( 1 )
-[ 2_SegundoD -de-> 0_PrimeroI ;;; 1 ] --- Este sera el segundo dependiente --- ( 2 )
-[ 3_PrimerSegundoD -de-> 2_SegundoD ;;; 0 ] --- Este es el primer dependiente de 2_SegundoD --- ( 23 )
-[ AASAS -de-> COSAS BARATAS ;;; 1 ] --- Cambiamos la descripcion porque me apetece --- ( 55 )
-[ COSAS BARATAS --- 2 ] --- Cierre del edificio --- ( 2 )
+[ COSAS BARATAS --- 1 ] --- Cierre del edificio --- ( 2 )
 [ cierre_2025_10_6 -de-> COSAS BARATAS ;;; 0 ] --- Cierre del edificio --- ( 2 )
-[ instruccion2 -de-> AASAS ;;; 0 ] --- Se ha caido el techo --- ( 1 )
 [ javier --- 1 ] --- Rodrigo es una persona muy maja y agradable --- ( 777 )
 [ manuel -de-> javier ;;; 0 ] --- ajskdhasjd --- ( 22 )
 [ zzz --- 0 ] --- Ultimo de la lista en teoria --- ( 44 )
 -----
 INDEPENDIZADO: 1_PrimeroD
-NO BORRADO: 0_PrimeroI
-NO BORRADO: zzz
+BORRADO: 0_PrimeroI
+BORRADO: zzz
 IMPOSIBLE hacer depend.: adios -de-> javier
 INTENTANDO hacer depend.: manuel -de-> COSAS BARATAS
 IMPOSIBLE hacer depend.: manuel -de-> AKSJAKSJ
 ****DEPENDIENTES: javier
 [ javier --- 0 ] --- Rodrigo es una persona muy maja y agradable --- ( 777 ) ****
 ****FINAL dependientes -de-> javier
------LISTADO: 11
-[ 0_PrimeroI --- 1 ] --- Este tio es independiente  --- ( 444 )
+-----LISTADO: 5
 [ 1_PrimeroD --- 0 ] --- Este tio es el primer dependiente --- ( 1 )
-[ 2_SegundoD -de-> 0_PrimeroI ;;; 1 ] --- Este sera el segundo dependiente --- ( 2 )
-[ 3_PrimerSegundoD -de-> 2_SegundoD ;;; 0 ] --- Este es el primer dependiente de 2_SegundoD --- ( 23 )
-[ AASAS -de-> COSAS BARATAS ;;; 1 ] --- Cambiamos la descripcion porque me apetece --- ( 55 )
-[ COSAS BARATAS --- 3 ] --- Cierre del edificio --- ( 2 )
+[ COSAS BARATAS --- 2 ] --- Cierre del edificio --- ( 2 )
 [ cierre_2025_10_6 -de-> COSAS BARATAS ;;; 0 ] --- Cierre del edificio --- ( 2 )
-[ instruccion2 -de-> AASAS ;;; 0 ] --- Se ha caido el techo --- ( 1 )
 [ javier --- 0 ] --- Rodrigo es una persona muy maja y agradable --- ( 777 )
 [ manuel -de-> COSAS BARATAS ;;; 0 ] --- ajskdhasjd --- ( 22 )
-[ zzz --- 0 ] --- Ultimo de la lista en teoria --- ( 44 )
 -----

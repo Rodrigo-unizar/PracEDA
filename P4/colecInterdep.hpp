@@ -176,10 +176,18 @@ template<typename I, typename V> typename colecInterdep<I,V>::celdaColec* buscar
 /*
 */
 template<typename I, typename V> void introducirIndep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c);
+
 /*
 */
 template<typename I, typename V> void introducirDep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup);
 
+/*
+*/
+template<typename I, typename V> bool borrarAux(typename colecInterdep<I,V>::celdaColec*& abb, I id);
+
+/*
+*/
+template<typename I, typename V> typename colecInterdep<I,V>::celdaColec* borrarMax(typename colecInterdep<I,V>::celdaColec*& abb);
 
 //Operaciones iterador
 
@@ -271,6 +279,7 @@ struct colecInterdep{
     friend bool siguienteNumDependientes<I,V>(colecInterdep<I,V>& c, unsigned &numDep);
     friend void avanza<I,V>(colecInterdep<I,V>& c);
     
+    
   private: //declaracion de la representacion interna del tipo
 
   /*
@@ -304,7 +313,8 @@ struct colecInterdep{
     friend typename colecInterdep<I,V>::celdaColec* buscar<I,V>(I id, typename colecInterdep<I,V>::celdaColec* abb);
     friend void introducirIndep<I,V>(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c);
     friend void introducirDep<I,V>(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup);
-
+    friend bool borrarAux<I,V>(typename colecInterdep<I,V>::celdaColec*& abb, I id);
+    friend typename colecInterdep<I,V>::celdaColec* borrarMax<I,V>(typename colecInterdep<I,V>::celdaColec*& abb);
 };
 
 //Operaciones auxiliares
@@ -588,13 +598,67 @@ bool obtenerNumDependientes(I id, colecInterdep<I,V>& c, unsigned& numDep){
 }
 
 /*
+*/
+template<typename I, typename V>
+typename colecInterdep<I,V>::celdaColec* borrarMax(typename colecInterdep<I,V>::celdaColec*& abb){
+    if(abb->der == nullptr){
+        typename colecInterdep<I,V>::celdaColec* aux = abb;
+        abb = abb->izq;
+        aux->izq = nullptr;
+        return aux;
+    } else {
+        return borrarMax<I,V>(abb->der);
+    }
+}
+
+/*
+*/
+template<typename I, typename V>
+bool borrarAux(typename colecInterdep<I,V>::celdaColec*& abb, I id){
+    if(abb != nullptr){
+        if(id < abb->ident){
+           return borrarAux<I,V>(abb->izq, id);
+        } else if(id > abb->ident){
+           return borrarAux<I,V>(abb->der, id);
+        } else if(abb->numDep == 0){
+            if(abb->sup != nullptr){
+                abb->sup->numDep--;
+            }
+            typename colecInterdep<I,V>::celdaColec* aux = abb;
+
+            if(abb->izq == nullptr){
+                abb = abb->der;
+                delete(aux);
+                return true;
+            } else if(abb->der == nullptr){
+                abb = abb->izq;
+                delete(aux);
+                return true;
+            } else {
+                
+                typename colecInterdep<I,V>::celdaColec* nodoMAX = borrarMax<I,V>(abb->izq);
+                
+                nodoMAX->izq = abb->izq;
+                nodoMAX->der = abb->der;
+
+                abb = nodoMAX;
+                delete(aux);
+                return true;
+            }
+        }
+        
+    }
+    return false;
+}
+
+/*
 * Recorre la lista en busca de id con un puntero una celda por detras. Cuando encuentra id si es dependiente 
 * resta numDep de sup en uno. A la celda anterior le ponemos como sig a el nodo al que apunta id, finalmente 
 * borramos id y decrementamos tamanio en uno.
 */
 template<typename I, typename V> 
 void borrar(I id, colecInterdep<I,V>& c){
-    ;
+    if(borrarAux<I,V>(c.raiz, id)){ c.tamanio--;}
 }
 
 
