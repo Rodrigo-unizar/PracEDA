@@ -16,8 +16,7 @@ using namespace std;
 * de la forma (id, v, -, numDep) o bien (id, v, sup, numDep), de tal forma que 
 * no podrá haber 2 elementos con el mismo identificador id. A los elementos con forma (id, v, -, numDep)
 * los llamaremos en general ‘elementos independientes’, mientras que a los elementos con forma (id, v, sup, numDep),
-* los llamaremos en general ‘elementos dependientes’. Todas las operaciones tendrán coste O(N), siendo N el número de elementos. 
-* Equivalentemente, el coste en memoria tambien sera O(N). En las tuplas que representan elementos dependientes,
+* los llamaremos en general ‘elementos dependientes’. En las tuplas que representan elementos dependientes,
 * la información sup será la identificación del elemento del que es directamente dependiente el elemento con identificación
 * id. Ningún elemento de la colección podrá ser directamente dependiente de sí mismo, y todo
 * elemento dependiente debe serlo de otro elemento que exista en la colección (que a su vez puede
@@ -267,9 +266,8 @@ struct colecInterdep{
     friend void borrar<I,V>(I id, colecInterdep<I,V>& c);
     //Operacion auxiliar
     friend bool obtenerDatos<I,V>(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c, bool &esDep);
-    //Operaciones privadas
+    
     /* Operaciones iterador */
-
     friend void iniciarIterador<I,V>(colecInterdep<I,V>& c);
     friend bool existeSiguiente<I,V>(colecInterdep<I,V>& c);
     friend bool siguienteIdent<I,V>(colecInterdep<I,V>& c, I &id);
@@ -283,32 +281,40 @@ struct colecInterdep{
   private: //declaracion de la representacion interna del tipo
 
   /*
-  * La implementación de este TAD genérico se hace a partir de un diccionario formado por los pares <ident, valor>, siendo ident la clave
-  * única y permanente (no se puede modificar ni duplicar) y siendo valor el valor (contando con funciones para consultarlo y modificarlo).
-  * El diccionario está implementado en memoria dinámica utilizando una lista enlazada simple de celdas del tipo celdaColec. Dicho 
-  * diccionario ocupa en memoria O(n), siendo n el número total de celdas que tiene. Además, el coste de todas las operaciones también
+  * La implementación de este TAD genérico se hace a partir de un diccionario pero cuya implementación interna está basada en un abb.
+  * Dicho diccionario estáa formado por los pares <ident, valor>, siendo ident la clave única y permanente
+  * (no se puede modificar ni duplicar) y siendo valor el valor (contando con funciones para consultarlo y modificarlo).
+  * Situándonos en la raíz del árbol, todos los identificadores que están en su subarbol izquierdo son esctrictamente menores que su 
+  * propio identificador, además todos los que estén en su subarbol derecho serán estrictamente mayores. Esta lógica también se aplica 
+  * para todos los subárboles hijos y sus respectivos hijos. 
+  * El diccionario está implementado en memoria dinámica utilizando un árbol binario de búsqueda formado por celdas del tipo celdaColec. 
+  * Dicho diccionario ocupa en memoria O(n), siendo n el número total de celdas que tiene. Además, el coste de todas las operaciones también
   * tiene coste O(n), siendo n el número total de celdas. Cada celda del diccionario contendrá una clave de tipo I, un valor de tipo V,
   * un puntero al elemento del que es dependiente (si no depende de nadie este puntero apuntará a nullptr), un natural correspondiente
-  * al número de elementos dependientes que tiene este elemento y un puntero a la siguiente celda para encadenar la lista (si es el último apunta a nullptr).
+  * al número de elementos dependientes que tiene este elemento y 2 punteros izq y der que apuntarán respectivamente a los hijos/subarboles
+  * izquierdos y derechos respectivamente que a su vez, también seráan árboles binarios de búsqueda.
   * 
-  * Además, el diccionario cuenta con un entero llamado tamanio que registra el número de celdas que tiene actualmente el diccionario,
-  * un puntero llamado primero que como su nombre indica apunta al primer elemento de la lista (si n hay ningún elemento apunta a nullptr) y
+  * Además, el diccionario cuenta con un entero llamado tamanio que registra el número de celdas que tiene actualmente el árbol,
+  * un puntero llamado primero que como su nombre indica apunta al primer elemento del árbol, la raiz (si no hay ningún elemento apunta a nullptr) y
   * un puntero llamado iter que se utilizará únicamente para mantener el estado del iterador y *solo* será usado por las operaciones del iterador.
   */
     
     struct celdaColec{  //{cada elemento de la colección se almacena en una celda}
         I ident;            //ident es de tipo genérico y en este caso contiene la cadena correspondiente al nombre del evento 
         V valor;            //valor es de tipo genérico, en este caso lo utilizaremos con el TAD evento
-        celdaColec* sup;    //sup es un puntero de tipo celdaColec que apunta al evento del que depende, si es independientes apunta a nullptr 
+        celdaColec* sup;    //sup es un puntero de tipo celdaColec que apunta al evento del que depende, si es independiente apunta a nullptr 
         unsigned numDep;    //numDep contiene el natural correspondiente el numero de eventos dependientes de este
-        celdaColec* izq;
-        celdaColec* der;   //izq y der son punteros de tipo celdaColec que apuntan a los hijos de un nodo
+        celdaColec* izq;    //izq es un puntero de tipo celdaColec que apunta al subarbol izquierdo 
+        celdaColec* der;    //der es un puntero de tipo celdaColec que apunta al subarbol derecho
     };
 
     int tamanio;                    //tamanio contiene el entero correspodiente al número de celdas del árbol
     celdaColec* raiz;               //raíz es un puntero a la primera celda del árbol
     Pila<celdaColec*> iter;         //iter es una pila que almacena punteros para realizar las operaciones del iterador
+    /* Queremos resaltar que la implementación de la pilaDianmica ha sido realizada por los profesores de la asignatura de EDA 
+    * y que nosotros únicamente la hemos copiado del material proporcionado por ellos mismos del moodle de la asignatura. */
 
+    //Operaciones privadas
     friend bool existe2<I,V>(I id, typename colecInterdep<I,V>::celdaColec* abb);
     friend typename colecInterdep<I,V>::celdaColec* buscar<I,V>(I id, typename colecInterdep<I,V>::celdaColec* abb);
     friend void introducirIndep<I,V>(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c);
@@ -338,7 +344,7 @@ typename colecInterdep<I,V>::celdaColec* buscar(I id, typename colecInterdep<I,V
 // IMPLEMENTACION DE LAS OPERACIONES DEL TAD GENERICO colecInterdep
 
 /*
-* Crea un colección vacía, sin elementos. Todos los punteros a nullptr y el tamaño a 0.
+* Crea un colección vacía, sin elementos. Todos los punteros a nullptr, el tamaño a 0 y por seguridad creamos la pila del iterador vacía.
 */
 template<typename I, typename V>
 void crear(colecInterdep<I,V>& c){
@@ -356,7 +362,7 @@ int tamanio(colecInterdep<I,V>& c){
 }
 
 /*
-* Devuelve verdad si y solo la colección si c no contiene ningún elemento.
+* Devuelve verdad si y solo si la colección c no contiene ningún elemento.
 */
 template<typename I, typename V> 
 bool esVacia(colecInterdep<I,V>& c){
@@ -381,8 +387,7 @@ bool existe2(I id, typename colecInterdep<I,V>::celdaColec* abb){
 }
 
 /*
-* Devuelve verdad si y solo si en c hay algún elemento con ident igual a id. Si la coleccion c es vacía es imposible que exista,
-* si no es vacía, avanzamos hasta que encontremos la celda que tenga su identificador igual a id o lleguemos al final.
+* 
 */
 template<typename I, typename V>
 bool existe(I id, colecInterdep<I,V>& c){
@@ -392,10 +397,13 @@ bool existe(I id, colecInterdep<I,V>& c){
 
 
 /*
-* Devuelve verdad si y solo si en c hay algún elemento dependiente cuyo ident sea igual a id. Si la colleción es vacia
-* es imposible que exista, si no es vacía, avanzamos hasta encontrar la celda con ident igual a id o llegar al final.
-* Si el puntero a sup de la celda encontrada es distinto de nullptr, es que es dependiente de alguien y devolvemos true 
-* sino devolvemos false.
+* Buscamos el nodo correspondiente al identificador especificado dentro de la colección utilizando la función 
+* auxiliar buscar. Dicha función devuelve un puntero al nodo que tiene como identificador id (si existe), si no existe
+* en la colección devuelve nullptr. Si el elemento no existe en el árbol (el puntero es nullptr) o si, aún existiendo, 
+* su puntero al nodo superior es nulo (significa que no depende de nadie), la función devuelve false. 
+* En caso contrario, si el nodo existe y tiene un superior diferente a nullptr (válido), devuelve true.
+*
+* Recibe como parametros: id el identificador a buscar y c la propia colección.
 */
 template<typename I, typename V>
 bool existeDependiente(I id, colecInterdep<I,V>& c){
@@ -411,9 +419,13 @@ bool existeDependiente(I id, colecInterdep<I,V>& c){
 }
 
 /*
-* Devuelve verdad si y solo si en c hay algún elemento independiente cuyo ident sea igual a id. Si la colleción es vacia
-* es imposible que exista, si no es vacía, avanzamos hasta encontrar la celda con ident igual a id o llegar al final.
-* Si el puntero a sup de la celda encontrada es nullptr, es que es independiente y devolvemos true sino devolvemos false.
+* Buscamos el nodo correspondiente al identificador especificado dentro de la colección utilizando la función 
+* auxiliar buscar. Dicha función devuelve un puntero al nodo que tiene como identificador id (si existe), si no existe
+* en la colección devuelve nullptr. Si el elemento no existe en el árbol (el puntero es nullptr) o si, aún existiendo, 
+* su puntero al nodo superior no es nulo (significa que depende de alguiem), la función devuelve false. 
+* En caso contrario, si el nodo existe y tiene un superior igual a nullptr (válido), devuelve true.
+*
+* Recibe como parametros: id el identificador a buscar y c la propia colección.
 */
 template<typename I, typename V>
 bool existeIndependiente(I id, colecInterdep<I,V>& c){
@@ -428,45 +440,40 @@ bool existeIndependiente(I id, colecInterdep<I,V>& c){
 }
 
 /*
-* Recibe por parametros abb puntero a un nodo del árbol, la nueva id, el nuevo valor v y la colección c.
+* Recorremos el árbol de tal forma que si el identificador que estamos buscando es menor que el que estamos visitando en la llamada
+* actual, llamamos de forma recursiva a la función con el el subárbol izquierdo. En caso contrario, si el identificador que estamos 
+* buscando es mayor que el de la llamada actual, continuamos buscandolode forma recursiva en el subarbol derecho. Repetimos el proceso
+* hasta llegar a un subárbol (izquierdo o derecho) que será nullptr y lo insertaremos allí como una hoja. De este modo, no se alterará
+* la estructura interna y seguirá siendo un abb que cumple todas las demás características.
 *
-*       - Si abb es nullptr => estas en la posicion en la que hay que hay que añadir la nueva celda como hoja del 
-*         árbol, por tanto a abb le asignas un nuevo nodo y se le asignan sus valores: Izq y Der al ser hoja 
-*         apuntan a nullptr, se la asigna la id de los parametros, el valor pasado por los parametros, no puede
-*         tener dependientes ya que se acaba de crear por lo que numDep = 0 y como es independiente el valor de 
-*         sup es nullptr. Posteriormente incrementas el tamaño de la colección en 1.
-*
-*       - Si id < abb->ident => tenemos que seguir buscando la posición del nuevo nodo por lo que debido a que es 
-*         un árbol binario de búsqueda llamamos recursivamente a la función introducirIndep con los mismos valores 
-*         y el puntero como abb = abb->izq.
-*
-*       - Si id > abb->ident => tenemos que seguir buscando la posición del nuevo nodo por lo que debido a que es
-*         un árbol binario de búsqueda llamamos recursivamente a la función introducirIndep con los mismos valores
-*         y el puntero como abb = abb->der.
+* Recibe como parametros: abb puntero a un nodo del árbol, id el identificador a buscar/añadir,
+* v el valor de dicho elemento v y la colección c.
 */
 template<typename I, typename V>
 void introducirIndep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c){
-    if(abb == nullptr){
-        abb = new typename colecInterdep<I,V>::celdaColec;
-        abb->der = nullptr;
+    if(abb == nullptr){     // posicion en la que hay que hay que añadir la nueva celda como hoja
+        abb = new typename colecInterdep<I,V>::celdaColec;      //asignas un nuevo nodo
+        abb->der = nullptr;         //como es una hoja no tiene subarboles
         abb->izq = nullptr;
-        abb->ident = id;
+        abb->ident = id;            //asignamos la información correspondiente
         abb->valor = v;
-        abb->numDep = 0;
-        abb->sup = nullptr;
-        c.tamanio++;
+        abb->numDep = 0;            //como se acaba de crear no puede tener elementos dependientes de él
+        abb->sup = nullptr;         //hemos añadido un elemento independiente
+        c.tamanio++;                //aumentamos el tamaño de la colección tras añadir un nodo
     } else if(id < abb->ident){
-        introducirIndep<I,V>(abb->izq, id, v, c);
+        introducirIndep<I,V>(abb->izq, id, v, c);  //seguimos buscando la posición por el árbol izquierdo
     } else if(id > abb->ident){
-        introducirIndep<I,V>(abb->der, id, v, c);
+        introducirIndep<I,V>(abb->der, id, v, c);   //seguimos buscando la posición por el árbol derecho
     } 
     //else no hace nada porque no puede haber claves repetidas
 }
 
 /*
-* Llama a la funcion introducirIndep la cual recibe como parametros la raiz del arbol, la nueva id, el nuevo valor y la colección c 
-* en la que hay que añadir el nuevo elemento. La función añade el nuevo elemento independiente a la coleccion de 
-* forma recursiva donde el nuevo elemento es un nodo hoja.
+* Llama a la funcion auxiliar introducirIndep, encargada de añadir el elemento, la cual recibe como parametros un puntero a la raiz del arbol,
+* el identificador del elemento que queremos añadir, el valor que tendrá dicho elemento y la propia colección c 
+* en la que hay que añadir el nuevo elemento. Si no existe un nodo con identificador id, añade el nuevo elemento
+* como independiente a la coleccion de forma recursiva donde el nuevo elemento es un nodo hoja. Por el contrario, si 
+* ya existe un elemento con identificador id devuelve una colección idéntica sin modificar nada. 
 */
 template<typename I, typename V> 
 void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
@@ -476,50 +483,44 @@ void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
 }
 
 /*
-* Recibe por parametros abb puntero a un nodo del árbol, la nueva id, el nuevo valor v y la colección c y un 
-* puntero al nodo superior.
+* Recorremos el árbol de tal forma que si el identificador que queremos introducir es menor que el del nodo
+* que estamos visitando, llamamos de forma recursiva a la función con el subárbol izquierdo. En caso contrario, 
+* si el identificador es mayor, continuamos buscando la posición de inserción de forma recursiva en el subárbol 
+* derecho. Repetimos el proceso hasta llegar a un puntero que sea nulo (nullptr), donde insertamos la nueva celda.
+* Al crear el nodo, además de guardar el id y el valor, tambíen lo hacemos dependiente con su nodo superior (sup), 
+* se incrementa el contador de dependendientes de dicho superior (sup->numDep++) y se incrementa el tamaño de la colección.
 *
-*       - Si abb es nullptr => estas en la posicion en la que hay que hay que añadir la nueva celda como hoja del 
-*         árbol, por tanto a abb le asignas un nuevo nodo y se le asignan sus valores: Izq y Der al ser hoja 
-*         apuntan a nullptr, se la asigna la id de los parametros, el valor pasado por los parametros, no puede
-*         tener dependientes ya que se acaba de crear por lo que numDep = 0, en sup se pone el puntero que apunta 
-*         al superior obtenido de los parametros y se incrementa en 1 el numero de dependientes del superior. 
-*         Posteriormente incrementas el tamaño de la colección en 1.
-*
-*       - Si id < abb->ident => tenemos que seguir buscando la posición del nuevo nodo por lo que debido a que es 
-*         un árbol binario de búsqueda llamamos recursivamente a la función introducirDep con los mismos valores 
-*         y el puntero como abb = abb->izq.
-*
-*       - Si id > abb->ident => tenemos que seguir buscando la posición del nuevo nodo por lo que debido a que es
-*         un árbol binario de búsqueda llamamos recursivamente a la función introducirDep con los mismos valores
-*         y el puntero como abb = abb->der.
+* Recibe como parametros: abb puntero por referencia al nodo actual del recorrido, id el identificador a buscar/añadir,
+* v el valor asociado, c la proopia colección y sup el puntero al nodo del cual depende el nuevo elemento.
 */
 template<typename I, typename V>
 void introducirDep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup){
-    if(abb == nullptr){
-        abb = new typename colecInterdep<I,V>::celdaColec;
-        abb->der = nullptr;
+    if(abb == nullptr){     //posicion en la que hay que hay que añadir la nueva celda como hoja
+        abb = new typename colecInterdep<I,V>::celdaColec;      //asignamos un nuevo nodo
+        abb->der = nullptr;     //como es hoja no tiene hijos
         abb->izq = nullptr;
-        abb->ident = id;
+        abb->ident = id;        //añadimos toda la información
         abb->valor = v;
-        abb->numDep = 0;
-        abb->sup = sup;
-        abb->sup->numDep++;
-        c.tamanio++;
+        abb->numDep = 0;        //como se acaba de añadir no puede tener dependientes
+        abb->sup = sup;         //sup apunta al elemento superior (del que es dependiente)
+        abb->sup->numDep++;     //incrementamos el numero de dependientes del superior
+        c.tamanio++;            //incrementamos el tamaño de la colección
     } else if(id < abb->ident){
-        introducirDep<I,V>(abb->izq, id, v, c, sup);
+        introducirDep<I,V>(abb->izq, id, v, c, sup);    //seguimos buscando la posición por el árbol izquierdo
     } else if(id > abb->ident){
-        introducirDep<I,V>(abb->der, id, v, c, sup);
+        introducirDep<I,V>(abb->der, id, v, c, sup);    //seguimos buscando la posición por el árbol derecho
     } 
     //else no hace nada porque no puede haber claves repetidas
 }
 
 /*
-* Buscamos el puntero al nodo superior con la funcion buscar. Si el puntero es distinto de nullptr => exite el
-* superior, por tanto llamamos a la funcion introducirDep la cual recibe como parametros la raiz del arbol, la nueva id, 
-* el nuevo valor, la colección c en la que hay que añadir el nuevo elemento y un puntero al nodo superior. La 
-* función añade el nuevo elemento dependiente a la coleccion de forma recursiva donde el nuevo elemento es un nodo hoja.
-*
+* Si el nodo superior (del que depende id) existe, la función buscar nos devuelve un puntero que apunta a dicho elemento, si no devuelve nullptr.
+* Por tanto, si el puntero superior es distinto de nullptr significa que exite el superior en la colección, por ello podemos llamar
+* a la funcion introducirDep, encargada de añadir el elemento, la cual recibe como parametros un puntero a la raiz del arbol,
+* el identificador del elemento que queremos añadir, el valor que tendrá dicho elemento, la propia colección c en la que hay que añadir
+* el nuevo elemento y el puntero al elemento superior. Si no existe un nodo con identificador id, añade el nuevo elemento como elemento
+* dependiente del elemento apuntado por superior a la coleccion de forma recursiva, donde el nuevo elemento es un nodo hoja.
+* Por el contrario, si ya existe un elemento con identificador id o el elemento superior no existe devuelve una colección sin cambios. 
 */
 template<typename I, typename V> 
 void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
@@ -528,12 +529,8 @@ void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
 }
 
 /*
-* Primero comprobamos que el id del elemento que queremos añadir no es igual al de su nuevo padre para evitar 
-* posibles fallos. Posteriormente recorremos la lista en busca de id o de el nuevo sup. En caso de encontar primero
-* id seguimos recorriendo en busca del id, sino seguimos recorriendo en busca de sup. Una vez terminada de recorrer
-* la lista compruebas si es porque encuentra ambos o por si no existe alguno, en caso de que no existe devuelve la
-* colección original. Posteriormente si id era independiente se pone sup como padre y se suma a sup numDep y sino 
-* hace lo mismo pero antes resta a el antiguo sup (accediendo desde el puntero) numDep en uno.
+* Primero comprobamos que el id del elemento que queremos añadir no es igual al de su nuevo padre para evitar hacer dependiente 
+* un elemento de sí mismo...
 */
 template<typename I, typename V> 
 void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
