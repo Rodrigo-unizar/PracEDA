@@ -428,6 +428,21 @@ bool existeIndependiente(I id, colecInterdep<I,V>& c){
 }
 
 /*
+* Recibe por parametros abb puntero a un nodo del árbol, la nueva id, el nuevo valor v y la colección c.
+*
+*       - Si abb es nullptr => estas en la posicion en la que hay que hay que añadir la nueva celda como hoja del 
+*         árbol, por tanto a abb le asignas un nuevo nodo y se le asignan sus valores: Izq y Der al ser hoja 
+*         apuntan a nullptr, se la asigna la id de los parametros, el valor pasado por los parametros, no puede
+*         tener dependientes ya que se acaba de crear por lo que numDep = 0 y como es independiente el valor de 
+*         sup es nullptr. Posteriormente incrementas el tamaño de la colección en 1.
+*
+*       - Si id < abb->ident => tenemos que seguir buscando la posición del nuevo nodo por lo que debido a que es 
+*         un árbol binario de búsqueda llamamos recursivamente a la función introducirIndep con los mismos valores 
+*         y el puntero como abb = abb->izq.
+*
+*       - Si id > abb->ident => tenemos que seguir buscando la posición del nuevo nodo por lo que debido a que es
+*         un árbol binario de búsqueda llamamos recursivamente a la función introducirIndep con los mismos valores
+*         y el puntero como abb = abb->der.
 */
 template<typename I, typename V>
 void introducirIndep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c){
@@ -449,10 +464,9 @@ void introducirIndep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, c
 }
 
 /*
-* Bucamos la posicion en la que tenemos que añadir el nuevo elemento y guardamos tambien la posicion anterior, 
-* una vez encontrado se pone el puntero siguiente apuntando a la siguiente celda. Posteriormente creamos la nueva 
-* celda y ponemos como puntero de la anterior a esta nueva y de la nueva celda de puntero ponemos siguiente.
-*  Finalmente sumamos 1 a tamanio.
+* Llama a la funcion introducirIndep la cual recibe como parametros la raiz del arbol, la nueva id, el nuevo valor y la colección c 
+* en la que hay que añadir el nuevo elemento. La función añade el nuevo elemento independiente a la coleccion de 
+* forma recursiva donde el nuevo elemento es un nodo hoja.
 */
 template<typename I, typename V> 
 void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
@@ -462,6 +476,23 @@ void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
 }
 
 /*
+* Recibe por parametros abb puntero a un nodo del árbol, la nueva id, el nuevo valor v y la colección c y un 
+* puntero al nodo superior.
+*
+*       - Si abb es nullptr => estas en la posicion en la que hay que hay que añadir la nueva celda como hoja del 
+*         árbol, por tanto a abb le asignas un nuevo nodo y se le asignan sus valores: Izq y Der al ser hoja 
+*         apuntan a nullptr, se la asigna la id de los parametros, el valor pasado por los parametros, no puede
+*         tener dependientes ya que se acaba de crear por lo que numDep = 0, en sup se pone el puntero que apunta 
+*         al superior obtenido de los parametros y se incrementa en 1 el numero de dependientes del superior. 
+*         Posteriormente incrementas el tamaño de la colección en 1.
+*
+*       - Si id < abb->ident => tenemos que seguir buscando la posición del nuevo nodo por lo que debido a que es 
+*         un árbol binario de búsqueda llamamos recursivamente a la función introducirDep con los mismos valores 
+*         y el puntero como abb = abb->izq.
+*
+*       - Si id > abb->ident => tenemos que seguir buscando la posición del nuevo nodo por lo que debido a que es
+*         un árbol binario de búsqueda llamamos recursivamente a la función introducirDep con los mismos valores
+*         y el puntero como abb = abb->der.
 */
 template<typename I, typename V>
 void introducirDep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup){
@@ -484,10 +515,11 @@ void introducirDep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, col
 }
 
 /*
-* Bucamos la posicion en la que tenemos que añadir el nuevo elemento a la vez comprobamos si pasamos por el padre
-* en caso de encontrar el padre simplemente lo gusrdamos y seguimos buscando al hijo, sino al encontrar el hijo 
-* seguimos iterando en busca del padre. Si encontramos al padre entonces creamos la nueva celda con sus valores y 
-* en el puntero sup ponemos un puntero al padre. Finalmente sumamos 1 a tamanio.
+* Buscamos el puntero al nodo superior con la funcion buscar. Si el puntero es distinto de nullptr => exite el
+* superior, por tanto llamamos a la funcion introducirDep la cual recibe como parametros la raiz del arbol, la nueva id, 
+* el nuevo valor, la colección c en la que hay que añadir el nuevo elemento y un puntero al nodo superior. La 
+* función añade el nuevo elemento dependiente a la coleccion de forma recursiva donde el nuevo elemento es un nodo hoja.
+*
 */
 template<typename I, typename V> 
 void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
