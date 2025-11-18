@@ -21,7 +21,7 @@ int main(){
     int tam_antes = 0;
     int tam_dsps = 0;
     bool esDep = false;
-    f.open("entrada.txt");  
+    f.open("entrada_06.txt");  
     g.open("salida.txt");
     while (f >> instruccion){
         getline(f, salto);
@@ -73,13 +73,9 @@ int main(){
             getline(f, nombre_e);
             getline(f, padre);
 
-            hacerDependiente(c, nombre_e, padre);
-            if(existe(padre, c)){ //si esto se ejecuta como verdadero es que existe el padre
-                if(obtenerDatos(nombre_e, numDep, padre, e, c, esDep)){    //devuelve verdad si existe el hijo por tanto puede obtener los datos      
-                    g << "INTENTANDO hacer depend.: " << nombre_e << " -de-> " << padre << endl;
-                } else {
-                    g << "IMPOSIBLE hacer depend.: " << nombre_e << " -de-> " << padre << endl;
-                }
+            hacerDependiente(c, nombre_e, padre);  //ESTO FALLA LETS GO
+            if(existe(padre, c) && existe(nombre_e, c)){ //si esto se ejecuta como verdadero es que existe el padre    
+                g << "INTENTANDO hacer depend.: " << nombre_e << " -de-> " << padre << endl;
             } else {
                 g << "IMPOSIBLE hacer depend.: " << nombre_e << " -de-> " << padre << endl;
             }
