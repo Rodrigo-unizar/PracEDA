@@ -28,59 +28,61 @@ using namespace std;
 * Por ejemplo, permiten organizar los datos de la colección en forma de secuencia ordenada.
 *
 *   bool igual(I e1, I e2) devuelve verdadero si y solo si el elemento e1 es igual al elemento e2.
-*   bool anterior(I e1, I e2) devuelve verdadero si y solo si el elemento e1 es anterior (menor) que el elemento e2.
+*   bool menorque(I e1, I e2) devuelve verdadero si y solo si el elemento e1 es anterior (menor) que el elemento e2.
 *
 */
 template<typename I, typename V> struct colecInterdep;
 
 /*
-* Crea un colección c vacía, sin elementos.
+* Recibe una coleccion c y la crea vacía, sin elementos.
 */
 template<typename I, typename V> void crear(colecInterdep<I,V>& c);
 
 /*
-* Devuelve el número de elementos que hay en la colección c.
+* Recibe una coleccion c. Devuelve el número de elementos que hay en la colección c.
 */
-template<typename I, typename V> int tamanio(colecInterdep<I,V>& c);
+template<typename I, typename V> int tamanio(const colecInterdep<I,V>& c);
 
 /*
-* Devuelve verdad si y solo si la colección c no contiene ningún elemento.
+* Recibe una coleccion c. Devuelve verdad si y solo si la colección c no contiene ningún elemento.
 */
-template<typename I, typename V> bool esVacia(colecInterdep<I,V>& c);
+template<typename I, typename V> bool esVacia(const colecInterdep<I,V>& c);
 
 /*
-* Devuelve verdad si y solo si en c hay algún elemento con un identificador igual a id.
+* Recibe una coleccion c y un identificador id. Devuelve verdad si y solo si en c hay algún elemento con un identificador igual a id.
 */
-template<typename I, typename V> bool existe(I id, colecInterdep<I,V>& c);
+template<typename I, typename V> bool existe(const I& id, const colecInterdep<I,V>& c);
 
 /*
-* Devuelve verdad si y solo si en c hay algún elemento dependiente cuyo identificador sea igual a id,
-* es decir un elemento de la forma (id, v, sup, numDep).
+* Recibe un identificador id y una coleccion c. Devuelve verdad si y solo si en c hay algún elemento 
+* dependiente cuya clave sea igual a id, es decir un elemento de la forma (id, v, sup, numDep).
 */
-template<typename I, typename V> bool existeDependiente(I id, colecInterdep<I,V>& c);
+template<typename I, typename V> bool existeDependiente(const I& id, const colecInterdep<I,V>& c);
 
 /*
-* Devuelve verdad si y solo si en c hay algún elemento independiente cuyo identificador sea igual a id, 
+*  Recibe un identificador id y una coleccion c. Devuelve verdad si y solo si en c hay algún elemento independiente cuyo identificador sea igual a id, 
 * es decir un elemento de la forma (id, v, -, numDep).
 */
-template<typename I, typename V> bool existeIndependiente(I id, colecInterdep<I,V>& c);
+template<typename I, typename V> bool existeIndependiente(const I& id, const colecInterdep<I,V>& c);
 
 /*
-* Si el identificador id no existe en la coleccion c, devuelve una colección igual a la resultante de añadir a la colección c 
-* el elemento independiente de la forma (id,v,-,0), siendo id su identificacion y v su valor.
-* En caso contrario, devuelve una colección igual a c.
+*  Recibe una coleccion c, un identificador id y un valor v. Si el identificador id no existe en la coleccion c, devuelve una colección igual a la resultante de 
+* añadir a la colección c el elemento independiente de la forma (id,v,-,0), siendo id su identificacion 
+* y v su valor. En caso contrario, devuelve una colección igual a c.
 */
-template<typename I, typename V> void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v);
+template<typename I, typename V> void aniadirIndependiente(colecInterdep<I,V>& c, const I& id, const V& v);
 
 /*
+* Recibe una colección c, un identificador id, un valor v y otro identificador sup.
 * Si el identificador id no existe en la coleccion c y el identificador sup sí que existe en la coleccion c,
 * devuelve una colección igual a la resultante de:
 * incrementar en 1 el número de elementos dependientes del elemento con identificador sup en c y
 * añadir el elemento de la forma (id,v,sup,0) a la colección c. En cualquier otro caso, devuelve una colección igual a c.
 */
-template<typename I, typename V> void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup);
+template<typename I, typename V> void aniadirDependiente(colecInterdep<I,V>& c, const I& id, const V& v, const I& sup);
 
 /*
+* Recibe una colección c, un identificador id y otro identificador sup.
 * Si el identficador id es diferente al identificador sup, existe el identificador sup en la colección c y además el elemento
 * con identificador id es dependiente de forma (id, v, superAnt, numDep), devuelve una colección igual a la resultante de:
 *   - incrementar en 1 el número de elementos dependientes del elemento con identificador sup en c,
@@ -94,51 +96,31 @@ template<typename I, typename V> void aniadirDependiente(colecInterdep<I,V>& c, 
 *
 * En cualquier otro caso, devuelve una colección igual a c.
 */
-template<typename I, typename V> void hacerDependiente(colecInterdep<I,V>& c, I id, I sup);
+template<typename I, typename V> void hacerDependiente(colecInterdep<I,V>& c, const I& id, const I& sup);
 
 /*
+* Recibe una colección c y un identificador id.
 * Si el elemento con identificador id existe en la coleccion c y además dicho elemento es dependiente, de la forma (id, v, sup, numDep).
 * devuelve una colección igual a la resultante de:
 *   - establecer el identificador del supervisor (sup) del elemento con identificador id como vacío (‘-’),
 *   - decrementar en 1 el número de dependientes del antiguo supervisor (sup) del elemento con identificador id.
 * En cualquier otro caso, devuelve una colección igual a c.
 */
-template<typename I, typename V> void hacerIndependiente(colecInterdep<I,V>& c, I id);
+template<typename I, typename V> void hacerIndependiente(colecInterdep<I,V>& c, const I& id);
 
 /*
+* Recibe una colección c, un identificador id y un valor v.
 *Operación parcial -> la operación no está definida si no el elemento con identificador id no existe en la coleccion c.
 * Si el elemento con identificador id existe en la coleccion c, modifica la coleccion actual de tal manera que actualiza
 * el valor del elemento con identificador id en la coleccion c con el valor v.
 * En caso contrario, no se modifica la coleccion c y se mantiene igual que antes.
 * Devuelve verdadero si la actualización se ha realizado con éxito y falso en caso contrario.
 */
-template<typename I, typename V> bool actualizarVal(colecInterdep<I,V>& c, I id, V v);
+template<typename I, typename V> bool actualizarVal(colecInterdep<I,V>& c, const I& id, const V& v);
+
 
 /*
-*Operación parcial -> la operación no está definida si no el elemento con identificador id no existe en la coleccion c.
-* Si el elemento con identificador id existe en la coleccion c, guarda en val el valor asociado al elemento con identificador id
-* en la coleccion c y devuelve verdadero.
-* En caso contrario, no se modifica nada y devuelve falso.
-*/
-template<typename I, typename V> bool obtenerVal(I id, colecInterdep<I,V>& c, V& val);
-
-/*
-*Operación parcial -> la operación no está definida si el elemento con identificador id no es dependiente de la forma (id, v, sup, numDep).
-* Si el elemento con identificador id existe en la coleccion c y además dicho elemento es dependiente de la forma (id, v, sup, numDep),
-* modifica sup para que contenga el identificador de su supervisor y devuelve verdadero.
-* En cualquier otro caso (si no existe o es independiente), no modifica nada y devuelve falso.
-*/
-template<typename I, typename V> bool obtenerSupervisor(I id, colecInterdep<I,V>& c, I& sup);
-
-/*
-*Operación parcial -> la operación no está definida si no el elemento con identificador id no existe en la coleccion c.
-* Si el elemento con identificador id existe en la coleccion c, modifica numDep con el número de elementos dependientes del elemento
-* con identificador id en la coleccion c y devuelve verdadero.
-* En caso contrario, no modifica nada y devuelve falso.
-*/
-template<typename I, typename V> bool obtenerNumDependientes(I id, colecInterdep<I,V>& c, unsigned& numDep);
-
-/*
+* Recibe un identificador id y una colección c.
 * Si existe el elemento con identificador id en la colección c y dicho elemento es dependiente de la forma (id, v, sup, numDep),
 * tal que numDep es el número de elementos dependientes del elemento con identificador id y es igual a 0, entonces:
 * modifica la colección de tal forma que tenemos una colección igual a la resultante de: 
@@ -152,45 +134,23 @@ template<typename I, typename V> bool obtenerNumDependientes(I id, colecInterdep
 *
 * En cualquier otro caso, mantiene una coleccion igual a c.
 */
-template<typename I, typename V> void borrar(I id, colecInterdep<I,V>& c);
+template<typename I, typename V> void borrar(const I& id, colecInterdep<I,V>& c);
 
 //Operacion auxiliar que agrupa las funciones de obtenerNumDependientes, obtenerSupervisor y obtenerVal
 /*
+* Recibe un identificador id, un natural numDep, otro identificador sup, un valor v, una coleccion c y un booleano esDep.
 * Si existe el elemento con identificador id en la coleccion c, devuelve verdadero si y solo si ha podido obtener
 * todos los datos relacionados al elemento con identificador id. Si el elemento no existe en la colección, es que no 
 * puede obtener sus datos entonces devuelve falso y no modifica nada. 
 */
-template<typename I, typename V> bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c, bool &esDep);
+template<typename I, typename V> bool obtenerDatos(const I& id, unsigned& numDep, I& sup, V& v, const colecInterdep<I,V>& c, bool &esDep);
 
-//Operaciones privadas
 
-/*
-*/
-template<typename I, typename V> bool existe2(I id, typename colecInterdep<I,V>::celdaColec* abb);
-
-/*
-*/
-template<typename I, typename V> typename colecInterdep<I,V>::celdaColec* buscar(I id, typename colecInterdep<I,V>::celdaColec* abb);
-
-/*
-*/
-template<typename I, typename V> void introducirIndep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c);
-
-/*
-*/
-template<typename I, typename V> void introducirDep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup);
-
-/*
-*/
-template<typename I, typename V> bool borrarAux(typename colecInterdep<I,V>::celdaColec*& abb, I id);
-
-/*
-*/
-template<typename I, typename V> typename colecInterdep<I,V>::celdaColec* borrarMax(typename colecInterdep<I,V>::celdaColec*& abb);
 
 //Operaciones iterador
 
 /*
+* Recibe una coleeción c.
 * Inicializa el iterador para recorrer los elementos de la colección c, de forma que el siguiente
 * elemento a visitar sea el que tiene un identificador anterior a los de todos los demás elementos de la
 * colección, que se corresponde con la situación de no haber visitado ningún elemento. 
@@ -198,24 +158,28 @@ template<typename I, typename V> typename colecInterdep<I,V>::celdaColec* borrar
 template<typename I, typename V> void iniciarIterador(colecInterdep<I,V>& c);
 
 /*
+* Recibe una coleeción c.
 * Devuelve verdad si queda algún elemento por visitar con el iterador de la colección c, devuelve
 * falso si ya se ha visitado el último elemento.
 */
 template<typename I, typename V> bool existeSiguiente(colecInterdep<I,V>& c);
 
 /*
+* Recibe una coleeción c y un identificador id.
 * Si aún queda algun elemento por visitar, devuelve el identificador del siguiente elemento a visitar con el iterador de la colección c,
 * que será el elemento no visitado con identificador anterior a los de todos los demás aún no visitados.
 */
 template<typename I, typename V> bool siguienteIdent(colecInterdep<I,V>& c, I &id);
 
 /*
+* Recibe una coleeción c y un identificador id.
 * Si aún queda algun elemento por visitar, devuelve el valor del siguiente elemento a visitar con el iterador de la colección c,
 * que será el elemento no visitado con identificador anterior a los de todos los demás aún no visitados.
 */
 template<typename I, typename V> bool siguienteVal(colecInterdep<I,V>& c, V &valor);
 
 /*
+* Recibe una colección c.
 * Si aún queda algun elemento por visitar, si el siguiente elemento a visitar con el iterador de la colección,
 * que será el elemento no visitado con identificador anterior a los de todos los demás aún no visitados,
 * es independiente de la forma (id, v, -, numDep) devuelve falso, 
@@ -224,6 +188,7 @@ template<typename I, typename V> bool siguienteVal(colecInterdep<I,V>& c, V &val
 template<typename I, typename V> bool siguienteDependiente(colecInterdep<I,V>& c);
 
 /*
+* Recibe una colección c y un identificador sup.
 * Si aún queda algun elemento por visitar y dicho elemento es dependiente de la forma (id, v, sup, numDep),
 * si el siguiente elemento a visitar con el iterador de la colección, que será el elemento no visitado con identificador anterior
 * a los de todos los demás aún no visitados, es dependiente de la forma (id, v, sup, numDep), devuelve el identificador de sup.
@@ -231,6 +196,7 @@ template<typename I, typename V> bool siguienteDependiente(colecInterdep<I,V>& c
 template<typename I, typename V> bool siguienteSuperior(colecInterdep<I,V>& c, I &sup);
 
 /*
+* Recibe una colección c y un natural numDep.
 * Si aún queda algun elemento por visitar, devuelve el numero de elementos dependientes del elemento con identificador id (numDep)
 * del siguiente elemento a visitar con el iterador de la colección c, que será el elemento no visitado con
 * identificador anterior a los de todos los demás aún no visitados.
@@ -238,34 +204,45 @@ template<typename I, typename V> bool siguienteSuperior(colecInterdep<I,V>& c, I
 template<typename I, typename V> bool siguienteNumDependientes(colecInterdep<I,V>& c, unsigned &numDep);
 
 /*
+* Recibe una colección c.
 * Si aún queda algun elemento por visitar, avanza el iterador de la colección c para que se pueda visitar otro elemento.
 */
 template<typename I, typename V> void avanza(colecInterdep<I,V>& c);
 
 // FIN predeclaracion del TAD GENERICO colecInterdep (Fin INTERFAZ)
 
+//COMIENZA LA PARTE PRIVADA A PARTIR DE ESTE PUNTO
+
+//Operaciones privadas
+
+template<typename I, typename V> bool existe2(I id, typename colecInterdep<I,V>::celdaColec* abb);
+
+template<typename I, typename V> typename colecInterdep<I,V>::celdaColec* buscar(I id, typename colecInterdep<I,V>::celdaColec* abb);
+
+template<typename I, typename V> void introducir(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup);
+
+template<typename I, typename V> bool borrarAux(typename colecInterdep<I,V>::celdaColec*& abb, I id);
+
+template<typename I, typename V> typename colecInterdep<I,V>::celdaColec* borrarMax(typename colecInterdep<I,V>::celdaColec*& abb);
 
 // DECLARACION DEL TAD GENERICO colecInterdep
 
 template<typename I, typename V>
 struct colecInterdep{
     friend void crear<I,V>(colecInterdep<I,V>& c);
-    friend int tamanio<I,V>(colecInterdep<I,V>& c);
-    friend bool esVacia<I,V>(colecInterdep<I,V>& c);
-    friend bool existe<I,V>(I id, colecInterdep<I,V>& c);
-    friend bool existeDependiente<I,V>(I id, colecInterdep<I,V>& c);
-    friend bool existeIndependiente<I,V>(I id,colecInterdep<I,V>& c);
-    friend void aniadirIndependiente<I,V>(colecInterdep<I,V>& c, I id, V v);
-    friend void aniadirDependiente<I,V>(colecInterdep<I,V>& c, I id,V v, I sup);
-    friend void hacerDependiente<I,V>(colecInterdep<I,V>& c, I id, I sup);
-    friend void hacerIndependiente<I,V>(colecInterdep<I,V>& c, I id);
-    friend bool actualizarVal<I,V>(colecInterdep<I,V>& c, I id, V v);
-    friend bool obtenerVal<I,V>(I id, colecInterdep<I,V>& c, V& val);
-    friend bool obtenerSupervisor<I,V>(I id, colecInterdep<I,V>& c, I& sup);
-    friend bool obtenerNumDependientes<I,V>(I id, colecInterdep<I,V>& c, unsigned& numDep);
-    friend void borrar<I,V>(I id, colecInterdep<I,V>& c);
+    friend int tamanio<I,V>(const colecInterdep<I,V>& c);
+    friend bool esVacia<I,V>(const colecInterdep<I,V>& c);
+    friend bool existe<I,V>(const I& id, const colecInterdep<I,V>& c);
+    friend bool existeDependiente<I,V>(const I& id, const colecInterdep<I,V>& c);
+    friend bool existeIndependiente<I,V>(const I& id,const colecInterdep<I,V>& c);
+    friend void aniadirIndependiente<I,V>(colecInterdep<I,V>& c, const I& id, const V& v);
+    friend void aniadirDependiente<I,V>(colecInterdep<I,V>& c, const I& id,const V& v, const I& sup);
+    friend void hacerDependiente<I,V>(colecInterdep<I,V>& c, const I& id, const I& sup);
+    friend void hacerIndependiente<I,V>(colecInterdep<I,V>& c, const I& id);
+    friend bool actualizarVal<I,V>(colecInterdep<I,V>& c, const I& id, const V& v);
+    friend void borrar<I,V>(const I& id, colecInterdep<I,V>& c);
     //Operacion auxiliar
-    friend bool obtenerDatos<I,V>(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c, bool &esDep);
+    friend bool obtenerDatos<I,V>(const I& id, unsigned& numDep, I& sup, V& v, const colecInterdep<I,V>& c, bool &esDep);
     
     /* Operaciones iterador */
     friend void iniciarIterador<I,V>(colecInterdep<I,V>& c);
@@ -317,8 +294,7 @@ struct colecInterdep{
     //Operaciones privadas
     friend bool existe2<I,V>(I id, typename colecInterdep<I,V>::celdaColec* abb);
     friend typename colecInterdep<I,V>::celdaColec* buscar<I,V>(I id, typename colecInterdep<I,V>::celdaColec* abb);
-    friend void introducirIndep<I,V>(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c);
-    friend void introducirDep<I,V>(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup);
+    friend void introducir<I,V>(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup);
     friend bool borrarAux<I,V>(typename colecInterdep<I,V>::celdaColec*& abb, I id);
     friend typename colecInterdep<I,V>::celdaColec* borrarMax<I,V>(typename colecInterdep<I,V>::celdaColec*& abb);
 };
@@ -357,7 +333,7 @@ void crear(colecInterdep<I,V>& c){
 * Devuelve el número de elementos que hay en la colección c.
 */
 template<typename I, typename V>
-int tamanio(colecInterdep<I,V>& c){
+int tamanio(const colecInterdep<I,V>& c){
     return c.tamanio;
 }
 
@@ -365,7 +341,7 @@ int tamanio(colecInterdep<I,V>& c){
 * Devuelve verdad si y solo si la colección c no contiene ningún elemento.
 */
 template<typename I, typename V> 
-bool esVacia(colecInterdep<I,V>& c){
+bool esVacia(const colecInterdep<I,V>& c){
     return c.tamanio == 0;
 }
 
@@ -390,7 +366,7 @@ bool existe2(I id, typename colecInterdep<I,V>::celdaColec* abb){
 * 
 */
 template<typename I, typename V>
-bool existe(I id, colecInterdep<I,V>& c){
+bool existe(const I& id, const colecInterdep<I,V>& c){
     return existe2<I,V>(id, c.raiz);
 }
 
@@ -406,7 +382,7 @@ bool existe(I id, colecInterdep<I,V>& c){
 * Recibe como parametros: id el identificador a buscar y c la propia colección.
 */
 template<typename I, typename V>
-bool existeDependiente(I id, colecInterdep<I,V>& c){
+bool existeDependiente(const I& id, const colecInterdep<I,V>& c){
     typename colecInterdep<I,V>::celdaColec* pDep = buscar<I,V>(id, c.raiz);
     if(pDep == nullptr){
         return false;
@@ -428,7 +404,7 @@ bool existeDependiente(I id, colecInterdep<I,V>& c){
 * Recibe como parametros: id el identificador a buscar y c la propia colección.
 */
 template<typename I, typename V>
-bool existeIndependiente(I id, colecInterdep<I,V>& c){
+bool existeIndependiente(const I& id, const colecInterdep<I,V>& c){
     typename colecInterdep<I,V>::celdaColec* pIDep = buscar<I,V>(id, c.raiz);
     if(pIDep == nullptr){
         return false;
@@ -439,34 +415,6 @@ bool existeIndependiente(I id, colecInterdep<I,V>& c){
     }
 }
 
-/*
-* Recorremos el árbol de tal forma que si el identificador que estamos buscando es menor que el que estamos visitando en la llamada
-* actual, llamamos de forma recursiva a la función con el el subárbol izquierdo. En caso contrario, si el identificador que estamos 
-* buscando es mayor que el de la llamada actual, continuamos buscandolode forma recursiva en el subarbol derecho. Repetimos el proceso
-* hasta llegar a un subárbol (izquierdo o derecho) que será nullptr y lo insertaremos allí como una hoja. De este modo, no se alterará
-* la estructura interna y seguirá siendo un abb que cumple todas las demás características.
-*
-* Recibe como parametros: abb puntero a un nodo del árbol, id el identificador a buscar/añadir,
-* v el valor de dicho elemento v y la colección c.
-*/
-template<typename I, typename V>
-void introducirIndep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c){
-    if(abb == nullptr){     // posicion en la que hay que hay que añadir la nueva celda como hoja
-        abb = new typename colecInterdep<I,V>::celdaColec;      //asignas un nuevo nodo
-        abb->der = nullptr;         //como es una hoja no tiene subarboles
-        abb->izq = nullptr;
-        abb->ident = id;            //asignamos la información correspondiente
-        abb->valor = v;
-        abb->numDep = 0;            //como se acaba de crear no puede tener elementos dependientes de él
-        abb->sup = nullptr;         //hemos añadido un elemento independiente
-        c.tamanio++;                //aumentamos el tamaño de la colección tras añadir un nodo
-    } else if(id < abb->ident){
-        introducirIndep<I,V>(abb->izq, id, v, c);  //seguimos buscando la posición por el árbol izquierdo
-    } else if(id > abb->ident){
-        introducirIndep<I,V>(abb->der, id, v, c);   //seguimos buscando la posición por el árbol derecho
-    } 
-    //else no hace nada porque no puede haber claves repetidas
-}
 
 /*
 * Llama a la funcion auxiliar introducirIndep, encargada de añadir el elemento, la cual recibe como parametros un puntero a la raiz del arbol,
@@ -476,9 +424,9 @@ void introducirIndep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, c
 * ya existe un elemento con identificador id devuelve una colección idéntica sin modificar nada. 
 */
 template<typename I, typename V> 
-void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
+void aniadirIndependiente(colecInterdep<I,V>& c, const I& id, const V& v){
 
-    introducirIndep<I,V>(c.raiz, id, v, c);
+    introducir<I,V>(c.raiz, id, v, c, nullptr);
     
 }
 
@@ -494,7 +442,7 @@ void aniadirIndependiente(colecInterdep<I,V>& c, I id, V v){
 * v el valor asociado, c la proopia colección y sup el puntero al nodo del cual depende el nuevo elemento.
 */
 template<typename I, typename V>
-void introducirDep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup){
+void introducir(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup){
     if(abb == nullptr){     //posicion en la que hay que hay que añadir la nueva celda como hoja
         abb = new typename colecInterdep<I,V>::celdaColec;      //asignamos un nuevo nodo
         abb->der = nullptr;     //como es hoja no tiene hijos
@@ -502,13 +450,15 @@ void introducirDep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, col
         abb->ident = id;        //añadimos toda la información
         abb->valor = v;
         abb->numDep = 0;        //como se acaba de añadir no puede tener dependientes
-        abb->sup = sup;         //sup apunta al elemento superior (del que es dependiente)
-        abb->sup->numDep++;     //incrementamos el numero de dependientes del superior
+        abb->sup = sup;        //sup apunta al elemento superior (del que es dependiente)
+        if(!(sup == nullptr)){
+            abb->sup->numDep++;     //incrementamos el numero de dependientes del superior
+        }
         c.tamanio++;            //incrementamos el tamaño de la colección
     } else if(id < abb->ident){
-        introducirDep<I,V>(abb->izq, id, v, c, sup);    //seguimos buscando la posición por el árbol izquierdo
+        introducir<I,V>(abb->izq, id, v, c, sup);    //seguimos buscando la posición por el árbol izquierdo
     } else if(id > abb->ident){
-        introducirDep<I,V>(abb->der, id, v, c, sup);    //seguimos buscando la posición por el árbol derecho
+        introducir<I,V>(abb->der, id, v, c, sup);    //seguimos buscando la posición por el árbol derecho
     } 
     //else no hace nada porque no puede haber claves repetidas
 }
@@ -523,9 +473,9 @@ void introducirDep(typename colecInterdep<I,V>::celdaColec*& abb, I id, V v, col
 * Por el contrario, si ya existe un elemento con identificador id o el elemento superior no existe devuelve una colección sin cambios. 
 */
 template<typename I, typename V> 
-void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
+void aniadirDependiente(colecInterdep<I,V>& c, const I& id, const V& v, const I& sup){
     typename colecInterdep<I,V>::celdaColec* superior = buscar<I,V>(sup, c.raiz);
-    if(superior != nullptr){introducirDep<I,V>(c.raiz, id, v, c, superior);}
+    if(superior != nullptr){introducir<I,V>(c.raiz, id, v, c, superior);}
 }
 
 /*
@@ -533,7 +483,7 @@ void aniadirDependiente(colecInterdep<I,V>& c, I id, V v, I sup){
 * un elemento de sí mismo...
 */
 template<typename I, typename V> 
-void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
+void hacerDependiente(colecInterdep<I,V>& c, const I& id, const I& sup){
     if(id != sup){
         typename colecInterdep<I,V>::celdaColec* superior = buscar<I,V>(sup, c.raiz);
         if(superior != nullptr){
@@ -555,7 +505,7 @@ void hacerDependiente(colecInterdep<I,V>& c, I id, I sup){
 * lo encuentra devuelve la coleccion original. 
 */
 template<typename I, typename V> 
-void hacerIndependiente(colecInterdep<I,V>& c, I id){
+void hacerIndependiente(colecInterdep<I,V>& c, const I& id){
     typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
     if(nodo != nullptr && nodo->sup != nullptr){        //significa que era dependiente por tanto lo hacemos independiente
         nodo->sup->numDep--;
@@ -569,58 +519,10 @@ void hacerIndependiente(colecInterdep<I,V>& c, I id){
 * Es una operación parcial porque si no existe id no puede actualizar su valor.
 */
 template<typename I, typename V> 
-bool actualizarVal(colecInterdep<I,V>& c, I id, V v){
+bool actualizarVal(colecInterdep<I,V>& c, const I& id, const V& v){
     typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
     if(nodo != nullptr){
         nodo->valor = v;
-        return true;
-    }
-    return false;
-}
-
-/*
-* Si la colección c no es vacía:
-* Recorre la lista en busca de id. Si lo encuentra pone el valor de id en la variable val la cual esta pasada
-* por referencia para posteriormente poder recuperar el valor y devuelve true, sino devuelve false.
-* Es una operación parcial porque si no existe id no puede obtener su valor.
-*/
-template<typename I, typename V> 
-bool obtenerVal(I id, colecInterdep<I,V>& c, V& val){
-    typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
-    if(nodo != nullptr){
-        val = nodo->valor;
-        return true;
-    }
-    return false;
-}
-
-/*
-* Si la colección c no es vacía:
-* Recorre la lista en busca de id. Si lo encuentra y es dependiente pone el identificador de su sup en la variable sup
-* la cual esta pasada por referencia para posteriormente poder recuperar el valor y devuelve true, sino devuelve false.
-* Es una operación parcial porque si no existe id o no es dependiente no puede obtener su supervisor.
-*/
-template<typename I, typename V> 
-bool obtenerSupervisor(I id, colecInterdep<I,V>& c, I& sup){
-    typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
-    if(nodo != nullptr && nodo->sup != nullptr){
-        sup = nodo->sup->ident;
-        return true;
-    }
-    return false;
-}
-
-/*
-* Si la colección c no es vacía:
-* Recorre la lista en busca de id. Si lo encuentra pone el valor de numDep en la variable numDep la cual esta pasada
-* por referencia para posteriormente poder recuperar en valor y devuelve true, sino devuelve false.
-* Es una operación parcial porque si no existe id no puede obtener su número de dependientes.
-*/
-template<typename I, typename V> 
-bool obtenerNumDependientes(I id, colecInterdep<I,V>& c, unsigned& numDep){
-    typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
-    if(nodo != nullptr){
-        numDep = nodo->numDep;
         return true;
     }
     return false;
@@ -686,7 +588,7 @@ bool borrarAux(typename colecInterdep<I,V>::celdaColec*& abb, I id){
 * borramos id y decrementamos tamanio en uno.
 */
 template<typename I, typename V> 
-void borrar(I id, colecInterdep<I,V>& c){
+void borrar(const I& id, colecInterdep<I,V>& c){
     if(borrarAux<I,V>(c.raiz, id)){ c.tamanio--;}
 }
 
@@ -701,7 +603,7 @@ void borrar(I id, colecInterdep<I,V>& c){
 * Devuelve verdadero si y solo si ha podido obtener todos los datos, en caso contrario devuelve falso.
 */
 template<typename I, typename V> 
-bool obtenerDatos(I id, unsigned& numDep, I& sup, V& v, colecInterdep<I,V>& c, bool &esDep){
+bool obtenerDatos(const I& id, unsigned& numDep, I& sup, V& v, const colecInterdep<I,V>& c, bool &esDep){
     typename colecInterdep<I,V>::celdaColec* nodo = buscar<I,V>(id, c.raiz);
     if(nodo != nullptr){
         v = nodo->valor;

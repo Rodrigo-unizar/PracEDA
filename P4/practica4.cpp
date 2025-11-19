@@ -15,25 +15,28 @@ int main(){
     crear(c);
 
     string instruccion, salto;
-    string nombre_e, descripcion_e, dependencia, padre, prioridad, nombre_dep, supDep;
-    unsigned numDep, numDepDP;
+    string nombre_e, descripcion_e, dependencia, padre, nombre_dep, supDep;
+    unsigned numDep, numDepDP, prioridad;
     int i = 1;
     int tam_antes = 0;
     int tam_dsps = 0;
     bool esDep = false;
-    f.open("entrada.txt");  
-    g.open("salida.txt");
+    crearEvento(descripcion_e, prioridad, e);   //inicializamos un único evento
+    f.open("pruebas.txt");  
+    g.open("yisus.txt");
     while (f >> instruccion){
         getline(f, salto);
         
         if(instruccion == "A"){         //coste O(1N)
             getline(f, nombre_e);
             getline(f, descripcion_e);
-            getline(f, prioridad);
+            f >> prioridad;
+            getline(f, salto);
             getline(f, dependencia);
             getline(f, padre);
 
-            crearEvento(descripcion_e, stoi(prioridad), e);
+            cambiarDescripcion(descripcion_e, e);
+            cambiarPrioridad(prioridad, e);
             tam_antes = tamanio(c);
             if(dependencia == "INDependiente"){    
                 aniadirIndependiente(c, nombre_e, e);
@@ -55,9 +58,11 @@ int main(){
         } else if (instruccion == "C"){   //no se puede hacer menor que 2N
             getline(f, nombre_e);
             getline(f, descripcion_e);
-            getline(f, prioridad);
+            f >> prioridad;
+            getline(f, salto);
 
-            crearEvento(descripcion_e, stoi(prioridad), e);
+            cambiarDescripcion(descripcion_e, e);
+            cambiarPrioridad(prioridad, e);
 
             if(actualizarVal(c, nombre_e, e) && obtenerDatos(nombre_e, numDep, padre, e, c, esDep)){   //obtenerDatos(nombre_e, numDep, padre, c)
                 if(esDep){  //if padre != "vacio"
