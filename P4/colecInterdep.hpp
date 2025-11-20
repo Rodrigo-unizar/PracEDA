@@ -307,6 +307,14 @@ void introducir(typename colecInterdep<I,V>::celdaColec*& abb, const I& id, cons
 }
 
 /*
+* Recibe como parametros: abb puntero por referencia al nodo actual del recorrido y id el identificador a borrar.
+*
+* Bajamos por el arbol buscando el maximo valor de la izquierda (el mayor de los menores) para sustituir el nodo que 
+* queremos borrar (raiz) por el (mayor de los menores). Para ello, como queremos encontrar el maximo de la izquierda,
+* nos desplazamos hacia la derecha hasta encontrar un nodo que no tenga hijo derecho. Cuando lo encontramos, ese nodo
+* es el mayor de los menores. Una vez encontrado, lo devolvemos y hacemos que el puntero al
+* hijo derecho del padre apunte al hijo izquierdo del nodo encontrado (que puede ser nullptr si no tiene hijo izquierdo).
+* De esta forma, eliminamos el nodo mayor de los menores del árbol original y lo devolvemos para sustituir la raiz.
 */
 template<typename I, typename V>
 typename colecInterdep<I,V>::celdaColec* borrarMax(typename colecInterdep<I,V>::celdaColec*& abb){
