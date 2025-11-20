@@ -145,8 +145,8 @@ int main(){
                 iniciarIterador(c);
                 i = 1;                                  //cada vez que llamamos a "LD" tiene que volver al inicio
                 while(existeSiguiente(c)){
-                    if(siguienteDependiente(c) && siguienteIdent(c, nombre_dep) && siguienteSuperior(c, supDep)){
-                        if(supDep == nombre_e && obtenerDatos(nombre_dep, numDepDP, supDep, eDP, c, esDep)){  //si su superior es igual al nombre del evento, es que depende de él
+                    if(siguienteDatos(c, nombre_dep, eDP, supDep, numDepDP, esDep)){
+                        if(supDep == nombre_e){  //si su superior es igual al nombre del evento, es que depende de él
                             
                             if(!esDep){ //aqui esta condicion nunca se cumple en verdad
                                 g << "[" << i << " -> " << nombre_dep << " --- " << numDepDP << " ] --- " << descripcion(eDP) << " --- ( " << suPrioridad(eDP) << " ) ;;;;" << endl;
@@ -170,8 +170,8 @@ int main(){
             g << "-----LISTADO: " << tamanio(c) <<endl;  
             iniciarIterador(c);
             while(existeSiguiente(c)){
-                if(siguienteIdent(c, nombre_e) && siguienteVal(c, e) && siguienteNumDependientes(c, numDep)){
-                    if(siguienteSuperior(c, supDep)){
+                if(siguienteDatos(c, nombre_e, e, supDep, numDep, esDep)){
+                    if(esDep){
                         g << "[ " << nombre_e <<  " -de-> " << supDep << " ;;; " << numDep << " ] --- " << descripcion(e) << " --- " << "( " << suPrioridad(e) << " )" << endl;
                     } else {
                         g << "[ " << nombre_e << " --- " << numDep << " ] --- " << descripcion(e) << " --- ( " << suPrioridad(e) << " )" << endl;

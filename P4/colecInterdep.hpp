@@ -149,7 +149,7 @@ template<typename I, typename V> bool obtenerDatos(const I& id, unsigned& numDep
 //Operaciones iterador
 
 /*
-* Recibe una coleeción c.
+* Recibe una coleción c.
 * Inicializa el iterador para recorrer los elementos de la colección c, de forma que el siguiente
 * elemento a visitar sea el que tiene un identificador anterior a los de todos los demás elementos de la
 * colección, que se corresponde con la situación de no haber visitado ningún elemento. 
@@ -157,50 +157,16 @@ template<typename I, typename V> bool obtenerDatos(const I& id, unsigned& numDep
 template<typename I, typename V> void iniciarIterador(colecInterdep<I,V>& c);
 
 /*
-* Recibe una coleeción c.
+* Recibe una coleción c.
 * Devuelve verdad si queda algún elemento por visitar con el iterador de la colección c, devuelve
 * falso si ya se ha visitado el último elemento.
 */
 template<typename I, typename V> bool existeSiguiente(colecInterdep<I,V>& c);
 
-/*
-* Recibe una coleeción c y un identificador id.
-* Si aún queda algun elemento por visitar, devuelve el identificador del siguiente elemento a visitar con el iterador de la colección c,
-* que será el elemento no visitado con identificador anterior a los de todos los demás aún no visitados.
+/* 
+*
 */
-template<typename I, typename V> bool siguienteIdent(colecInterdep<I,V>& c, I &id);
-
-/*
-* Recibe una coleeción c y un identificador id.
-* Si aún queda algun elemento por visitar, devuelve el valor del siguiente elemento a visitar con el iterador de la colección c,
-* que será el elemento no visitado con identificador anterior a los de todos los demás aún no visitados.
-*/
-template<typename I, typename V> bool siguienteVal(colecInterdep<I,V>& c, V &valor);
-
-/*
-* Recibe una colección c.
-* Si aún queda algun elemento por visitar, si el siguiente elemento a visitar con el iterador de la colección,
-* que será el elemento no visitado con identificador anterior a los de todos los demás aún no visitados,
-* es independiente de la forma (id, v, -, numDep) devuelve falso, 
-* pero si dependiente es de la forma (id, v, sup, numDep) devuelve verdad. 
-*/
-template<typename I, typename V> bool siguienteDependiente(colecInterdep<I,V>& c);
-
-/*
-* Recibe una colección c y un identificador sup.
-* Si aún queda algun elemento por visitar y dicho elemento es dependiente de la forma (id, v, sup, numDep),
-* si el siguiente elemento a visitar con el iterador de la colección, que será el elemento no visitado con identificador anterior
-* a los de todos los demás aún no visitados, es dependiente de la forma (id, v, sup, numDep), devuelve el identificador de sup.
-*/
-template<typename I, typename V> bool siguienteSuperior(colecInterdep<I,V>& c, I &sup);
-
-/*
-* Recibe una colección c y un natural numDep.
-* Si aún queda algun elemento por visitar, devuelve el numero de elementos dependientes del elemento con identificador id (numDep)
-* del siguiente elemento a visitar con el iterador de la colección c, que será el elemento no visitado con
-* identificador anterior a los de todos los demás aún no visitados.
-*/
-template<typename I, typename V> bool siguienteNumDependientes(colecInterdep<I,V>& c, unsigned &numDep);
+template<typename I, typename V> bool siguienteDatos(colecInterdep<I,V>& c, I &id, V &valor, I &sup, unsigned &numDep, bool &esDep);
 
 /*
 * Recibe una colección c.
@@ -243,11 +209,7 @@ struct colecInterdep{
     /* Operaciones iterador */
     friend void iniciarIterador<I,V>(colecInterdep<I,V>& c);
     friend bool existeSiguiente<I,V>(colecInterdep<I,V>& c);
-    friend bool siguienteIdent<I,V>(colecInterdep<I,V>& c, I &id);
-    friend bool siguienteVal<I,V>(colecInterdep<I,V>& c, V &valor);
-    friend bool siguienteDependiente<I,V>(colecInterdep<I,V>& c);
-    friend bool siguienteSuperior<I,V>(colecInterdep<I,V>& c, I &sup);
-    friend bool siguienteNumDependientes<I,V>(colecInterdep<I,V>& c, unsigned &numDep);
+    friend bool siguienteDatos<I,V>(colecInterdep<I,V>& c, I &id, V &valor, I &sup, unsigned &numDep, bool &esDep);
     friend void avanza<I,V>(colecInterdep<I,V>& c);
     
     
@@ -261,15 +223,14 @@ struct colecInterdep{
   * propio identificador, además todos los que estén en su subarbol derecho serán estrictamente mayores. Esta lógica también se aplica 
   * para todos los subárboles hijos y sus respectivos hijos. 
   * El diccionario está implementado en memoria dinámica utilizando un árbol binario de búsqueda formado por celdas del tipo celdaColec. 
-  * Dicho diccionario ocupa en memoria O(n), siendo n el número total de celdas que tiene. Además, el coste de todas las operaciones también
-  * tiene coste O(n), siendo n el número total de celdas. Cada celda del diccionario contendrá una clave de tipo I, un valor de tipo V,
+  * Dicho diccionario ocupa en memoria O(n), siendo n el número total de celdas que tiene. Cada celda del diccionario contendrá una clave de tipo I, un valor de tipo V,
   * un puntero al elemento del que es dependiente (si no depende de nadie este puntero apuntará a nullptr), un natural correspondiente
   * al número de elementos dependientes que tiene este elemento y 2 punteros izq y der que apuntarán respectivamente a los hijos/subarboles
-  * izquierdos y derechos respectivamente que a su vez, también seráan árboles binarios de búsqueda.
+  * izquierdos y derechos respectivamente que a su vez, también serán árboles binarios de búsqueda.
   * 
   * Además, el diccionario cuenta con un entero llamado tamanio que registra el número de celdas que tiene actualmente el árbol,
-  * un puntero llamado primero que como su nombre indica apunta al primer elemento del árbol, la raiz (si no hay ningún elemento apunta a nullptr) y
-  * un puntero llamado iter que se utilizará únicamente para mantener el estado del iterador y *solo* será usado por las operaciones del iterador.
+  * un puntero llamado raiz que apunta al primer elemento del árbol (si no hay ningún elemento apunta a nullptr) y un TAD Pila implementado
+  * por los profesores de la asignatura de EDA que se utilizará únicamente para mantener el estado del iterador y *solo* será usado por las operaciones del iterador.
   */
     
     struct celdaColec{  //{cada elemento de la colección se almacena en una celda}
@@ -623,82 +584,23 @@ bool existeSiguiente(colecInterdep<I,V>& c){
 *
 */
 template<typename I, typename V>
-bool siguienteIdent(colecInterdep<I,V>& c, I &id){
+bool siguienteDatos(colecInterdep<I,V>& c, I &id, V &valor, I &sup, unsigned &numDep, bool &esDep){
     bool error = false;
+    esDep = false;
     if(existeSiguiente(c)){   
         typename colecInterdep<I,V>::celdaColec* nodo;
         cima(c.iter, nodo, error);
         if(!error){             //por seguridad porque si existeSiguiente(c) seguro que habrá cima
             id = nodo->ident;
-        }
-        return true;
-    }
-    return false;
-}
-
-/*
-*
-*/
-template<typename I, typename V>
-bool siguienteVal(colecInterdep<I,V>& c, V &valor){
-    bool error = false;
-    if(existeSiguiente(c)){   
-        typename colecInterdep<I,V>::celdaColec* nodo;
-        cima(c.iter, nodo, error);
-        if(!error){             //por seguridad porque si existeSiguiente(c) seguro que habrá cima
             valor = nodo->valor;
+            numDep = nodo->numDep;
+            if(!(nodo->sup == nullptr)){
+                sup = nodo->sup->ident;
+                esDep = true;
+            }
+           
         }
         return true;
-    }
-    return false;
-}
-
-/*
-*
-*/
-template<typename I, typename V> 
-bool siguienteDependiente(colecInterdep<I,V>& c){
-    bool error = false;
-    if(existeSiguiente(c)){   
-        typename colecInterdep<I,V>::celdaColec* nodo;
-        cima(c.iter, nodo, error);
-        if(!error && !(nodo->sup == nullptr)){             //por seguridad porque si existeSiguiente(c) seguro que habrá cima
-            return true;    
-        }
-    }
-    return false;
-}
-
-/*
-*
-*/
-template<typename I, typename V>
-bool siguienteSuperior(colecInterdep<I,V>& c, I &sup){
-    bool error = false;
-    if(existeSiguiente(c)){   
-        typename colecInterdep<I,V>::celdaColec* nodo;
-        cima(c.iter, nodo, error);
-        if(!error && !(nodo->sup == nullptr)){             //por seguridad porque si existeSiguiente(c) seguro que habrá cima
-            sup = nodo->sup->ident;
-            return true;    
-        }
-    }
-    return false;
-}
-
-/*
-*
-*/
-template<typename I, typename V>
-bool siguienteNumDependientes(colecInterdep<I,V>& c, unsigned &numDep){
-    bool error = false;
-    if(existeSiguiente(c)){   
-        typename colecInterdep<I,V>::celdaColec* nodo;
-        cima(c.iter, nodo, error);
-        if(!error){             //por seguridad porque si existeSiguiente(c) seguro que habrá cima
-            numDep = nodo->numDep;
-            return true;    
-        }
     }
     return false;
 }
