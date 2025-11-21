@@ -318,42 +318,48 @@ void introducir(typename colecInterdep<I,V>::celdaColec*& abb, const I& id, cons
 */
 template<typename I, typename V>
 typename colecInterdep<I,V>::celdaColec* borrarMax(typename colecInterdep<I,V>::celdaColec*& abb){
-    if(abb->der == nullptr){
+    if(abb->der == nullptr){   //hemos llegado al maximo de la rama izquierda
         typename colecInterdep<I,V>::celdaColec* aux = abb;
-        abb = abb->izq;
-        aux->izq = nullptr;
+        abb = abb->izq; 
+        aux->izq = nullptr; 
         return aux;
     } else {
-        return borrarMax<I,V>(abb->der);
+        return borrarMax<I,V>(abb->der); //seguimos buscando el maximo de la rama 
     }
 }
 
 /*
+* Recibe como parametros: abb puntero por referencia al nodo actual del recorrido y id el identificador a borrar.
+* Buscamos el nodo con identificador id de forma recursiva. Cuando lo encontramos, comprobamos si su número de dependientes
+* es 0, en ese caso procedemos a borrarlo. Si el nodo a borrar no tiene hijos, simplemente lo eliminamos y en caso de que 
+* tenga padre, decrementamos en 1 el número de dependientes de su padre. Si el nodo tiene 
+* solo un hijo, hacemos que el puntero del padre apunte a ese hijo y eliminamos el nodo. Si tiene dos hijos, llamamos a la función borrarMax. 
+
 */
 template<typename I, typename V>
 bool borrarAux(typename colecInterdep<I,V>::celdaColec*& abb, const I& id){
-    if(!(abb == nullptr)){
-        if(id < abb->ident){
+    if(!(abb == nullptr)){ //si el árbol no es vacío
+        if(id < abb->ident){  //buscamos en el subárbol izquierdo   
            return borrarAux<I,V>(abb->izq, id);
-        } else if(abb->ident < id){
+        } else if(abb->ident < id){ //buscamos en el subárbol derecho
            return borrarAux<I,V>(abb->der, id);
-        } else if(abb->numDep == 0){
+        } else if(abb->numDep == 0){ //lo encontramos y comprobamos que su numDep es 0 para poder borrarlo
             if(!(abb->sup == nullptr)){
-                abb->sup->numDep--;
+                abb->sup->numDep--; //decrementamos en 1 el numero de dependientes de su superior (si tiene)
             }
             typename colecInterdep<I,V>::celdaColec* aux = abb;
 
-            if(abb->izq == nullptr){
-                abb = abb->der;
+            if(abb->izq == nullptr){ //si no tiene hijo izquierdo
+                abb = abb->der; 
                 delete(aux);
                 return true;
-            } else if(abb->der == nullptr){
+            } else if(abb->der == nullptr){ //si no tiene hijo derecho
                 abb = abb->izq;
                 delete(aux);
                 return true;
-            } else {
+            } else { //si tiene los 2 hijos
                 
-                typename colecInterdep<I,V>::celdaColec* nodoMAX = borrarMax<I,V>(abb->izq);
+                typename colecInterdep<I,V>::celdaColec* nodoMAX = borrarMax<I,V>(abb->izq); //buscamos el maximo de la izquierda para sustituir la raiz
                 
                 nodoMAX->izq = abb->izq;
                 nodoMAX->der = abb->der;
@@ -398,7 +404,11 @@ bool esVacia(const colecInterdep<I,V>& c){
 }
 
 /*
-* 
+* Recibe como parametros: id el identificador a buscar y c la propia colección.
+* Buscamos el nodo correspondiente al identificador especificado dentro de la colección utilizando la función 
+* auxiliar buscar. Dicha función devuelve un puntero al nodo que tiene como identificador id (si existe), si no existe
+* en la colección devuelve nullptr. Si el puntero es distinto de nullptr significa que el elemento existe, por tanto devolvemos true,
+* en caso contrario devolvemos false.
 */
 template<typename I, typename V>
 bool existe(const I& id, const colecInterdep<I,V>& c){
@@ -506,7 +516,10 @@ void hacerDependiente(colecInterdep<I,V>& c, const I& id, const I& sup){
 }
 
 /*
-* 
+* Receive una colección c y un identificador id.
+* Si el elemento con identificador id existe en la coleccion c y además dicho elemento es dependiente,
+* entonces lo hacemos independiente restando en 1 el número de dependientes de su antiguo superior y poniendo su puntero 
+* sup a nullptr. En cualquier otro caso, no se modifica la colección c.
 */
 template<typename I, typename V> 
 void hacerIndependiente(colecInterdep<I,V>& c, const I& id){
@@ -518,7 +531,11 @@ void hacerIndependiente(colecInterdep<I,V>& c, const I& id){
 }
 
 /*
-* 
+* Recibe como parametros: c la propia colección, id el identificador del elemento a modificar y v el nuevo valor que deberá tener nuestro elemento.
+* Buscamos el nodo correspondiente al identificador especificado dentro de la colección utilizando la función 
+* auxiliar buscar. Dicha función devuelve un puntero al nodo que tiene como identificador id (si existe), si no existe
+* en la colección devuelve nullptr. Si el puntero es distinto de nullptr significa que el elemento existe, por tanto actualizamos su valor
+* con el nuevo valor v y devolvemos true. En caso contrario devolvemos false.
 */
 template<typename I, typename V> 
 bool actualizarVal(colecInterdep<I,V>& c, const I& id, const V& v){
@@ -531,7 +548,10 @@ bool actualizarVal(colecInterdep<I,V>& c, const I& id, const V& v){
 }
 
 /*
-* 
+* Recibe como parametros: id el identificador a borrar y c la propia colección.
+* Llama a la función auxiliar borrarAux, encargada de borrar el elemento, la cual recibe como parametros un puntero
+* a la raiz del arbol y el identificador del elemento que queremos borrar. Si existe el nodo con identificador id y su número de dependientes es 0,
+* borra el elemento de la colección y devuelve true, en caso contrario devuelve false. Si la función borrarAux devuelve true, decrementamos en 1 el tamaño de la colección. 
 */
 template<typename I, typename V> 
 void borrar(const I& id, colecInterdep<I,V>& c){
@@ -567,7 +587,12 @@ bool obtenerDatos(const I& id, unsigned& numDep, I& sup, V& v, const colecInterd
 //OPERACIONES ITERADOR
 
 /*
-* 
+* Recibe como parametro la coleccion c y la prepara para iniciar la iteracion.
+* Para ello, liberamos la pila del iterador por si ya tenía elementos de una iteración anterior.
+* A continuación, partiendo de la raíz del árbol, vamos bajando por la izquierda apilando
+* todos los nodos que vamos encontrando hasta llegar a un puntero nulo (nullptr).
+* De esta forma, el siguiente elemento a visitar será el que tiene un identificador
+* anterior a los de todos los demás elementos de la colección.
 */
 template<typename I, typename V>
 void iniciarIterador(colecInterdep<I,V>& c){
@@ -581,7 +606,9 @@ void iniciarIterador(colecInterdep<I,V>& c){
 }
 
 /*
-*
+* Recibe como parametro la coleccion c y devuelve verdadero si y solo si existe un siguiente elemento a visitar.
+* Para ello, comprobamos si la pila del iterador está vacía o no. Si no está vacía, significa que quedan elementos por visitar,
+* por tanto devolvemos verdadero. En caso contrario, devolvemos falso.
 */
 template<typename I, typename V>
 bool existeSiguiente(colecInterdep<I,V>& c){
@@ -589,7 +616,9 @@ bool existeSiguiente(colecInterdep<I,V>& c){
 }
 
 /*
-*
+* Recibe como parametro la coleccion c y devuelve verdadero si y solo si existe un siguiente elemento a visitar.
+* Además, devuelve en los parámetros id, valor, sup, numDep y esDep los datos del siguiente elemento a visitar.
+* En caso de que no exista siguiente elemento, no modifica los parámetros y devuelve falso.
 */
 template<typename I, typename V>
 bool siguienteDatos(colecInterdep<I,V>& c, I &id, V &valor, I &sup, unsigned &numDep, bool &esDep){
@@ -614,7 +643,10 @@ bool siguienteDatos(colecInterdep<I,V>& c, I &id, V &valor, I &sup, unsigned &nu
 }
 
 /*
-*
+* Recibe como parametro la coleccion c y avanza el iterador para que el siguiente elemento a visitar sea otro.
+* Para ello, si existe un siguiente elemento, desapilamos el nodo que estamos visitando actualmente y nos movemos
+* al subárbol derecho de dicho nodo. A continuación, bajamos por la izquierda de ese subárbol derecho apilando
+* todos los nodos que vamos encontrando hasta llegar a un puntero nulo (nullptr).
 */
 template<typename I, typename V>
 void avanza(colecInterdep<I,V>& c){
