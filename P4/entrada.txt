@@ -1,198 +1,169 @@
-B
-holiwis
-LT
-C
-noexistenadaqui
-Que locura chicos
-77
-I
-undo
 D
-martinez
+juan
 pepe
+I
+javier
+B
+perico
 A
-cierre_2025_10_6
-Cierre del edificio
+notevasaañadir
+Ni lo intentes
 2
+DEPendiente
+roger
+A
+mario
+hola soy el primer elemento
+1
 INDependiente
 -.-.-.-.-
+LT
+B
+mario
+LT
 A
-instruccion2
-Se ha caido el techo
+mario
+hola soy el primer elemento
 1
 INDependiente
 -.-.-.-.-
 A
-zzz
-Ultimo de la lista en teoria
-44
-INDependiente
--.-.-.-.-
-A
-instruccion2
-tu mama
-88
-INDependiente
--.-.-.-.-
-A
-AASAS
-Rodrigo cabron
-5
+juan
+estoy a la izquierda de mario
+2
 DEPendiente
-instruccion2
-LT
+mario
 A
-cierre_2025_10_6
-Cierre del edificio
+juan
+estoy a la izquierda de mario
 2
 INDependiente
 -.-.-.-.-
-E
-AASAS
+LT
+B
+mario
 A
-perico
-No doy una macho
-7
-DEPendiente
-perico
-A
-instruccion2
-mi bomboclat
+jaime
+estoy a la izquierda de juan
 3
-DEPendiente
-cierre_2025_10_6
+INDependiente
+-.-.-.-.-
 A
-COSAS BARATAS
-Cierre del edificio
+lucas
+estoy a la izquierda de juan
 2
-INDependiente
--.-.-.-.-
-A
-Fuego
-No quiero que te añadas
-22
 DEPendiente
-noexistenadaqui
-E
-presencia_S008
-I
-AASAS
+jaime
 LT
-O
-instruccion2
-O
-noexistenadaqui
-D
-instruccion2
-AASAS
-O
-instruccion2
-E
-AASAS
-E
-instruccion2
-LD
-instruccion2
-C
-AASAS
-Cambiamos la descripcion porque me apetece
-55
 B
-instruccion2
-D
-AASAS
-COSAS BARATAS
-O
-cierre_2025_10_6
-D
-cierre_2025_10_6
-COSAS BARATAS
-B
-AASAS
-B
-perico
+juan
+LT
 A
-0_PrimeroI
-Este tio es independiente 
-444
+rodrigo
+estoy a la derecha de mario
+77
 INDependiente
 -.-.-.-.-
+C
+jaime
+ahora estoy a la izquierda de mario
+55
+C
+lucas
+ahora estoy a la derecha de jaime
+77
+LT
 A
-1_PrimeroD
-Este tio es el primer dependiente
+raz
+estoy a la izquierda de rodrigo
+456
+DEPendiente
+mario
+LT
+D
+raz
+rodrigo
+LT
+B
+mario
+E
+rodrigo
+LT
+E
+mario
+E
+jaime
+O
+lucas
+A
+mario
+hola soy el primer elemento
 1
 DEPendiente
-0_PrimeroI
-A
-2_SegundoD
-Este sera el segundo dependiente
-2
-DEPendiente
-0_PrimeroI
-A
-3_PrimerSegundoD
-Este es el primer dependiente de 2_SegundoD
-23
-DEPendiente
-2_SegundoD
-B
-0_PrimeroI
-B
-2_SegundoD
+lucas
 LT
 B
-3_PrimerSegundoD
-B
-0_PrimeroI
-B
-2_SegundoD
-B
-perico
+lucas
 LT
-A
-javier
-Esta es la descripcion de javier
-22
-INDependiente
--.-.-.-.-
-A
-javier
-Esta es la descripcion de alguien que no es javier
-22
-DEPendiente
-zzz
+LD
+lucas
 C
-javier
-Rodrigo es una persona muy maja y agradable
-777
-A
-manuel
-ajskdhasjd
-22
-DEPendiente
-javier
-A
-manuel
-jkdhsjkdh
-566
-INDependiente
--.-.-.-.-
+mario
+vas a volar cabron
+23
+E
+mario
+LT
+B
+mario
 LT
 I
-1_PrimeroD
-B
-0_PrimeroI
-B
-zzz
+raz
+C
+raz
+este tio ahora es un esclavo liberado
+1
 D
-adios
-javier
+rodrigo
+raz
+C
+rodrigo
+ahora tu serás mi esclavo
+2
+LT
+E
+perico
+A
+perico
+este tio es el jefe de jefes
+7
+INDependiente
+-.-.-.-.-
+LT
 D
-manuel
-COSAS BARATAS
+raz
+perico
 D
-manuel
-AKSJAKSJ
+jaime
+perico
+LT
 LD
-javier
+perico
+D
+lucas
+perico
+LT
+E
+lucas
+I
+jaime
+D
+perico
+lucas
+O
+rodrigo
+O
+lucas
+O
+perico
 LT

@@ -1,0 +1,200 @@
+-----LISTADO: 0
+-----
+DESCONOCIDO: Jugador_Fantasma
+NO LOCALIZADO: Jugador_Inexistente
+INTRODUCIDO: [ Mbappe_2018 ] --- PSG_y_Seleccion_Francia --- ( 10 )
+INTRODUCIDO: [ Messi_2015 ] --- FCB_Tridente --- ( 9 )
+INTRODUCIDO: [ Neymar_2015 -de-> Messi_2015 ] --- FCB_Tridente --- ( 8 )
+INTRODUCIDO: [ Suarez_2015 -de-> Messi_2015 ] --- FCB_Tridente --- ( 8 )
+IMPOSIBLE hacer depend.: Jugador_Fantasma -de-> Messi_2015
+****DEPENDIENTES: Messi_2015
+[ Messi_2015 --- 2 ] --- FCB_Tridente --- ( 9 ) ****
+[1 -> Neymar_2015 -de-> Messi_2015 ;;; 0 ] --- FCB_Tridente --- ( 8 ) ;;;;
+[2 -> Suarez_2015 -de-> Messi_2015 ;;; 0 ] --- FCB_Tridente --- ( 8 ) ;;;;
+****FINAL dependientes -de-> Messi_2015
+-----LISTADO: 4
+[ Mbappe_2018 --- 0 ] --- PSG_y_Seleccion_Francia --- ( 10 )
+[ Messi_2015 --- 2 ] --- FCB_Tridente --- ( 9 )
+[ Neymar_2015 -de-> Messi_2015 ;;; 0 ] --- FCB_Tridente --- ( 8 )
+[ Suarez_2015 -de-> Messi_2015 ;;; 0 ] --- FCB_Tridente --- ( 8 )
+-----
+INTRODUCIDO: [ Xavi_2010 ] --- Barca_TikiTaka --- ( 6 )
+INTRODUCIDO: [ Iniesta_2010 -de-> Xavi_2010 ] --- Barca_TikiTaka --- ( 6 )
+INTRODUCIDO: [ Busquets_2010 -de-> Xavi_2010 ] --- Barca_TikiTaka --- ( 5 )
+****DEPENDIENTES: Xavi_2010
+[ Xavi_2010 --- 2 ] --- Barca_TikiTaka --- ( 6 ) ****
+[1 -> Busquets_2010 -de-> Xavi_2010 ;;; 0 ] --- Barca_TikiTaka --- ( 5 ) ;;;;
+[2 -> Iniesta_2010 -de-> Xavi_2010 ;;; 0 ] --- Barca_TikiTaka --- ( 6 ) ;;;;
+****FINAL dependientes -de-> Xavi_2010
+INTENTANDO hacer depend.: Neymar_2015 -de-> Xavi_2010
+INTENTANDO hacer depend.: Busquets_2010 -de-> Messi_2015
+****DEPENDIENTES: Messi_2015
+[ Messi_2015 --- 2 ] --- FCB_Tridente --- ( 9 ) ****
+[1 -> Busquets_2010 -de-> Messi_2015 ;;; 0 ] --- Barca_TikiTaka --- ( 5 ) ;;;;
+[2 -> Suarez_2015 -de-> Messi_2015 ;;; 0 ] --- FCB_Tridente --- ( 8 ) ;;;;
+****FINAL dependientes -de-> Messi_2015
+****DEPENDIENTES: Xavi_2010
+[ Xavi_2010 --- 2 ] --- Barca_TikiTaka --- ( 6 ) ****
+[1 -> Iniesta_2010 -de-> Xavi_2010 ;;; 0 ] --- Barca_TikiTaka --- ( 6 ) ;;;;
+[2 -> Neymar_2015 -de-> Xavi_2010 ;;; 0 ] --- FCB_Tridente --- ( 8 ) ;;;;
+****FINAL dependientes -de-> Xavi_2010
+NO INTRODUCIDO: [ Mbappe_2018 ] --- Duplicado_no_vale --- ( 99 )
+INTRODUCIDO: [ Haaland_2020 ] --- BVB_Delantero --- ( 9 )
+INTENTANDO hacer depend.: Haaland_2020 -de-> Mbappe_2018
+LOCALIZADO: [ Haaland_2020 -de-> Mbappe_2018 ;;; 0 ] --- BVB_Delantero --- ( 9 )
+LOCALIZADO: [ Mbappe_2018 --- 1 ] --- PSG_y_Seleccion_Francia --- ( 10 )
+DEPendiente: Haaland_2020
+DEPendiente: Suarez_2015
+DESCONOCIDO: Jugador_Fantasma
+INDEPENDIZADO: Suarez_2015
+INDEPENDIZADO: Haaland_2020
+NO INDEPENDIZADO: Jugador_Fantasma
+-----LISTADO: 8
+[ Busquets_2010 -de-> Messi_2015 ;;; 0 ] --- Barca_TikiTaka --- ( 5 )
+[ Haaland_2020 --- 0 ] --- BVB_Delantero --- ( 9 )
+[ Iniesta_2010 -de-> Xavi_2010 ;;; 0 ] --- Barca_TikiTaka --- ( 6 )
+[ Mbappe_2018 --- 0 ] --- PSG_y_Seleccion_Francia --- ( 10 )
+[ Messi_2015 --- 1 ] --- FCB_Tridente --- ( 9 )
+[ Neymar_2015 -de-> Xavi_2010 ;;; 0 ] --- FCB_Tridente --- ( 8 )
+[ Suarez_2015 --- 0 ] --- FCB_Tridente --- ( 8 )
+[ Xavi_2010 --- 2 ] --- Barca_TikiTaka --- ( 6 )
+-----
+CAMBIADO: [ Haaland_2020 --- 0 ] --- ManCity_Goleador --- ( 10 )
+CAMBIADO: [ Neymar_2015 -de-> Xavi_2010 ;;; 0 ] --- PSG_2021 --- ( 7 )
+NO CAMBIADO: Jugador_Fantasma
+-----LISTADO: 8
+[ Busquets_2010 -de-> Messi_2015 ;;; 0 ] --- Barca_TikiTaka --- ( 5 )
+[ Haaland_2020 --- 0 ] --- ManCity_Goleador --- ( 10 )
+[ Iniesta_2010 -de-> Xavi_2010 ;;; 0 ] --- Barca_TikiTaka --- ( 6 )
+[ Mbappe_2018 --- 0 ] --- PSG_y_Seleccion_Francia --- ( 10 )
+[ Messi_2015 --- 1 ] --- FCB_Tridente --- ( 9 )
+[ Neymar_2015 -de-> Xavi_2010 ;;; 0 ] --- PSG_2021 --- ( 7 )
+[ Suarez_2015 --- 0 ] --- FCB_Tridente --- ( 8 )
+[ Xavi_2010 --- 2 ] --- Barca_TikiTaka --- ( 6 )
+-----
+****DEPENDIENTES: Messi_2015
+[ Messi_2015 --- 1 ] --- FCB_Tridente --- ( 9 ) ****
+[1 -> Busquets_2010 -de-> Messi_2015 ;;; 0 ] --- Barca_TikiTaka --- ( 5 ) ;;;;
+****FINAL dependientes -de-> Messi_2015
+****DEPENDIENTES: Mbappe_2018
+[ Mbappe_2018 --- 0 ] --- PSG_y_Seleccion_Francia --- ( 10 ) ****
+****FINAL dependientes -de-> Mbappe_2018
+INTRODUCIDO: [ Pedri_2023 -de-> Iniesta_2010 ] --- Barca_Mediapunta --- ( 4 )
+INTRODUCIDO: [ Gavi_2023 -de-> Busquets_2010 ] --- Barca_Pivote --- ( 4 )
+INTRODUCIDO: [ Lamine_2024 ] --- Barca_Extremo --- ( 5 )
+INTENTANDO hacer depend.: Lamine_2024 -de-> Messi_2015
+****DEPENDIENTES: Xavi_2010
+[ Xavi_2010 --- 2 ] --- Barca_TikiTaka --- ( 6 ) ****
+[1 -> Iniesta_2010 -de-> Xavi_2010 ;;; 1 ] --- Barca_TikiTaka --- ( 6 ) ;;;;
+[2 -> Neymar_2015 -de-> Xavi_2010 ;;; 0 ] --- PSG_2021 --- ( 7 ) ;;;;
+****FINAL dependientes -de-> Xavi_2010
+****DEPENDIENTES: Busquets_2010
+[ Busquets_2010 -de-> Messi_2015 ;;; 1 ] --- Barca_TikiTaka --- ( 5 ) ****
+[1 -> Gavi_2023 -de-> Busquets_2010 ;;; 0 ] --- Barca_Pivote --- ( 4 ) ;;;;
+****FINAL dependientes -de-> Busquets_2010
+-----LISTADO: 11
+[ Busquets_2010 -de-> Messi_2015 ;;; 1 ] --- Barca_TikiTaka --- ( 5 )
+[ Gavi_2023 -de-> Busquets_2010 ;;; 0 ] --- Barca_Pivote --- ( 4 )
+[ Haaland_2020 --- 0 ] --- ManCity_Goleador --- ( 10 )
+[ Iniesta_2010 -de-> Xavi_2010 ;;; 1 ] --- Barca_TikiTaka --- ( 6 )
+[ Lamine_2024 -de-> Messi_2015 ;;; 0 ] --- Barca_Extremo --- ( 5 )
+[ Mbappe_2018 --- 0 ] --- PSG_y_Seleccion_Francia --- ( 10 )
+[ Messi_2015 --- 2 ] --- FCB_Tridente --- ( 9 )
+[ Neymar_2015 -de-> Xavi_2010 ;;; 0 ] --- PSG_2021 --- ( 7 )
+[ Pedri_2023 -de-> Iniesta_2010 ;;; 0 ] --- Barca_Mediapunta --- ( 4 )
+[ Suarez_2015 --- 0 ] --- FCB_Tridente --- ( 8 )
+[ Xavi_2010 --- 2 ] --- Barca_TikiTaka --- ( 6 )
+-----
+NO BORRADO: Messi_2015
+BORRADO: Neymar_2015
+NO BORRADO: Iniesta_2010
+BORRADO: Pedri_2023
+-----LISTADO: 9
+[ Busquets_2010 -de-> Messi_2015 ;;; 1 ] --- Barca_TikiTaka --- ( 5 )
+[ Gavi_2023 -de-> Busquets_2010 ;;; 0 ] --- Barca_Pivote --- ( 4 )
+[ Haaland_2020 --- 0 ] --- ManCity_Goleador --- ( 10 )
+[ Iniesta_2010 -de-> Xavi_2010 ;;; 0 ] --- Barca_TikiTaka --- ( 6 )
+[ Lamine_2024 -de-> Messi_2015 ;;; 0 ] --- Barca_Extremo --- ( 5 )
+[ Mbappe_2018 --- 0 ] --- PSG_y_Seleccion_Francia --- ( 10 )
+[ Messi_2015 --- 2 ] --- FCB_Tridente --- ( 9 )
+[ Suarez_2015 --- 0 ] --- FCB_Tridente --- ( 8 )
+[ Xavi_2010 --- 1 ] --- Barca_TikiTaka --- ( 6 )
+-----
+****DEPENDIENTES: Messi_2015
+[ Messi_2015 --- 2 ] --- FCB_Tridente --- ( 9 ) ****
+[1 -> Busquets_2010 -de-> Messi_2015 ;;; 1 ] --- Barca_TikiTaka --- ( 5 ) ;;;;
+[2 -> Lamine_2024 -de-> Messi_2015 ;;; 0 ] --- Barca_Extremo --- ( 5 ) ;;;;
+****FINAL dependientes -de-> Messi_2015
+****DEPENDIENTES: Xavi_2010
+[ Xavi_2010 --- 1 ] --- Barca_TikiTaka --- ( 6 ) ****
+[1 -> Iniesta_2010 -de-> Xavi_2010 ;;; 0 ] --- Barca_TikiTaka --- ( 6 ) ;;;;
+****FINAL dependientes -de-> Xavi_2010
+INDEPENDIZADO: Busquets_2010
+YA ERA INDepend.: Mbappe_2018
+INTENTANDO hacer depend.: Mbappe_2018 -de-> Mbappe_2018
+INTENTANDO hacer depend.: Gavi_2023 -de-> Lamine_2024
+****DEPENDIENTES: Mbappe_2018
+[ Mbappe_2018 --- 0 ] --- PSG_y_Seleccion_Francia --- ( 10 ) ****
+****FINAL dependientes -de-> Mbappe_2018
+****DEPENDIENTES: Lamine_2024
+[ Lamine_2024 -de-> Messi_2015 ;;; 1 ] --- Barca_Extremo --- ( 5 ) ****
+[1 -> Gavi_2023 -de-> Lamine_2024 ;;; 0 ] --- Barca_Pivote --- ( 4 ) ;;;;
+****FINAL dependientes -de-> Lamine_2024
+-----LISTADO: 9
+[ Busquets_2010 --- 0 ] --- Barca_TikiTaka --- ( 5 )
+[ Gavi_2023 -de-> Lamine_2024 ;;; 0 ] --- Barca_Pivote --- ( 4 )
+[ Haaland_2020 --- 0 ] --- ManCity_Goleador --- ( 10 )
+[ Iniesta_2010 -de-> Xavi_2010 ;;; 0 ] --- Barca_TikiTaka --- ( 6 )
+[ Lamine_2024 -de-> Messi_2015 ;;; 1 ] --- Barca_Extremo --- ( 5 )
+[ Mbappe_2018 --- 0 ] --- PSG_y_Seleccion_Francia --- ( 10 )
+[ Messi_2015 --- 1 ] --- FCB_Tridente --- ( 9 )
+[ Suarez_2015 --- 0 ] --- FCB_Tridente --- ( 8 )
+[ Xavi_2010 --- 1 ] --- Barca_TikiTaka --- ( 6 )
+-----
+INTRODUCIDO: [ Cristiano_2008 ] --- ManUtd_CR7 --- ( 9 )
+INTRODUCIDO: [ Benzema_2014 -de-> Cristiano_2008 ] --- RealMadrid_9 --- ( 8 )
+INTRODUCIDO: [ Bale_2014 -de-> Cristiano_2008 ] --- RealMadrid_11 --- ( 8 )
+INTRODUCIDO: [ DiMaria_2014 -de-> Cristiano_2008 ] --- RealMadrid_11 --- ( 7 )
+****DEPENDIENTES: Cristiano_2008
+[ Cristiano_2008 --- 3 ] --- ManUtd_CR7 --- ( 9 ) ****
+[1 -> Bale_2014 -de-> Cristiano_2008 ;;; 0 ] --- RealMadrid_11 --- ( 8 ) ;;;;
+[2 -> Benzema_2014 -de-> Cristiano_2008 ;;; 0 ] --- RealMadrid_9 --- ( 8 ) ;;;;
+[3 -> DiMaria_2014 -de-> Cristiano_2008 ;;; 0 ] --- RealMadrid_11 --- ( 7 ) ;;;;
+****FINAL dependientes -de-> Cristiano_2008
+INDEPendiente: Cristiano_2008
+DEPendiente: Bale_2014
+INDEPendiente: Xavi_2010
+CAMBIADO: [ Cristiano_2008 --- 3 ] --- RealMadrid_CR7 --- ( 10 )
+****DEPENDIENTES: Cristiano_2008
+[ Cristiano_2008 --- 3 ] --- RealMadrid_CR7 --- ( 10 ) ****
+[1 -> Bale_2014 -de-> Cristiano_2008 ;;; 0 ] --- RealMadrid_11 --- ( 8 ) ;;;;
+[2 -> Benzema_2014 -de-> Cristiano_2008 ;;; 0 ] --- RealMadrid_9 --- ( 8 ) ;;;;
+[3 -> DiMaria_2014 -de-> Cristiano_2008 ;;; 0 ] --- RealMadrid_11 --- ( 7 ) ;;;;
+****FINAL dependientes -de-> Cristiano_2008
+BORRADO: Bale_2014
+NO BORRADO: Cristiano_2008
+BORRADO: Benzema_2014
+-----LISTADO: 11
+[ Busquets_2010 --- 0 ] --- Barca_TikiTaka --- ( 5 )
+[ Cristiano_2008 --- 1 ] --- RealMadrid_CR7 --- ( 10 )
+[ DiMaria_2014 -de-> Cristiano_2008 ;;; 0 ] --- RealMadrid_11 --- ( 7 )
+[ Gavi_2023 -de-> Lamine_2024 ;;; 0 ] --- Barca_Pivote --- ( 4 )
+[ Haaland_2020 --- 0 ] --- ManCity_Goleador --- ( 10 )
+[ Iniesta_2010 -de-> Xavi_2010 ;;; 0 ] --- Barca_TikiTaka --- ( 6 )
+[ Lamine_2024 -de-> Messi_2015 ;;; 1 ] --- Barca_Extremo --- ( 5 )
+[ Mbappe_2018 --- 0 ] --- PSG_y_Seleccion_Francia --- ( 10 )
+[ Messi_2015 --- 1 ] --- FCB_Tridente --- ( 9 )
+[ Suarez_2015 --- 0 ] --- FCB_Tridente --- ( 8 )
+[ Xavi_2010 --- 1 ] --- Barca_TikiTaka --- ( 6 )
+-----
+****DEPENDIENTES: Cristiano_2008
+[ Cristiano_2008 --- 1 ] --- RealMadrid_CR7 --- ( 10 ) ****
+[1 -> DiMaria_2014 -de-> Cristiano_2008 ;;; 0 ] --- RealMadrid_11 --- ( 7 ) ;;;;
+****FINAL dependientes -de-> Cristiano_2008
+****DEPENDIENTES: Mbappe_2018
+[ Mbappe_2018 --- 0 ] --- PSG_y_Seleccion_Francia --- ( 10 ) ****
+****FINAL dependientes -de-> Mbappe_2018
+****DEPENDIENTES: Xavi_2010
+[ Xavi_2010 --- 1 ] --- Barca_TikiTaka --- ( 6 ) ****
+[1 -> Iniesta_2010 -de-> Xavi_2010 ;;; 0 ] --- Barca_TikiTaka --- ( 6 ) ;;;;
+****FINAL dependientes -de-> Xavi_2010

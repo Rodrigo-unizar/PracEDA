@@ -1,0 +1,198 @@
+B
+holiwis
+LT
+C
+noexistenadaqui
+Que locura chicos
+77
+I
+undo
+D
+martinez
+pepe
+A
+cierre_2025_10_6
+Cierre del edificio
+2
+INDependiente
+-.-.-.-.-
+A
+instruccion2
+Se ha caido el techo
+1
+INDependiente
+-.-.-.-.-
+A
+zzz
+Ultimo de la lista en teoria
+44
+INDependiente
+-.-.-.-.-
+A
+instruccion2
+tu mama
+88
+INDependiente
+-.-.-.-.-
+A
+AASAS
+Rodrigo cabron
+5
+DEPendiente
+instruccion2
+LT
+A
+cierre_2025_10_6
+Cierre del edificio
+2
+INDependiente
+-.-.-.-.-
+E
+AASAS
+A
+perico
+No doy una macho
+7
+DEPendiente
+perico
+A
+instruccion2
+mi bomboclat
+3
+DEPendiente
+cierre_2025_10_6
+A
+COSAS BARATAS
+Cierre del edificio
+2
+INDependiente
+-.-.-.-.-
+A
+Fuego
+No quiero que te añadas
+22
+DEPendiente
+noexistenadaqui
+E
+presencia_S008
+I
+AASAS
+LT
+O
+instruccion2
+O
+noexistenadaqui
+D
+instruccion2
+AASAS
+O
+instruccion2
+E
+AASAS
+E
+instruccion2
+LD
+instruccion2
+C
+AASAS
+Cambiamos la descripcion porque me apetece
+55
+B
+instruccion2
+D
+AASAS
+COSAS BARATAS
+O
+cierre_2025_10_6
+D
+cierre_2025_10_6
+COSAS BARATAS
+B
+AASAS
+B
+perico
+A
+0_PrimeroI
+Este tio es independiente 
+444
+INDependiente
+-.-.-.-.-
+A
+1_PrimeroD
+Este tio es el primer dependiente
+1
+DEPendiente
+0_PrimeroI
+A
+2_SegundoD
+Este sera el segundo dependiente
+2
+DEPendiente
+0_PrimeroI
+A
+3_PrimerSegundoD
+Este es el primer dependiente de 2_SegundoD
+23
+DEPendiente
+2_SegundoD
+B
+0_PrimeroI
+B
+2_SegundoD
+LT
+B
+3_PrimerSegundoD
+B
+0_PrimeroI
+B
+2_SegundoD
+B
+perico
+LT
+A
+javier
+Esta es la descripcion de javier
+22
+INDependiente
+-.-.-.-.-
+A
+javier
+Esta es la descripcion de alguien que no es javier
+22
+DEPendiente
+zzz
+C
+javier
+Rodrigo es una persona muy maja y agradable
+777
+A
+manuel
+ajskdhasjd
+22
+DEPendiente
+javier
+A
+manuel
+jkdhsjkdh
+566
+INDependiente
+-.-.-.-.-
+LT
+I
+1_PrimeroD
+B
+0_PrimeroI
+B
+zzz
+D
+adios
+javier
+D
+manuel
+COSAS BARATAS
+D
+manuel
+AKSJAKSJ
+LD
+javier
+LT
