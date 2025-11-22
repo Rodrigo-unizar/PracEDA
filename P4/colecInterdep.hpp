@@ -184,9 +184,17 @@ template<typename I, typename V> void avanza(colecInterdep<I,V>& c);
 //COMIENZA LA PARTE PRIVADA A PARTIR DE ESTE PUNTO
 
 //Predeclaración de las operaciones privadas  (es necesario para que compile correctamente)
+
+/* Busca recursivamente un nodo por su identificador. */
 template<typename I, typename V> typename colecInterdep<I,V>::celdaColec* buscar(const I& id, typename colecInterdep<I,V>::celdaColec* abb);
+
+/* Inserta un nuevo nodo de forma recursiva manteniendo el orden establecido. */
 template<typename I, typename V> void introducir(typename colecInterdep<I,V>::celdaColec*& abb, const I& id, const V& v, colecInterdep<I,V>& c, typename colecInterdep<I,V>::celdaColec* sup);
+
+/* Busca y elimina un nodo, garantizando el orden establecido. */
 template<typename I, typename V> bool borrarAux(typename colecInterdep<I,V>::celdaColec*& abb, const I& id);
+
+/* Encuentra y desvincula el nodo máximo del subárbol izquierdo (auxiliar de borrarAux). */
 template<typename I, typename V> typename colecInterdep<I,V>::celdaColec* borrarMax(typename colecInterdep<I,V>::celdaColec*& abb);
 
 // DECLARACION DEL TAD GENERICO colecInterdep

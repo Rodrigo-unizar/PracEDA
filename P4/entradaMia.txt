@@ -1,0 +1,230 @@
+C
+liga_espanola
+Creacion de la liga espanola
+1
+INDependiente
+-.-.-.-.-
+A
+liga_premier
+Creacion de la liga premier
+1
+INDependiente
+-.-.-.-.-
+A
+barcelona
+Equipo Barcelona
+2
+DEPendiente
+liga_espanola
+A
+real_madrid
+Equipo Real Madrid
+2
+DEPendiente
+liga_espanola
+A
+atletico_madrid
+Equipo Atletico de Madrid
+2
+DEPendiente
+liga_espanola
+A
+girona
+Equipo Girona
+2
+DEPendiente
+liga_espanola
+A
+manchester_city
+Equipo Manchester City
+2
+DEPendiente
+liga_premier
+A
+liverpool
+Equipo Liverpool
+2
+DEPendiente
+liga_premier
+A
+chelsea
+Equipo Chelsea
+2
+DEPendiente
+liga_premier
+LT
+A
+messi
+Jugador Lionel Messi
+3
+DEPendiente
+barcelona
+A
+bellingham
+Jugador Jude Bellingham
+3
+DEPendiente
+real_madrid
+A
+julian_alvarez
+Jugador Julian Alvarez
+3
+DEPendiente
+manchester_city
+A
+morata
+Jugador Alvaro Morata
+3
+DEPendiente
+atletico_madrid
+A
+pablo_barrios
+Jugador Pablo Barrios
+3
+DEPendiente
+atletico_madrid
+A
+gavi
+Jugador Gavi
+3
+DEPendiente
+barcelona
+A
+lewandowski
+Jugador Robert Lewandowski
+3
+DEPendiente
+barcelona
+A
+vinicius
+Jugador Vinicius Jr
+3
+DEPendiente
+real_madrid
+A
+rodrigo
+Jugador Rodrigo
+3
+DEPendiente
+real_madrid
+A
+griezmann
+Jugador Antoine Griezmann
+3
+DEPendiente
+atletico_madrid
+A
+alexander_arnold
+Jugador Alexander Arnold
+3
+DEPendiente
+liverpool
+A
+haaland
+Jugador Erling Haaland
+3
+DEPendiente
+manchester_city
+A
+sterling
+Jugador Raheem Sterling
+3
+DEPendiente
+chelsea
+LT
+O
+barcelona
+O
+atletico_madrid
+O
+julian_alvarez
+O
+bellingham
+E
+barcelona
+E
+messi
+E
+real_madrid
+E
+bellingham
+LD
+liga_espanola
+A
+ferran_torres
+Jugador Ferran Torres
+4
+DEPendiente
+barcelona
+A
+kepa
+Jugador Kepa Arrizabalaga
+4
+DEPendiente
+real_madrid
+A
+savinho
+Jugador Savinho
+4
+DEPendiente
+girona
+A
+de_bruyne
+Jugador Kevin De Bruyne
+4
+DEPendiente
+manchester_city
+A
+salah
+Jugador Mohamed Salah
+4
+DEPendiente
+liverpool
+A
+mudryk
+Jugador Mykhailo Mudryk
+4
+DEPendiente
+chelsea
+LT
+D
+bellingham
+real_madrid
+D
+julian_alvarez
+manchester_city
+D
+pablo_barrios
+atletico_madrid
+D
+gavi
+barcelona
+D
+haaland
+manchester_city
+LT
+I
+morata
+I
+julian_alvarez
+I
+bellingham
+I
+griezmann
+LT
+B
+messi
+B
+pablo_barrios
+B
+ferran_torres
+B
+mudryk
+B
+savinho
+B
+kepa
+LT
+LD
+liga_premier
+LT

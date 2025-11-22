@@ -106,12 +106,12 @@ BORRADO: mario
 INDEPENDIZADO: raz
 CAMBIADO: [ raz --- 0 ] --- este tio ahora es un esclavo liberado --- ( 1 )
 INTENTANDO hacer depend.: rodrigo -de-> raz
-CAMBIADO: [ rodrigo -de-> raz ;;; 0 ] --- ahora tu serás mi esclavo --- ( 2 )
+CAMBIADO: [ rodrigo -de-> raz ;;; 0 ] --- ahora tu seras mi esclavo --- ( 2 )
 -----LISTADO: 4
 [ jaime --- 1 ] --- ahora estoy a la izquierda de mario --- ( 55 )
 [ lucas -de-> jaime ;;; 0 ] --- ahora estoy a la derecha de jaime --- ( 77 )
 [ raz --- 1 ] --- este tio ahora es un esclavo liberado --- ( 1 )
-[ rodrigo -de-> raz ;;; 0 ] --- ahora tu serás mi esclavo --- ( 2 )
+[ rodrigo -de-> raz ;;; 0 ] --- ahora tu seras mi esclavo --- ( 2 )
 -----
 DESCONOCIDO: perico
 INTRODUCIDO: [ perico ] --- este tio es el jefe de jefes --- ( 7 )
@@ -120,7 +120,7 @@ INTRODUCIDO: [ perico ] --- este tio es el jefe de jefes --- ( 7 )
 [ lucas -de-> jaime ;;; 0 ] --- ahora estoy a la derecha de jaime --- ( 77 )
 [ perico --- 0 ] --- este tio es el jefe de jefes --- ( 7 )
 [ raz --- 1 ] --- este tio ahora es un esclavo liberado --- ( 1 )
-[ rodrigo -de-> raz ;;; 0 ] --- ahora tu serás mi esclavo --- ( 2 )
+[ rodrigo -de-> raz ;;; 0 ] --- ahora tu seras mi esclavo --- ( 2 )
 -----
 INTENTANDO hacer depend.: raz -de-> perico
 INTENTANDO hacer depend.: jaime -de-> perico
@@ -129,7 +129,7 @@ INTENTANDO hacer depend.: jaime -de-> perico
 [ lucas -de-> jaime ;;; 0 ] --- ahora estoy a la derecha de jaime --- ( 77 )
 [ perico --- 2 ] --- este tio es el jefe de jefes --- ( 7 )
 [ raz -de-> perico ;;; 1 ] --- este tio ahora es un esclavo liberado --- ( 1 )
-[ rodrigo -de-> raz ;;; 0 ] --- ahora tu serás mi esclavo --- ( 2 )
+[ rodrigo -de-> raz ;;; 0 ] --- ahora tu seras mi esclavo --- ( 2 )
 -----
 ****DEPENDIENTES: perico
 [ perico --- 2 ] --- este tio es el jefe de jefes --- ( 7 ) ****
@@ -142,12 +142,12 @@ INTENTANDO hacer depend.: lucas -de-> perico
 [ lucas -de-> perico ;;; 0 ] --- ahora estoy a la derecha de jaime --- ( 77 )
 [ perico --- 3 ] --- este tio es el jefe de jefes --- ( 7 )
 [ raz -de-> perico ;;; 1 ] --- este tio ahora es un esclavo liberado --- ( 1 )
-[ rodrigo -de-> raz ;;; 0 ] --- ahora tu serás mi esclavo --- ( 2 )
+[ rodrigo -de-> raz ;;; 0 ] --- ahora tu seras mi esclavo --- ( 2 )
 -----
 DEPendiente: lucas
 INDEPENDIZADO: jaime
 INTENTANDO hacer depend.: perico -de-> lucas
-LOCALIZADO: [ rodrigo -de-> raz ;;; 0 ] --- ahora tu serás mi esclavo --- ( 2 )
+LOCALIZADO: [ rodrigo -de-> raz ;;; 0 ] --- ahora tu seras mi esclavo --- ( 2 )
 LOCALIZADO: [ lucas -de-> perico ;;; 1 ] --- ahora estoy a la derecha de jaime --- ( 77 )
 LOCALIZADO: [ perico -de-> lucas ;;; 2 ] --- este tio es el jefe de jefes --- ( 7 )
 -----LISTADO: 5
@@ -155,5 +155,5 @@ LOCALIZADO: [ perico -de-> lucas ;;; 2 ] --- este tio es el jefe de jefes --- ( 
 [ lucas -de-> perico ;;; 1 ] --- ahora estoy a la derecha de jaime --- ( 77 )
 [ perico -de-> lucas ;;; 2 ] --- este tio es el jefe de jefes --- ( 7 )
 [ raz -de-> perico ;;; 1 ] --- este tio ahora es un esclavo liberado --- ( 1 )
-[ rodrigo -de-> raz ;;; 0 ] --- ahora tu serás mi esclavo --- ( 2 )
+[ rodrigo -de-> raz ;;; 0 ] --- ahora tu seras mi esclavo --- ( 2 )
 -----

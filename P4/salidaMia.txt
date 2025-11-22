@@ -1,0 +1,138 @@
+NO CAMBIADO: liga_espanola
+INTRODUCIDO: [ liga_premier ] --- Creacion de la liga premier --- ( 1 )
+NO INTRODUCIDO: [ barcelona -de-> liga_espanola ] --- Equipo Barcelona --- ( 2 )
+NO INTRODUCIDO: [ real_madrid -de-> liga_espanola ] --- Equipo Real Madrid --- ( 2 )
+NO INTRODUCIDO: [ atletico_madrid -de-> liga_espanola ] --- Equipo Atletico de Madrid --- ( 2 )
+NO INTRODUCIDO: [ girona -de-> liga_espanola ] --- Equipo Girona --- ( 2 )
+INTRODUCIDO: [ manchester_city -de-> liga_premier ] --- Equipo Manchester City --- ( 2 )
+INTRODUCIDO: [ liverpool -de-> liga_premier ] --- Equipo Liverpool --- ( 2 )
+INTRODUCIDO: [ chelsea -de-> liga_premier ] --- Equipo Chelsea --- ( 2 )
+-----LISTADO: 4
+[ chelsea -de-> liga_premier ;;; 0 ] --- Equipo Chelsea --- ( 2 )
+[ liga_premier --- 3 ] --- Creacion de la liga premier --- ( 1 )
+[ liverpool -de-> liga_premier ;;; 0 ] --- Equipo Liverpool --- ( 2 )
+[ manchester_city -de-> liga_premier ;;; 0 ] --- Equipo Manchester City --- ( 2 )
+-----
+NO INTRODUCIDO: [ messi -de-> barcelona ] --- Jugador Lionel Messi --- ( 3 )
+NO INTRODUCIDO: [ bellingham -de-> real_madrid ] --- Jugador Jude Bellingham --- ( 3 )
+INTRODUCIDO: [ julian_alvarez -de-> manchester_city ] --- Jugador Julian Alvarez --- ( 3 )
+NO INTRODUCIDO: [ morata -de-> atletico_madrid ] --- Jugador Alvaro Morata --- ( 3 )
+NO INTRODUCIDO: [ pablo_barrios -de-> atletico_madrid ] --- Jugador Pablo Barrios --- ( 3 )
+NO INTRODUCIDO: [ gavi -de-> barcelona ] --- Jugador Gavi --- ( 3 )
+NO INTRODUCIDO: [ lewandowski -de-> barcelona ] --- Jugador Robert Lewandowski --- ( 3 )
+NO INTRODUCIDO: [ vinicius -de-> real_madrid ] --- Jugador Vinicius Jr --- ( 3 )
+NO INTRODUCIDO: [ rodrigo -de-> real_madrid ] --- Jugador Rodrigo --- ( 3 )
+NO INTRODUCIDO: [ griezmann -de-> atletico_madrid ] --- Jugador Antoine Griezmann --- ( 3 )
+INTRODUCIDO: [ alexander_arnold -de-> liverpool ] --- Jugador Alexander Arnold --- ( 3 )
+INTRODUCIDO: [ haaland -de-> manchester_city ] --- Jugador Erling Haaland --- ( 3 )
+INTRODUCIDO: [ sterling -de-> chelsea ] --- Jugador Raheem Sterling --- ( 3 )
+-----LISTADO: 8
+[ alexander_arnold -de-> liverpool ;;; 0 ] --- Jugador Alexander Arnold --- ( 3 )
+[ chelsea -de-> liga_premier ;;; 1 ] --- Equipo Chelsea --- ( 2 )
+[ haaland -de-> manchester_city ;;; 0 ] --- Jugador Erling Haaland --- ( 3 )
+[ julian_alvarez -de-> manchester_city ;;; 0 ] --- Jugador Julian Alvarez --- ( 3 )
+[ liga_premier --- 3 ] --- Creacion de la liga premier --- ( 1 )
+[ liverpool -de-> liga_premier ;;; 1 ] --- Equipo Liverpool --- ( 2 )
+[ manchester_city -de-> liga_premier ;;; 2 ] --- Equipo Manchester City --- ( 2 )
+[ sterling -de-> chelsea ;;; 0 ] --- Jugador Raheem Sterling --- ( 3 )
+-----
+NO LOCALIZADO: barcelona
+NO LOCALIZADO: atletico_madrid
+LOCALIZADO: [ julian_alvarez -de-> manchester_city ;;; 0 ] --- Jugador Julian Alvarez --- ( 3 )
+NO LOCALIZADO: bellingham
+DESCONOCIDO: barcelona
+DESCONOCIDO: messi
+DESCONOCIDO: real_madrid
+DESCONOCIDO: bellingham
+****DEPENDIENTES: liga_espanola
+****DESCONOCIDO
+NO INTRODUCIDO: [ ferran_torres -de-> barcelona ] --- Jugador Ferran Torres --- ( 4 )
+NO INTRODUCIDO: [ kepa -de-> real_madrid ] --- Jugador Kepa Arrizabalaga --- ( 4 )
+NO INTRODUCIDO: [ savinho -de-> girona ] --- Jugador Savinho --- ( 4 )
+INTRODUCIDO: [ de_bruyne -de-> manchester_city ] --- Jugador Kevin De Bruyne --- ( 4 )
+INTRODUCIDO: [ salah -de-> liverpool ] --- Jugador Mohamed Salah --- ( 4 )
+INTRODUCIDO: [ mudryk -de-> chelsea ] --- Jugador Mykhailo Mudryk --- ( 4 )
+-----LISTADO: 11
+[ alexander_arnold -de-> liverpool ;;; 0 ] --- Jugador Alexander Arnold --- ( 3 )
+[ chelsea -de-> liga_premier ;;; 2 ] --- Equipo Chelsea --- ( 2 )
+[ de_bruyne -de-> manchester_city ;;; 0 ] --- Jugador Kevin De Bruyne --- ( 4 )
+[ haaland -de-> manchester_city ;;; 0 ] --- Jugador Erling Haaland --- ( 3 )
+[ julian_alvarez -de-> manchester_city ;;; 0 ] --- Jugador Julian Alvarez --- ( 3 )
+[ liga_premier --- 3 ] --- Creacion de la liga premier --- ( 1 )
+[ liverpool -de-> liga_premier ;;; 2 ] --- Equipo Liverpool --- ( 2 )
+[ manchester_city -de-> liga_premier ;;; 3 ] --- Equipo Manchester City --- ( 2 )
+[ mudryk -de-> chelsea ;;; 0 ] --- Jugador Mykhailo Mudryk --- ( 4 )
+[ salah -de-> liverpool ;;; 0 ] --- Jugador Mohamed Salah --- ( 4 )
+[ sterling -de-> chelsea ;;; 0 ] --- Jugador Raheem Sterling --- ( 3 )
+-----
+IMPOSIBLE hacer depend.: bellingham -de-> real_madrid
+INTENTANDO hacer depend.: julian_alvarez -de-> manchester_city
+IMPOSIBLE hacer depend.: pablo_barrios -de-> atletico_madrid
+IMPOSIBLE hacer depend.: gavi -de-> barcelona
+INTENTANDO hacer depend.: haaland -de-> manchester_city
+-----LISTADO: 11
+[ alexander_arnold -de-> liverpool ;;; 0 ] --- Jugador Alexander Arnold --- ( 3 )
+[ chelsea -de-> liga_premier ;;; 2 ] --- Equipo Chelsea --- ( 2 )
+[ de_bruyne -de-> manchester_city ;;; 0 ] --- Jugador Kevin De Bruyne --- ( 4 )
+[ haaland -de-> manchester_city ;;; 0 ] --- Jugador Erling Haaland --- ( 3 )
+[ julian_alvarez -de-> manchester_city ;;; 0 ] --- Jugador Julian Alvarez --- ( 3 )
+[ liga_premier --- 3 ] --- Creacion de la liga premier --- ( 1 )
+[ liverpool -de-> liga_premier ;;; 2 ] --- Equipo Liverpool --- ( 2 )
+[ manchester_city -de-> liga_premier ;;; 3 ] --- Equipo Manchester City --- ( 2 )
+[ mudryk -de-> chelsea ;;; 0 ] --- Jugador Mykhailo Mudryk --- ( 4 )
+[ salah -de-> liverpool ;;; 0 ] --- Jugador Mohamed Salah --- ( 4 )
+[ sterling -de-> chelsea ;;; 0 ] --- Jugador Raheem Sterling --- ( 3 )
+-----
+NO INDEPENDIZADO: morata
+INDEPENDIZADO: julian_alvarez
+NO INDEPENDIZADO: bellingham
+NO INDEPENDIZADO: griezmann
+-----LISTADO: 11
+[ alexander_arnold -de-> liverpool ;;; 0 ] --- Jugador Alexander Arnold --- ( 3 )
+[ chelsea -de-> liga_premier ;;; 2 ] --- Equipo Chelsea --- ( 2 )
+[ de_bruyne -de-> manchester_city ;;; 0 ] --- Jugador Kevin De Bruyne --- ( 4 )
+[ haaland -de-> manchester_city ;;; 0 ] --- Jugador Erling Haaland --- ( 3 )
+[ julian_alvarez --- 0 ] --- Jugador Julian Alvarez --- ( 3 )
+[ liga_premier --- 3 ] --- Creacion de la liga premier --- ( 1 )
+[ liverpool -de-> liga_premier ;;; 2 ] --- Equipo Liverpool --- ( 2 )
+[ manchester_city -de-> liga_premier ;;; 2 ] --- Equipo Manchester City --- ( 2 )
+[ mudryk -de-> chelsea ;;; 0 ] --- Jugador Mykhailo Mudryk --- ( 4 )
+[ salah -de-> liverpool ;;; 0 ] --- Jugador Mohamed Salah --- ( 4 )
+[ sterling -de-> chelsea ;;; 0 ] --- Jugador Raheem Sterling --- ( 3 )
+-----
+NO BORRADO: messi
+NO BORRADO: pablo_barrios
+NO BORRADO: ferran_torres
+BORRADO: mudryk
+NO BORRADO: savinho
+NO BORRADO: kepa
+-----LISTADO: 10
+[ alexander_arnold -de-> liverpool ;;; 0 ] --- Jugador Alexander Arnold --- ( 3 )
+[ chelsea -de-> liga_premier ;;; 1 ] --- Equipo Chelsea --- ( 2 )
+[ de_bruyne -de-> manchester_city ;;; 0 ] --- Jugador Kevin De Bruyne --- ( 4 )
+[ haaland -de-> manchester_city ;;; 0 ] --- Jugador Erling Haaland --- ( 3 )
+[ julian_alvarez --- 0 ] --- Jugador Julian Alvarez --- ( 3 )
+[ liga_premier --- 3 ] --- Creacion de la liga premier --- ( 1 )
+[ liverpool -de-> liga_premier ;;; 2 ] --- Equipo Liverpool --- ( 2 )
+[ manchester_city -de-> liga_premier ;;; 2 ] --- Equipo Manchester City --- ( 2 )
+[ salah -de-> liverpool ;;; 0 ] --- Jugador Mohamed Salah --- ( 4 )
+[ sterling -de-> chelsea ;;; 0 ] --- Jugador Raheem Sterling --- ( 3 )
+-----
+****DEPENDIENTES: liga_premier
+[ liga_premier --- 3 ] --- Creacion de la liga premier --- ( 1 ) ****
+[1 -> chelsea -de-> liga_premier ;;; 1 ] --- Equipo Chelsea --- ( 2 ) ;;;;
+[2 -> liverpool -de-> liga_premier ;;; 2 ] --- Equipo Liverpool --- ( 2 ) ;;;;
+[3 -> manchester_city -de-> liga_premier ;;; 2 ] --- Equipo Manchester City --- ( 2 ) ;;;;
+****FINAL dependientes -de-> liga_premier
+-----LISTADO: 10
+[ alexander_arnold -de-> liverpool ;;; 0 ] --- Jugador Alexander Arnold --- ( 3 )
+[ chelsea -de-> liga_premier ;;; 1 ] --- Equipo Chelsea --- ( 2 )
+[ de_bruyne -de-> manchester_city ;;; 0 ] --- Jugador Kevin De Bruyne --- ( 4 )
+[ haaland -de-> manchester_city ;;; 0 ] --- Jugador Erling Haaland --- ( 3 )
+[ julian_alvarez --- 0 ] --- Jugador Julian Alvarez --- ( 3 )
+[ liga_premier --- 3 ] --- Creacion de la liga premier --- ( 1 )
+[ liverpool -de-> liga_premier ;;; 2 ] --- Equipo Liverpool --- ( 2 )
+[ manchester_city -de-> liga_premier ;;; 2 ] --- Equipo Manchester City --- ( 2 )
+[ salah -de-> liverpool ;;; 0 ] --- Jugador Mohamed Salah --- ( 4 )
+[ sterling -de-> chelsea ;;; 0 ] --- Jugador Raheem Sterling --- ( 3 )
+-----
